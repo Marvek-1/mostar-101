@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,30 +27,33 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <a href="#" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2">
           <div className="w-10 h-10 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center">
             <span className="font-display font-bold text-lg text-white">M</span>
           </div>
           <span className="font-display font-bold text-xl text-white">
             MOSTAR <span className="text-mostar-light-blue">INDUSTRIES</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+          <Link to="/" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Home
-          </a>
-          <a href="#technologies" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+          </Link>
+          <a href="/#technologies" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Technologies
           </a>
-          <a href="#dashboard" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+          <a href="/#dashboard" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Dashboard
           </a>
-          <a href="#vision" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+          <a href="/#vision" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             Vision
           </a>
-          <a href="#get-involved" className="button-cyber">
+          <Link to="/hub" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
+            AI Hub
+          </Link>
+          <a href="/#get-involved" className="button-cyber">
             Join the Future
           </a>
         </nav>
@@ -75,36 +79,43 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto py-6 px-4 flex flex-col space-y-4">
-          <a
-            href="#"
+          <Link
+            to="/"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Home
-          </a>
+          </Link>
           <a
-            href="#technologies"
+            href="/#technologies"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Technologies
           </a>
           <a
-            href="#dashboard"
+            href="/#dashboard"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Dashboard
           </a>
           <a
-            href="#vision"
+            href="/#vision"
             className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Vision
           </a>
+          <Link
+            to="/hub"
+            className="text-white/80 hover:text-mostar-light-blue py-3 border-b border-white/10"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            AI Hub
+          </Link>
           <a
-            href="#get-involved"
+            href="/#get-involved"
             className="button-cyber w-full text-center"
             onClick={() => setIsMobileMenuOpen(false)}
           >
