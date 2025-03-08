@@ -1,15 +1,13 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { supabase } from '../integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { Shield, Globe, Database, Brain, Activity, Server, Terminal, Network, Monitor, Radar, Zap } from 'lucide-react';
+import { Shield, Globe as GlobeIcon, Database, Brain, Activity, Server, Terminal, Network, Monitor, Radar, Zap } from 'lucide-react';
 import { toast } from 'sonner';
-import { AreaChart, Area, LineChart, Line, BarChart, Bar, PieChart, Pie, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import Globe from '../components/Globe';
 
-// Fetch AI node data from Supabase
 const fetchAINodes = async () => {
   try {
     const { data, error } = await supabase
@@ -19,7 +17,6 @@ const fetchAINodes = async () => {
     
     if (error) throw error;
     
-    // Transform the data for visualization
     return data.map((item, index) => ({
       id: item.id || index,
       name: item.name || `Node-${index}`,
@@ -43,19 +40,17 @@ const MostarHub = () => {
   const { data: aiNodes = [], isLoading: isLoadingNodes, isError } = useQuery({
     queryKey: ['aiNodes'],
     queryFn: fetchAINodes,
-    staleTime: 30000, // 30 seconds
+    staleTime: 30000,
   });
 
-  // Simulate activity feed data
   const activityFeed = [
     { id: 1, type: 'security', message: 'Threat detected and neutralized in Sector 7', time: '2 minutes ago', icon: <Shield className="h-5 w-5 text-mostar-magenta" /> },
     { id: 2, type: 'network', message: 'New AI node deployed in Sydney region', time: '15 minutes ago', icon: <Server className="h-5 w-5 text-mostar-cyan" /> },
     { id: 3, type: 'analysis', message: 'Pattern recognition complete on Dataset Alpha', time: '37 minutes ago', icon: <Brain className="h-5 w-5 text-mostar-green" /> },
     { id: 4, type: 'system', message: 'Quantum encryption protocols updated', time: '1 hour ago', icon: <Database className="h-5 w-5 text-mostar-light-blue" /> },
-    { id: 5, type: 'satellite', message: 'Geospatial anomaly detected in North Atlantic', time: '2 hours ago', icon: <Globe className="h-5 w-5 text-mostar-yellow" /> },
+    { id: 5, type: 'satellite', message: 'Geospatial anomaly detected in North Atlantic', time: '2 hours ago', icon: <GlobeIcon className="h-5 w-5 text-mostar-yellow" /> },
   ];
 
-  // Performance metrics data
   const performanceData = [
     { name: '00:00', value: 85 },
     { name: '04:00', value: 83 },
@@ -66,7 +61,6 @@ const MostarHub = () => {
     { name: '24:00', value: 95 },
   ];
 
-  // AI Systems data for the pie chart
   const aiSystemsData = [
     { name: 'Predictive Analytics', value: 25 },
     { name: 'Neural Networks', value: 30 },
@@ -75,7 +69,6 @@ const MostarHub = () => {
     { name: 'Quantum Computing', value: 10 },
   ];
 
-  // Security incidents data
   const securityData = [
     { name: 'Mon', value: 12 },
     { name: 'Tue', value: 8 },
@@ -86,7 +79,6 @@ const MostarHub = () => {
     { name: 'Sun', value: 7 },
   ];
 
-  // Simulate the loading effect
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -95,7 +87,6 @@ const MostarHub = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle tab changes
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     toast(`Accessing ${tab.charAt(0).toUpperCase() + tab.slice(1)} Module`, {
@@ -125,7 +116,6 @@ const MostarHub = () => {
       <Navbar />
       
       <main className="flex-grow pt-20">
-        {/* Hero section */}
         <section className="relative h-[50vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 bg-cyber-grid bg-[length:30px_30px] opacity-10 z-0"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-mostar-dark z-10"></div>
@@ -155,7 +145,6 @@ const MostarHub = () => {
           </div>
         </section>
         
-        {/* Main hub content */}
         <section className="py-12 px-4">
           <div className="container mx-auto">
             <div className="glassmorphism rounded-lg border border-white/10 p-6 mb-8">
@@ -207,7 +196,6 @@ const MostarHub = () => {
                 </button>
               </div>
               
-              {/* Overview Tab Content */}
               {activeTab === 'overview' && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-2">
@@ -322,13 +310,12 @@ const MostarHub = () => {
                 </div>
               )}
               
-              {/* Network Tab Content */}
               {activeTab === 'network' && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="lg:col-span-2">
                     <h3 className="text-xl font-display font-bold mb-4 text-white">Global AI Network</h3>
                     <div className="bg-black/20 rounded-lg p-4 border border-white/5 h-[400px]">
-                      <Globe />
+                      <GlobeIcon />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                       <div className="glassmorphism rounded-lg p-4">
@@ -400,7 +387,6 @@ const MostarHub = () => {
                 </div>
               )}
               
-              {/* Security Tab Content */}
               {activeTab === 'security' && (
                 <div>
                   <h3 className="text-xl font-display font-bold mb-4 text-white">Security & Threat Intelligence</h3>
@@ -500,7 +486,6 @@ const MostarHub = () => {
                 </div>
               )}
               
-              {/* Analytics Tab Content */}
               {activeTab === 'analytics' && (
                 <div>
                   <h3 className="text-xl font-display font-bold mb-4 text-white">AI Analytics & Insights</h3>
@@ -571,7 +556,6 @@ const MostarHub = () => {
                 </div>
               )}
               
-              {/* Command Center Tab Content */}
               {activeTab === 'command' && (
                 <div>
                   <h3 className="text-xl font-display font-bold mb-4 text-white">Interactive AI Command Center</h3>
@@ -590,7 +574,7 @@ const MostarHub = () => {
                           <p className="text-mostar-yellow mb-2">// Quantum processing unit online</p>
                         </div>
                         <div className="mt-4 flex">
-                          <span className="font-mono text-mostar-light-blue mr-2">></span>
+                          <span className="font-mono text-mostar-light-blue mr-2">&gt;</span>
                           <input 
                             type="text" 
                             className="bg-black/30 border-none outline-none text-white font-mono text-sm flex-grow focus:ring-1 focus:ring-mostar-light-blue/30"
