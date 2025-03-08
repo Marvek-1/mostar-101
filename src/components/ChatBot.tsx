@@ -1,10 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, X, Mic, Send } from 'lucide-react';
 
+interface ChatMessage {
+  sender: 'user' | 'bot';
+  text: string;
+}
+
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string; }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
@@ -26,7 +30,7 @@ const ChatBot = () => {
   const handleSendMessage = () => {
     if (!newMessage.trim()) return;
     
-    const userMessage = { sender: 'user', text: newMessage };
+    const userMessage: ChatMessage = { sender: 'user', text: newMessage };
     setMessages([...messages, userMessage]);
     setNewMessage('');
     
