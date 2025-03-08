@@ -1,3 +1,4 @@
+
 export interface AINode {
   id: number | string;
   name: string;
@@ -20,10 +21,4 @@ export interface ActivityFeedItem {
 export interface ChartDataPoint {
   name: string;
   value: number;
-}
-
-export interface CommandResponse {
-  message: string;
-  type: 'system' | 'error' | 'success' | 'info';
-  timestamp: string;
 }
