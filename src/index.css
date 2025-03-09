@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -176,6 +175,54 @@
   /* Data scroll effect */
   .data-scroll {
     animation: data-flow 20s linear infinite;
+  }
+  
+  /* Music player effects */
+  .audio-wave {
+    display: flex;
+    align-items: flex-end;
+    height: 20px;
+    width: 30px;
+  }
+  
+  .audio-wave .bar {
+    width: 3px;
+    margin: 0 1px;
+    background: linear-gradient(to top, #33a1ff, #00ffff);
+    border-radius: 1px;
+    animation: audio-wave-anim 0.8s infinite ease-in-out;
+  }
+  
+  .audio-wave .bar:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  
+  .audio-wave .bar:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  
+  .audio-wave .bar:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  
+  @keyframes audio-wave-anim {
+    0% {
+      height: 5px;
+    }
+    50% {
+      height: 15px;
+    }
+    100% {
+      height: 5px;
+    }
+  }
+  
+  .music-controls {
+    transition: all 0.3s ease;
+  }
+  
+  .music-controls:hover {
+    box-shadow: 0 0 15px rgba(51, 161, 255, 0.5);
   }
   
   /* More custom classes can be added here */
