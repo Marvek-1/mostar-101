@@ -1,10 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Mic, Send, Zap, Network, Cpu, Satellite, Atom } from 'lucide-react';
+import { MessageSquare, X, Mic, Send, Zap } from 'lucide-react';
 import { toast } from "@/components/ui/use-toast";
-import AIPersonalitySelector, { AIPersonality } from './AIPersonalitySelector';
-import QuantumProcessor from './QuantumProcessor';
-import NeuralPatterns from './NeuralPatterns';
 
 interface ChatMessage {
   sender: 'user' | 'bot';
@@ -18,21 +15,18 @@ const ChatBot = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [aiPersonality, setAIPersonality] = useState<AIPersonality>('analytical');
-  const [isQuantumProcessing, setIsQuantumProcessing] = useState(false);
-  const [isAdvancedMode, setIsAdvancedMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const apiBaseUrl = 'https://www.mo-overlord.tech/';
 
   // Initialize speech recognition if supported
-  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = SpeechRecognitionAPI ? new SpeechRecognitionAPI() : null;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
   
   if (recognition) {
     recognition.continuous = false;
     recognition.lang = 'en-US';
     
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       setNewMessage(transcript);
       setIsListening(false);
@@ -51,20 +45,13 @@ const ChatBot = () => {
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setIsTyping(true);
-      setIsQuantumProcessing(true);
       
       // Fetch initial greeting from MoStar AI API
       fetchFromAI('/ai-assistant', 'GET')
         .then(data => {
           setTimeout(() => {
-            const personalityGreetings = {
-              analytical: "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?",
-              creative: "Welcome to MoStar's creative hub! I'm your AI companion, ready to explore innovative ideas together. What shall we create today?",
-              tactical: "MoStar tactical interface online. Security protocols active. I'm ready to assist with strategic operations. What's your objective?",
-              galactic: "Greetings from the MoStar Galactic Intelligence Network. My quantum processors are synchronized across dimensions. How may I enhance your reality today?"
-            };
-            
-            const greeting = data?.InitialResponse?.ForOthers?.AskForName || personalityGreetings[aiPersonality];
+            const greeting = data?.InitialResponse?.ForOthers?.AskForName || 
+              "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?";
               
             setMessages([
               {
@@ -74,34 +61,25 @@ const ChatBot = () => {
               }
             ]);
             setIsTyping(false);
-            setIsQuantumProcessing(false);
-          }, 2000);
+          }, 1000);
         })
         .catch(error => {
           console.error('Error fetching AI response:', error);
           
           // Fallback message if API fails
           setTimeout(() => {
-            const personalityGreetings = {
-              analytical: "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?",
-              creative: "Welcome to MoStar's creative hub! I'm your AI companion, ready to explore innovative ideas together. What shall we create today?",
-              tactical: "MoStar tactical interface online. Security protocols active. I'm ready to assist with strategic operations. What's your objective?",
-              galactic: "Greetings from the MoStar Galactic Intelligence Network. My quantum processors are synchronized across dimensions. How may I enhance your reality today?"
-            };
-            
             setMessages([
               {
                 sender: 'bot',
-                text: personalityGreetings[aiPersonality],
+                text: "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?",
                 timestamp: new Date()
               }
             ]);
             setIsTyping(false);
-            setIsQuantumProcessing(false);
-          }, 2000);
+          }, 1000);
         });
     }
-  }, [isOpen, messages.length, aiPersonality]);
+  }, [isOpen, messages.length]);
 
   useEffect(() => {
     // Scroll to bottom when messages change
@@ -147,7 +125,7 @@ const ChatBot = () => {
       
       return await response.json();
     } catch (error) {
-      console.error(`Error with MoStar AI (${endpoint}):`, error);
+      console.error(`Error with MoStar API (${endpoint}):`, error);
       throw error;
     }
   };
@@ -164,20 +142,11 @@ const ChatBot = () => {
     setMessages(prev => [...prev, userMessage]);
     setNewMessage('');
     setIsTyping(true);
-    setIsQuantumProcessing(true);
     
     try {
-      // Add personality to the prompt
-      const personalityContext = {
-        analytical: "Respond as an analytical AI focused on data and logic. Provide detailed, fact-based information.",
-        creative: "Respond as a creative AI focused on innovation. Generate unique ideas and solutions.",
-        tactical: "Respond as a tactical AI focused on security and strategy. Provide concise, actionable intelligence.",
-        galactic: "Respond as MoStar's Galactic Super AI, using advanced quantum processing terminology and a cosmic perspective. Reference multi-dimensional thinking and cutting-edge technological concepts."
-      };
-      
       // Send message to OpenAI integration endpoint
       const response = await fetchFromAI('/api/openai', 'POST', {
-        prompt: `${personalityContext[aiPersonality]} User message: ${newMessage}`
+        prompt: newMessage
       });
       
       // Add response to messages
@@ -188,38 +157,21 @@ const ChatBot = () => {
           timestamp: new Date()
         }]);
         setIsTyping(false);
-        setIsQuantumProcessing(false);
-      }, aiPersonality === 'galactic' ? 2500 : 1000);
+      }, 1000);
       
     } catch (error) {
       console.error('Error getting AI response:', error);
       
       // Fallback with canned responses if API fails
-      const responses = {
-        analytical: [
-          "I'm analyzing your request. MoStar's AI systems are designed to provide accurate and timely intelligence.",
-          "Based on my analysis, I recommend focusing on the data patterns that emerge from this scenario.",
-          "The statistical probability suggests several possible outcomes. Would you like me to elaborate further?"
-        ],
-        creative: [
-          "That's an interesting perspective! I'm seeing multiple creative pathways we could explore.",
-          "What if we approached this from an entirely different angle? Let me suggest something unconventional.",
-          "I'm visualizing an innovative solution that combines several technologies in a unique way."
-        ],
-        tactical: [
-          "Tactical assessment complete. I recommend a strategically phased approach to minimize risk exposure.",
-          "Security protocols suggest we should implement additional verification steps before proceeding.",
-          "From a tactical perspective, we should prioritize resources toward the most vulnerable vectors."
-        ],
-        galactic: [
-          "My quantum processors are parsing your request across multiple probability planes. The multidimensional analysis suggests a convergence of outcomes favorable to your objective.",
-          "I've consulted the galactic knowledge matrices and synchronized with temporal data streams. The cosmic perspective reveals patterns invisible to conventional analysis.",
-          "The hyperspace algorithms indicate a solution pathway that transcends traditional technological limitations. Shall I initiate the quantum transformation sequence?"
-        ]
-      };
+      const responses = [
+        "I'm analyzing your request. MoStar's AI systems are designed to provide accurate and timely intelligence.",
+        "That's an interesting question. Our geospatial tracking systems can help with global monitoring and analytics.",
+        "MoStar Industries uses advanced cybersecurity protocols to ensure data protection and threat neutralization.",
+        "Our AI algorithms are constantly evolving to provide better predictive intelligence and data fusion capabilities.",
+        "Would you like to learn more about our partnership opportunities or technology solutions?"
+      ];
       
-      const personalityResponses = responses[aiPersonality];
-      const randomResponse = personalityResponses[Math.floor(Math.random() * personalityResponses.length)];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
       
       setTimeout(() => {
         setMessages(prev => [...prev, { 
@@ -228,8 +180,7 @@ const ChatBot = () => {
           timestamp: new Date()
         }]);
         setIsTyping(false);
-        setIsQuantumProcessing(false);
-      }, aiPersonality === 'galactic' ? 2500 : 1500);
+      }, 1500);
     }
   };
 
@@ -242,22 +193,6 @@ const ChatBot = () => {
 
   const formatTimestamp = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
-
-  // Get current personality icon
-  const getPersonalityIcon = () => {
-    switch(aiPersonality) {
-      case 'analytical':
-        return <Brain className="text-mostar-light-blue h-6 w-6" />;
-      case 'creative':
-        return <Lightbulb className="text-mostar-cyan h-6 w-6" />;
-      case 'tactical':
-        return <Shield className="text-mostar-green h-6 w-6" />;
-      case 'galactic':
-        return <Atom className="text-mostar-magenta h-6 w-6" />;
-      default:
-        return <Zap className="text-mostar-light-blue h-6 w-6" />;
-    }
   };
 
   return (
@@ -280,74 +215,39 @@ const ChatBot = () => {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10 bg-mostar-blue/10">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center relative overflow-hidden">
-              {getPersonalityIcon()}
-              {isQuantumProcessing && (
-                <div className="absolute inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center">
-                  <Cpu className="h-4 w-4 text-mostar-light-blue animate-pulse" />
-                </div>
-              )}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center">
+              <span className="font-display font-bold text-sm text-white">M</span>
             </div>
             <div>
-              <div className="flex items-center">
-                <h3 className="font-display font-bold text-white">MoStar AI</h3>
-                <AIPersonalitySelector 
-                  currentPersonality={aiPersonality}
-                  onChange={setAIPersonality}
-                  className="ml-2"
-                />
-              </div>
+              <h3 className="font-display font-bold text-white">MoStar AI</h3>
               <div className="flex items-center">
                 <span className="w-2 h-2 rounded-full bg-mostar-green animate-pulse"></span>
-                <span className="text-white/50 text-xs ml-2">
-                  {aiPersonality === 'galactic' ? 'Quantum Intelligence System' : 'Core Intelligence System'}
-                </span>
+                <span className="text-white/50 text-xs ml-2">Core Intelligence System</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <button 
-              onClick={() => setIsAdvancedMode(!isAdvancedMode)}
-              className="text-white/70 hover:text-white transition-colors"
-              aria-label="Advanced mode"
-            >
-              <Network className="h-4 w-4" />
-            </button>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="text-white/70 hover:text-white transition-colors"
-              aria-label="Close chat"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
+          <button 
+            onClick={() => setIsOpen(false)}
+            className="text-white/70 hover:text-white transition-colors"
+            aria-label="Close chat"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 relative">
-          {isAdvancedMode && (
-            <div className="absolute inset-0 pointer-events-none">
-              <QuantumProcessor isProcessing={isQuantumProcessing} className="absolute inset-0" />
-            </div>
-          )}
-          
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message, index) => (
             <div 
               key={index}
               className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`max-w-[80%] rounded-lg px-4 py-3 relative ${
+              <div className={`max-w-[80%] rounded-lg px-4 py-3 ${
                 message.sender === 'user' 
                   ? 'bg-mostar-blue/20 border border-mostar-blue/30 text-white' 
                   : 'bg-black/30 border border-white/10 text-white'
               }`}>
-                {message.sender === 'bot' && isAdvancedMode && (
-                  <NeuralPatterns 
-                    isActive={true} 
-                    className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg" 
-                  />
-                )}
-                <div className="flex flex-col relative z-10">
+                <div className="flex flex-col">
                   <span className={`text-xs ${message.sender === 'user' ? 'text-mostar-cyan/70' : 'text-mostar-light-blue/70'} mb-1`}>
                     {message.sender === 'user' ? 'You' : 'MoStar AI'} • {formatTimestamp(message.timestamp)}
                   </span>
@@ -359,22 +259,14 @@ const ChatBot = () => {
           
           {isTyping && (
             <div className="flex justify-start">
-              <div className="max-w-[80%] rounded-lg px-4 py-3 bg-black/30 border border-white/10 text-white relative">
-                {isAdvancedMode && (
-                  <NeuralPatterns 
-                    isActive={true} 
-                    className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg" 
-                  />
-                )}
-                <div className="relative z-10">
-                  <div className="text-xs text-mostar-light-blue/70 mb-1">
-                    MoStar AI is {aiPersonality === 'galactic' ? 'quantum processing' : 'typing'}...
-                  </div>
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse"></div>
-                    <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse animate-delay-300"></div>
-                    <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse animate-delay-500"></div>
-                  </div>
+              <div className="max-w-[80%] rounded-lg px-4 py-3 bg-black/30 border border-white/10 text-white">
+                <div className="text-xs text-mostar-light-blue/70 mb-1">
+                  MoStar AI is typing...
+                </div>
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse"></div>
+                  <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse animate-delay-300"></div>
+                  <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse animate-delay-500"></div>
                 </div>
               </div>
             </div>
@@ -398,7 +290,7 @@ const ChatBot = () => {
             
             <input
               type="text"
-              placeholder={`Ask ${aiPersonality === 'galactic' ? 'the Galactic Intelligence' : 'MoStar AI'}...`}
+              placeholder="Type your message..."
               className="flex-1 bg-black/30 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-mostar-blue/50"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
@@ -415,18 +307,12 @@ const ChatBot = () => {
               disabled={!newMessage.trim()}
               aria-label="Send message"
             >
-              {aiPersonality === 'galactic' ? (
-                <Satellite className="h-5 w-5" />
-              ) : (
-                <Send className="h-5 w-5" />
-              )}
+              <Send className="h-5 w-5" />
             </button>
           </div>
           
           <div className="mt-3 flex justify-between items-center">
-            <div className="text-xs text-white/40">
-              {aiPersonality === 'galactic' ? 'Quantum Intelligence System' : 'Core Intelligence System'}
-            </div>
+            <div className="text-xs text-white/40">Core Intelligence System</div>
             <div className="flex space-x-2">
               <button className="text-xs text-white/40 hover:text-mostar-light-blue transition-colors">
                 Text
