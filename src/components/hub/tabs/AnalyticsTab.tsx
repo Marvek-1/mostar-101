@@ -10,7 +10,14 @@ interface AnalyticsTabProps {
 const AnalyticsTab: React.FC<AnalyticsTabProps> = ({ performanceData }) => {
   return (
     <div>
-      <h3 className="text-xl font-display font-bold mb-4 text-white">AI Analytics & Insights</h3>
+      <div className="flex items-center gap-4 mb-4">
+        <img 
+          src="/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png" 
+          alt="Mostar AI Logo" 
+          className="w-12 h-12 rounded-full border border-mostar-light-blue/30"
+        />
+        <h3 className="text-xl font-display font-bold text-white">AI Analytics & Insights</h3>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-black/20 rounded-lg p-4 border border-white/5">
           <h4 className="font-mono text-sm text-white/70 mb-2">AI Model Performance</h4>

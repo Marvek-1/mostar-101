@@ -10,9 +10,16 @@ const HeroSection = () => {
       
       <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-4xl">
-          <span className="inline-block px-3 py-1 rounded-full bg-mostar-magenta/10 text-mostar-magenta font-mono text-xs mb-3">
-            CLASSIFIED ACCESS
-          </span>
+          <div className="flex items-center gap-6 mb-6">
+            <img 
+              src="/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png" 
+              alt="Mostar AI Logo" 
+              className="w-20 h-20 rounded-full border-2 border-mostar-light-blue/30"
+            />
+            <span className="inline-block px-3 py-1 rounded-full bg-mostar-magenta/10 text-mostar-magenta font-mono text-xs">
+              CLASSIFIED ACCESS
+            </span>
+          </div>
           <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
             MoStar Hub <span className="text-mostar-light-blue">AI Nexus</span>
           </h1>
