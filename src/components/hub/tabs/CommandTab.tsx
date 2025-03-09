@@ -4,7 +4,14 @@ import React from 'react';
 const CommandTab = () => {
   return (
     <div>
-      <h3 className="text-xl font-display font-bold mb-4 text-white">Interactive AI Command Center</h3>
+      <div className="flex items-center gap-4 mb-4">
+        <img 
+          src="/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png" 
+          alt="Mostar AI Logo" 
+          className="w-12 h-12 rounded-full border border-mostar-light-blue/30"
+        />
+        <h3 className="text-xl font-display font-bold text-white">Interactive AI Command Center</h3>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="bg-black/20 rounded-lg p-6 border border-white/5 h-[350px] flex flex-col">
