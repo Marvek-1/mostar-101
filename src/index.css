@@ -114,40 +114,9 @@
     animation: spin 1.5s linear infinite;
   }
   
-  /* Shadow glow effects */
-  .shadow-neon-blue {
-    box-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
-  }
-  
-  .shadow-glow-blue {
-    box-shadow: 0 0 8px rgba(0, 162, 255, 0.7);
-    animation: pulse-glow 2s infinite alternate;
-  }
-  
-  /* Neural node animation */
-  @keyframes pulse-glow {
-    0% {
-      box-shadow: 0 0 5px rgba(0, 162, 255, 0.5);
-      transform: scale(0.95);
-    }
-    100% {
-      box-shadow: 0 0 12px rgba(0, 162, 255, 0.8);
-      transform: scale(1.05);
-    }
-  }
-  
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-  
-  @keyframes scan-line {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(100vh);
-    }
   }
   
   /* Tech card hover effects */
@@ -204,17 +173,12 @@
     @apply w-full;
   }
   
-  /* Glassmorphism effect */
-  .glassmorphism {
-    background: rgba(10, 14, 23, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-  
   /* Data scroll effect */
   .data-scroll {
     animation: data-flow 20s linear infinite;
   }
+  
+  /* More custom classes can be added here */
 }
 
 /* Custom animations */
