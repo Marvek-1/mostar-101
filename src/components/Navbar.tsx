@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,6 +20,12 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleMostarAIClick = () => {
+    toast("Accessing MoStar AI Hub...", {
+      icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
+    });
+  };
 
   return (
     <header 
@@ -53,7 +60,7 @@ const Navbar = () => {
           <Link to="/hub" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             AI Hub
           </Link>
-          <Link to="/hub" className="button-cyber">
+          <Link to="/hub" className="button-cyber" onClick={handleMostarAIClick}>
             MoStar AI
           </Link>
         </nav>
@@ -117,7 +124,10 @@ const Navbar = () => {
           <Link
             to="/hub"
             className="button-cyber w-full text-center"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              handleMostarAIClick();
+            }}
           >
             MoStar AI
           </Link>

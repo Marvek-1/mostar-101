@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { toast } from "@/components/ui/use-toast";
 import { Link } from 'react-router-dom';
+import { Zap } from 'lucide-react';
 
 const GetInvolved = () => {
   const [email, setEmail] = useState('');
@@ -144,7 +145,7 @@ const GetInvolved = () => {
                           className="button-cyber shadow-neon-blue py-3 md:py-4 flex items-center justify-center space-x-2 flex-grow"
                         >
                           <span>Get Early Access</span>
-                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13.75 6.75L19.25 12L13.75 17.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M19 12H4.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
@@ -154,6 +155,7 @@ const GetInvolved = () => {
                           to="/hub"
                           className="button-cyber shadow-neon-blue py-3 md:py-4 flex items-center justify-center space-x-2 flex-grow"
                         >
+                          <Zap className="h-5 w-5 mr-2" />
                           <span>MoStar AI</span>
                         </Link>
                       </div>
