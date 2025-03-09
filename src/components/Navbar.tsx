@@ -53,9 +53,9 @@ const Navbar = () => {
           <Link to="/hub" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             AI Hub
           </Link>
-          <a href="/#get-involved" className="button-cyber">
-            Join the Future
-          </a>
+          <Link to="/hub" className="button-cyber">
+            MoStar AI
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -114,13 +114,13 @@ const Navbar = () => {
           >
             AI Hub
           </Link>
-          <a
-            href="/#get-involved"
+          <Link
+            to="/hub"
             className="button-cyber w-full text-center"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            Join the Future
-          </a>
+            MoStar AI
+          </Link>
         </div>
       </div>
     </header>
