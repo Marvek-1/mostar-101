@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useQuery } from '@tanstack/react-query';
-import { Shield, Globe, Database, Brain } from 'lucide-react';
+import { Shield, Globe, Database, Brain as BrainIcon } from 'lucide-react';
 import LoadingOverlay from '../components/hub/LoadingOverlay';
 import HeroSection from '../components/hub/HeroSection';
 import HubTabs from '../components/hub/HubTabs';
@@ -12,6 +12,7 @@ import NetworkTab from '../components/hub/tabs/NetworkTab';
 import SecurityTab from '../components/hub/tabs/SecurityTab';
 import AnalyticsTab from '../components/hub/tabs/AnalyticsTab';
 import CommandTab from '../components/hub/tabs/CommandTab';
+import MusicPlayer from '../components/hub/MusicPlayer';
 import { fetchAINodes } from '../services/aiNodeService';
 import { ActivityFeedItem, ChartDataPoint } from '../types/ai-hub';
 
@@ -28,7 +29,7 @@ const MostarHub = () => {
   const activityFeed: ActivityFeedItem[] = [
     { id: 1, type: 'security', message: 'Threat detected and neutralized in Sector 7', time: '2 minutes ago', icon: <Shield className="h-5 w-5 text-mostar-magenta" /> },
     { id: 2, type: 'network', message: 'New AI node deployed in Sydney region', time: '15 minutes ago', icon: <Database className="h-5 w-5 text-mostar-cyan" /> },
-    { id: 3, type: 'analysis', message: 'Pattern recognition complete on Dataset Alpha', time: '37 minutes ago', icon: <Brain className="h-5 w-5 text-mostar-green" /> },
+    { id: 3, type: 'analysis', message: 'Pattern recognition complete on Dataset Alpha', time: '37 minutes ago', icon: <BrainIcon className="h-5 w-5 text-mostar-green" /> },
     { id: 4, type: 'system', message: 'Quantum encryption protocols updated', time: '1 hour ago', icon: <Database className="h-5 w-5 text-mostar-light-blue" /> },
     { id: 5, type: 'satellite', message: 'Geospatial anomaly detected in North Atlantic', time: '2 hours ago', icon: <Globe className="h-5 w-5 text-mostar-yellow" /> },
   ];
@@ -81,6 +82,7 @@ const MostarHub = () => {
     <div className="min-h-screen flex flex-col">
       <div className="scanline"></div>
       <Navbar />
+      <MusicPlayer />
       
       <main className="flex-grow pt-20">
         <HeroSection />
