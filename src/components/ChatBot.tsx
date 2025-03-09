@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Mic, Send, Zap } from 'lucide-react';
 import { toast } from "@/components/ui/use-toast";
@@ -19,14 +18,14 @@ const ChatBot = () => {
   const apiBaseUrl = 'https://www.mo-overlord.tech/';
 
   // Initialize speech recognition if supported
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = SpeechRecognitionAPI ? new SpeechRecognitionAPI() : null;
   
   if (recognition) {
     recognition.continuous = false;
     recognition.lang = 'en-US';
     
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       setNewMessage(transcript);
       setIsListening(false);
