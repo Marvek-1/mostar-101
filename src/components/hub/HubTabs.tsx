@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { Activity, Network, Shield, Brain, Terminal } from 'lucide-react';
+import { Activity, Network, Shield, Brain, Terminal, Zap } from 'lucide-react';
 import { toast } from 'sonner';
-import { Zap } from 'lucide-react';
 
 interface HubTabsProps {
   activeTab: string;
@@ -10,18 +9,48 @@ interface HubTabsProps {
 }
 
 const HubTabs: React.FC<HubTabsProps> = ({ activeTab, handleTabChange }) => {
+  // === Updated Tabs reflecting MoStar Grid subsystems ===
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: <Activity className="h-4 w-4" /> },
-    { id: 'network', label: 'Global Network', icon: <Network className="h-4 w-4" /> },
-    { id: 'security', label: 'Security', icon: <Shield className="h-4 w-4" /> },
-    { id: 'analytics', label: 'AI Analytics', icon: <Brain className="h-4 w-4" /> },
-    { id: 'command', label: 'Command Center', icon: <Terminal className="h-4 w-4" /> },
+    { 
+      id: 'overview', 
+      label: 'Grid Overview', 
+      description: 'Unified system view — Overlord coordination across all agents.',
+      icon: <Activity className="h-4 w-4" /> 
+    },
+    { 
+      id: 'network', 
+      label: 'Network Grid', 
+      description: 'Map of AI nodes, inter-agent connections, and live data bridges.',
+      icon: <Network className="h-4 w-4" /> 
+    },
+    { 
+      id: 'security', 
+      label: 'Security & Justice', 
+      description: 'Threat neutralization, ethical verdicts, and system integrity logs.',
+      icon: <Shield className="h-4 w-4" /> 
+    },
+    { 
+      id: 'analytics', 
+      label: 'Analytics & Doctrine', 
+      description: 'AI cognition metrics, data fusion insights, and Clear Flame doctrine syncs.',
+      icon: <Brain className="h-4 w-4" /> 
+    },
+    { 
+      id: 'command', 
+      label: 'Command Matrix', 
+      description: 'Direct control and operational dispatch — Overlord supervision protocols.',
+      icon: <Terminal className="h-4 w-4" /> 
+    },
   ];
 
   const onTabChange = (tab: string) => {
+    const selectedTab = tabs.find(t => t.id === tab);
     handleTabChange(tab);
-    toast(`Accessing ${tab.charAt(0).toUpperCase() + tab.slice(1)} Module`, {
+
+    toast(`${selectedTab?.label} activated`, {
+      description: selectedTab?.description,
       icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
+      style: { background: 'rgba(10,14,23,0.9)', border: '1px solid rgba(0,255,255,0.2)', color: '#00ffff' },
     });
   };
 
