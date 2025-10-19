@@ -3,6 +3,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Mic, Send, Zap } from 'lucide-react';
 import { toast } from "@/components/ui/use-toast";
 
+// Extend Window interface for Web Speech API
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 interface ChatMessage {
   sender: 'user' | 'bot';
   text: string;

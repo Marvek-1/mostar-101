@@ -100,10 +100,10 @@ const CommandTab = () => {
         response = `
 Available commands:
 - status: Show system status
+- diagnose [location] [symptoms...]: Analyze grid signal via MoGrid
 - analyze [data]: Analyze specified dataset
 - secure [protocol]: Activate security protocol
 - deploy [node]: Deploy new AI node to network
-- help: Display this help message
 - clear: Clear terminal history
 `;
       } 
@@ -135,6 +135,42 @@ SYSTEM STATUS:
         setHistory([]);
         setIsProcessing(false);
         return;
+      }
+      else if (normalizedCmd.startsWith('diagnose')) {
+        const parts = cmd.split(' ');
+        const location = parts[1] || 'Unknown';
+        const symptoms = parts.slice(2);
+        
+        try {
+          const { sendSignal } = await import('../../../services/gridService');
+          const result = await sendSignal({
+            location,
+            symptoms,
+            evidence: [],
+          });
+          
+          response = `✓ Signal Analyzed via MoGrid
+━━━━━━━━━━━━━━━━━━━━━━━━
+Location: ${result.location}
+ODU State: ${result.odu}
+Verdict: ${result.root_cause}
+Action: ${result.recommended_action}
+Confidence: ${(result.confidence * 100).toFixed(1)}%
+Policy: ${result.policy}
+
+Hashes:
+├─ Assessor: ${result.assessor_hash.substring(0, 16)}...
+└─ Decision: ${result.decision_hash.substring(0, 16)}...`;
+          
+          toast('Grid signal analyzed successfully', {
+            icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
+          });
+        } catch (error) {
+          response = `✗ Error analyzing signal: ${error instanceof Error ? error.message : 'Unknown error'}`;
+          toast.error('Failed to analyze signal', {
+            icon: <AlertTriangle className="h-5 w-5" />,
+          });
+        }
       }
       else if (normalizedCmd.startsWith('analyze')) {
         const dataToAnalyze = cmd.replace(/^analyze\s+/i, '').trim() || 'current';
@@ -205,12 +241,12 @@ SYSTEM STATUS:
       
       setHistory(prev => {
         const newHistory = [...prev];
-        newHistory[newHistory.length - 1].output = `Error processing command: ${error.message || 'Unknown error'}`;
+        newHistory[newHistory.length - 1].output = `Error processing command: ${error instanceof Error ? error.message : 'Unknown error'}`;
         newHistory[newHistory.length - 1].type = 'error';
         return newHistory;
       });
       
-      toast.error(`Command error: ${error.message || 'Unknown error'}`, {
+      toast.error(`Command error: ${error instanceof Error ? error.message : 'Unknown error'}`, {
         icon: <AlertTriangle className="h-5 w-5" />,
       });
     } finally {
@@ -322,6 +358,10 @@ SYSTEM STATUS:
               <div className="p-2 rounded bg-white/5 hover:bg-white/10 transition-colors">
                 <div className="font-mono text-xs text-mostar-light-blue mb-1">status</div>
                 <p className="text-xs text-white/70">Display current system status</p>
+              </div>
+              <div className="p-2 rounded bg-white/5 hover:bg-white/10 transition-colors">
+                <div className="font-mono text-xs text-mostar-cyan mb-1">diagnose [location] [symptoms...]</div>
+                <p className="text-xs text-white/70">Analyze grid signal via MoGrid AI</p>
               </div>
               <div className="p-2 rounded bg-white/5 hover:bg-white/10 transition-colors">
                 <div className="font-mono text-xs text-mostar-cyan mb-1">analyze [data]</div>
