@@ -1,25 +1,20 @@
 
-import { supabase } from '../integrations/supabase/client';
 import { AINode } from '../types/ai-hub';
+import { fetchGridSignals } from './gridService';
 
 export const fetchAINodes = async (): Promise<AINode[]> => {
   try {
-    const { data, error } = await supabase
-      .from('yaml_configurations')
-      .select('*')
-      .limit(10);
+    const signals = await fetchGridSignals();
     
-    if (error) throw error;
-    
-    return data.map((item, index) => ({
-      id: item.id || index,
-      name: item.config_name || `Node-${index}`,
-      status: item.status === 'active' ? 'Active' : 'Inactive',
-      config: item.yaml_content || {},
-      location: 'Unknown', // Using default as metadata isn't available
-      lastUpdated: item.last_sync || new Date().toISOString(),
-      performance: Math.floor(Math.random() * 100),
-      threats: Math.floor(Math.random() * 50),
+    return signals.map((signal: any, index: number) => ({
+      id: signal.id || index,
+      name: `Node-${signal.location || index}`,
+      status: signal.odu < 50 ? 'Active' : 'Alert',
+      config: { odu: signal.odu, verdict: signal.verdict },
+      location: signal.location,
+      lastUpdated: signal.timestamp,
+      performance: Math.max(0, 100 - signal.odu),
+      threats: signal.odu > 100 ? 50 : signal.odu / 2,
     }));
   } catch (error) {
     console.error('Error fetching AI nodes:', error);
