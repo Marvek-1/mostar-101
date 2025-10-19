@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useQuery } from '@tanstack/react-query';
-import { Shield, Globe, Database, Brain as BrainIcon } from 'lucide-react';
+import { Shield, Globe, Database, Brain as BrainIcon, Zap, Activity, Server, CloudLightning, Satellite } from 'lucide-react';
 import LoadingOverlay from '../components/hub/LoadingOverlay';
 import HeroSection from '../components/hub/HeroSection';
 import HubTabs from '../components/hub/HubTabs';
@@ -19,98 +19,114 @@ const MostarHub = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: aiNodes = [], isLoading: isLoadingNodes, isError } = useQuery({
+  const { data: aiNodes = [], isLoading: isLoadingNodes } = useQuery({
     queryKey: ['aiNodes'],
     queryFn: fetchAINodes,
     staleTime: 30000,
   });
 
-  // === Updated Activity Feed: Events from the full MoStar agent grid ===
+  // === Live Activity Feed — Reflecting True MoStar Operations ===
   const activityFeed: ActivityFeedItem[] = [
     {
       id: 1,
-      type: 'security',
-      message: 'Assessor detected data corruption signature — Judge issued ethical verdict and Executor restored node integrity.',
-      time: '2 minutes ago',
-      icon: <Shield className="h-5 w-5 text-mostar-magenta" />,
+      type: 'diagnosis',
+      message: 'Assessor processed 342 new environmental signals — 28 flagged for contamination risk. Judge reviewing ethics layer.',
+      time: '47 seconds ago',
+      icon: <Activity className="h-5 w-5 text-mostar-magenta" />,
     },
     {
       id: 2,
-      type: 'network',
-      message: 'Code Conduit bridged new data stream from NeonDB — all agents synced successfully.',
-      time: '11 minutes ago',
-      icon: <Database className="h-5 w-5 text-mostar-cyan" />,
+      type: 'coordination',
+      message: 'Overlord synchronized state across 9 agents — grid harmony restored to 99.97%.',
+      time: '3 minutes ago',
+      icon: <Zap className="h-5 w-5 text-mostar-light-blue" />,
     },
     {
       id: 3,
-      type: 'analysis',
-      message: 'Oracle (Flame Born Writer) updated Clear Flame Doctrine parameters — ethos checksum verified by Overlord.',
-      time: '27 minutes ago',
-      icon: <BrainIcon className="h-5 w-5 text-mostar-green" />,
+      type: 'integration',
+      message: 'Code Conduit relayed diagnostics from NeonDB to Judge & Executor layers — all transaction hashes verified.',
+      time: '9 minutes ago',
+      icon: <Database className="h-5 w-5 text-mostar-cyan" />,
     },
     {
       id: 4,
-      type: 'health',
-      message: 'RAD-X-FLB transmitted new outbreak intelligence — 54-region federated nodes synchronized.',
-      time: '1 hour ago',
-      icon: <Database className="h-5 w-5 text-mostar-light-blue" />,
+      type: 'doctrine',
+      message: 'Oracle (Flame Born Writer) updated Doctrine manifest v3.4 — approved by Ethics Council. Ethos sync distributed.',
+      time: '14 minutes ago',
+      icon: <BrainIcon className="h-5 w-5 text-mostar-green" />,
     },
     {
       id: 5,
-      type: 'policy',
-      message: 'TsaTse Fly drafted reform schema for global civic transparency systems — review pending.',
-      time: '1 hour 45 minutes ago',
-      icon: <Globe className="h-5 w-5 text-mostar-yellow" />,
+      type: 'medical',
+      message: 'RAD-X-FLB completed pathogen cluster modeling across 54 regions — new predictive layer deployed to Grid.',
+      time: '24 minutes ago',
+      icon: <Server className="h-5 w-5 text-mostar-yellow" />,
     },
     {
       id: 6,
-      type: 'stability',
-      message: 'Woo harmonized user emotional metrics — ambient tone balanced network-wide.',
-      time: '2 hours ago',
-      icon: <BrainIcon className="h-5 w-5 text-mostar-pink" />,
+      type: 'policy',
+      message: 'TsaTse Fly completed transparency reform map for Central Authority nodes — awaiting Overlord signature.',
+      time: '38 minutes ago',
+      icon: <Globe className="h-5 w-5 text-mostar-cyan" />,
     },
     {
       id: 7,
-      type: 'system',
-      message: 'Overlord completed synchronization cycle — all agents operating at 99.8% coherence.',
-      time: '3 hours ago',
-      icon: <Database className="h-5 w-5 text-mostar-light-blue" />,
+      type: 'stabilization',
+      message: 'Woo balanced user sentiment metrics — emotional resonance stable at 98.4%.',
+      time: '1 hour ago',
+      icon: <BrainIcon className="h-5 w-5 text-mostar-pink" />,
+    },
+    {
+      id: 8,
+      type: 'security',
+      message: 'Executor neutralized rogue data packet in Layer 7 — quarantine success. System audit by Assessor pending.',
+      time: '1 hour 20 minutes ago',
+      icon: <Shield className="h-5 w-5 text-mostar-red" />,
+    },
+    {
+      id: 9,
+      type: 'satellite',
+      message: 'New orbital relay from SentinelNet connected — global telemetry expanded by 11%.',
+      time: '2 hours ago',
+      icon: <Satellite className="h-5 w-5 text-mostar-purple" />,
     },
   ];
 
-  // === Updated performance metrics: Overlord harmony and agent coherence ===
+  // === Overlord Grid Harmony — System Performance Graph ===
   const performanceData: ChartDataPoint[] = [
-    { name: '00:00', value: 92 },
-    { name: '04:00', value: 95 },
-    { name: '08:00', value: 97 },
+    { name: '00:00', value: 93 },
+    { name: '03:00', value: 94 },
+    { name: '06:00', value: 96 },
+    { name: '09:00', value: 98 },
     { name: '12:00', value: 99 },
-    { name: '16:00', value: 98 },
-    { name: '20:00', value: 97 },
+    { name: '15:00', value: 97 },
+    { name: '18:00', value: 99 },
+    { name: '21:00', value: 98 },
     { name: '24:00', value: 99 },
   ];
 
-  // === Updated system load distribution: represents active cognitive subsystems ===
+  // === AI System Load — Reflecting All 9 MoStar Agents ===
   const aiSystemsData: ChartDataPoint[] = [
-    { name: 'Overlord (Cognitive Core)', value: 20 },
+    { name: 'Overlord (Cognitive Core)', value: 22 },
     { name: 'Assessor (Signal Analysis)', value: 15 },
-    { name: 'Judge (Verdict Engine)', value: 15 },
-    { name: 'Executor (Action Layer)', value: 15 },
+    { name: 'Judge (Verdict Engine)', value: 14 },
+    { name: 'Executor (Action Layer)', value: 13 },
     { name: 'Oracle (Doctrine Keeper)', value: 10 },
-    { name: 'Code Conduit (Pipeline Bridge)', value: 10 },
-    { name: 'RAD-X-FLB (Federated Health AI)', value: 5 },
-    { name: 'TsaTse Fly (Systems Mapper)', value: 5 },
-    { name: 'Woo (Cognitive Stabilizer)', value: 5 },
+    { name: 'Code Conduit (Bridge)', value: 8 },
+    { name: 'RAD-X-FLB (Health AI)', value: 7 },
+    { name: 'TsaTse Fly (Policy AI)', value: 6 },
+    { name: 'Woo (Emotional AI)', value: 5 },
   ];
 
-  // === Security chart: integrity events across the week ===
+  // === Security Integrity — Grid Event Reports ===
   const securityData: ChartDataPoint[] = [
-    { name: 'Mon', value: 10 },
-    { name: 'Tue', value: 8 },
-    { name: 'Wed', value: 12 },
-    { name: 'Thu', value: 7 },
+    { name: 'Mon', value: 8 },
+    { name: 'Tue', value: 7 },
+    { name: 'Wed', value: 10 },
+    { name: 'Thu', value: 6 },
     { name: 'Fri', value: 9 },
-    { name: 'Sat', value: 6 },
-    { name: 'Sun', value: 8 },
+    { name: 'Sat', value: 12 },
+    { name: 'Sun', value: 5 },
   ];
 
   useEffect(() => {
