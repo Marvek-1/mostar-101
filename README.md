@@ -1,69 +1,145 @@
-# Welcome to your Lovable project
+⚡ MoStar Industries – Frontend Command Interface
 
-## Project info
+Codename: MoGrid Sovereign
+Purpose: Cybernetic Intelligence Dashboard & AI Command Center
+Core Stack: React + Vite + TypeScript + Tailwind + shadcn-ui
 
-**URL**: https://lovable.dev/projects/0fa83cc1-7b77-45f7-bfac-1c54eb7dfc05
+🧠 Overview
 
-## How can I edit this code?
+The MoStar Industries Frontend is a high-performance, cyberpunk-styled AI Intelligence Control Interface.
+It powers the Mostar Grid, connecting human operators to the Assessor, Judge, and Executor microservices — all running on FastAPI with NeonDB persistence.
 
-There are several ways of editing your application.
+🏗️ Architecture Summary
+Layer	Role	Technology
+🧠 Mind (Assessor)	/diagnose	FastAPI + NeonDB
+⚖️ Judge (Verdict Engine)	/evaluate	FastAPI + NeonDB
+⚡ Body (Executor)	/signal	FastAPI Router
+💾 Data Layer	Grid & Audit logs	NeonDB (PostgreSQL)
+💻 UI Layer	MoStar Industries Hub	React + TypeScript + Vite
+🎨 UI Kit	Components + Styling	Tailwind CSS + shadcn-ui
+🧰 Tech Stack
 
-**Use Lovable**
+⚛️ React 18 — core UI framework
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0fa83cc1-7b77-45f7-bfac-1c54eb7dfc05) and start prompting.
+⚡ Vite — next-gen build tool for blazing fast dev
 
-Changes made via Lovable will be committed automatically to this repo.
+🌀 TypeScript — type safety and code clarity
 
-**Use your preferred IDE**
+🎨 Tailwind CSS — theme & utility styling
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🧩 shadcn-ui — headless component system
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+📊 Recharts — real-time data visualization
 
-Follow these steps:
+🎧 Web Speech API — voice input + output (ChatBot)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+🔐 NeonDB — primary database for Grid signals and verdicts
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+💾 Database Connection
 
-# Step 3: Install the necessary dependencies.
-npm i
+Environment variable example:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+DATABASE_URL=postgresql+asyncpg://<user>:<password>@ep-round-breeze-a1coj0uq-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+
+
+The frontend does not connect directly to the database — it communicates with your FastAPI services through REST endpoints.
+
+🚀 Getting Started (Local Development)
+1️⃣ Clone the Repository
+git clone https://github.com/MoStarIndustries/MoGrid-UI.git
+cd MoGrid-UI
+
+2️⃣ Install Dependencies
+npm install
+
+3️⃣ Run Development Server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Access the dashboard locally at:
 
-**Use GitHub Codespaces**
+http://localhost:5173
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+⚙️ Environment Variables
 
-## What technologies are used for this project?
+Create a .env file in your project root:
 
-This project is built with .
+VITE_API_ASSESSOR=https://assessor.mostar.industries
+VITE_API_JUDGE=https://judge.mostar.industries
+VITE_API_EXECUTOR=https://executor.mostar.industries
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
 
-## How can I deploy this project?
+If testing locally:
 
-Simply open [Lovable](https://lovable.dev/projects/0fa83cc1-7b77-45f7-bfac-1c54eb7dfc05) and click on Share -> Publish.
+VITE_API_ASSESSOR=http://127.0.0.1:8080
+VITE_API_JUDGE=http://127.0.0.1:8081
+VITE_API_EXECUTOR=http://127.0.0.1:8082
 
-## I want to use a custom domain - is that possible?
+🧩 Folder Structure
+src/
+├── components/
+│   ├── ui/                # shadcn-ui components
+│   ├── hub/               # AI Hub tabs and visuals
+│   ├── ChatBot.tsx        # Voice + text interface
+│   ├── Dashboard.tsx      # Real-time metrics
+│   ├── Navbar.tsx         # Navigation
+│   └── Footer.tsx         # Footer + links
+├── pages/
+│   ├── Index.tsx          # Home landing page
+│   └── MostarHub.tsx      # AI Hub main page
+├── services/
+│   └── gridService.ts     # API interface to /diagnose, /evaluate
+├── types/
+│   └── grid.ts            # Type definitions
+└── index.css              # Theme + effects
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+💻 Build & Deployment
+Build for Production
+npm run build
+
+Preview Production Build
+npm run preview
+
+Recommended Deployment Platforms
+
+Vercel
+
+Netlify
+
+Fly.io (for backend FastAPI services)
+
+NeonDB (database hosting)
+
+🔗 Key Endpoints
+Service	Route	Description
+Assessor	/diagnose	Analyze signals and produce verdicts
+Judge	/evaluate	Evaluate verdicts and define actions
+Executor	/signal	Command orchestrator
+TTS	/tts	Generate audio responses for ChatBot
+🕹️ Example Command Flow
+> diagnose Sector7 water fever diarrhea
+
+
+1️⃣ UI Command → /diagnose
+2️⃣ Assessor returns ODU & verdict
+3️⃣ Judge evaluates → action plan
+4️⃣ Verdicts stored in NeonDB
+5️⃣ Real-time update to dashboard feed
+
+🧱 Contributing
+
+Fork or clone this repository
+
+Make your changes
+
+Run npm run lint to ensure code quality
+
+Commit and push changes
+
+Submit a PR
+
+🕯️ MoStar Ethos
+
+“Truth is the flame. Transparency the wick.
+Humanity the hand that holds the light.”
+— Doctrine of the Clear Flame, v2.0
