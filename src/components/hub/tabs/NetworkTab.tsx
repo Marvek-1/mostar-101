@@ -1,6 +1,7 @@
 import React from 'react';
 import { Globe2, Server, Database, Wifi, Zap } from 'lucide-react';
 import { AINode } from '../../../types/ai-hub';
+import MapboxGlobe from '../MapboxGlobe';
 
 interface NetworkTabProps {
   aiNodes: AINode[];
@@ -34,10 +35,9 @@ const NetworkTab: React.FC<NetworkTabProps> = ({ aiNodes, isLoadingNodes }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 🌍 Globe Visualization */}
         <div className="lg:col-span-2 relative">
-          <div className="bg-black/30 rounded-lg p-4 border border-mostar-green/20 h-[400px] flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,128,0.05),transparent_70%)] animate-pulse"></div>
-            <Globe2 className="w-32 h-32 text-mostar-green opacity-40 animate-spin-slow" />
-            <div className="absolute bottom-4 right-4 text-xs text-white/50 font-mono">
+          <div className="bg-black/30 rounded-lg border border-mostar-green/20 h-[400px] relative overflow-hidden">
+            <MapboxGlobe aiNodes={aiNodes} />
+            <div className="absolute bottom-4 right-4 text-xs text-white/50 font-mono bg-black/60 px-2 py-1 rounded backdrop-blur-sm">
               Sync Status: <span className="text-mostar-green">Stable</span>
             </div>
           </div>
@@ -124,7 +124,7 @@ const NetworkTab: React.FC<NetworkTabProps> = ({ aiNodes, isLoadingNodes }) => {
                     </div>
 
                     <div className="mt-2 text-xs text-white/40 flex items-center gap-1">
-                      <Server className="w-3 h-3" /> {node.ip || 'grid.mostar.tech'}
+                      <Server className="w-3 h-3" /> grid.mostar.tech
                     </div>
                   </div>
                 ))
