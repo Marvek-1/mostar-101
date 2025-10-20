@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Mic, Send, Zap } from 'lucide-react';
-import { toast } from "@/components/ui/use-toast";
+import { MessageSquare, X, Mic, Send, MicOff } from 'lucide-react';
+import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 // Extend Window interface for Web Speech API
 declare global {
@@ -12,7 +12,7 @@ declare global {
 }
 
 interface ChatMessage {
-  sender: 'user' | 'bot';
+  sender: 'user' | 'ai';
   text: string;
   timestamp: Date;
 }
@@ -24,171 +24,209 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const apiBaseUrl = 'https://www.mo-overlord.tech/';
+  const recognitionRef = useRef<any>(null);
 
-  // Initialize speech recognition if supported
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-  
-  if (recognition) {
-    recognition.continuous = false;
-    recognition.lang = 'en-US';
-    
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setNewMessage(transcript);
-      setIsListening(false);
-    };
-    
-    recognition.onerror = () => {
-      setIsListening(false);
-      toast({
-        title: "Voice Recognition Error",
-        description: "Could not process your voice. Please try again or type your message.",
-        variant: "destructive"
-      });
-    };
-  }
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'en-US';
 
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setNewMessage(transcript);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        toast.error('Voice input failed. Please try again.');
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
+  // Initial greeting
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setIsTyping(true);
-      
-      // Fetch initial greeting from MoStar AI API
-      fetchFromAI('/ai-assistant', 'GET')
-        .then(data => {
-          setTimeout(() => {
-            const greeting = data?.InitialResponse?.ForOthers?.AskForName || 
-              "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?";
-              
-            setMessages([
-              {
-                sender: 'bot',
-                text: greeting,
-                timestamp: new Date()
-              }
-            ]);
-            setIsTyping(false);
-          }, 1000);
-        })
-        .catch(error => {
-          console.error('Error fetching AI response:', error);
-          
-          // Fallback message if API fails
-          setTimeout(() => {
-            setMessages([
-              {
-                sender: 'bot',
-                text: "Welcome to MoStar Command Center. I am the core intelligence driving all operations. How can I assist you today?",
-                timestamp: new Date()
-              }
-            ]);
-            setIsTyping(false);
-          }, 1000);
-        });
+      const greeting: ChatMessage = {
+        sender: 'ai',
+        text: '👋 Hello! I\'m Woo, your MoStar Intelligence Grid interface. How can I assist you today?',
+        timestamp: new Date(),
+      };
+      setMessages([greeting]);
     }
-  }, [isOpen, messages.length]);
+  }, [isOpen]);
 
+  // Auto-scroll to bottom
   useEffect(() => {
-    // Scroll to bottom when messages change
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-  
+
   const toggleListening = () => {
-    if (!recognition) {
-      toast({
-        title: "Voice Recognition Not Supported",
-        description: "Your browser doesn't support voice recognition. Please type your message instead.",
-        variant: "destructive"
-      });
+    if (!recognitionRef.current) {
+      toast.error('Voice input not supported in this browser');
       return;
     }
-    
+
     if (isListening) {
-      recognition.stop();
+      recognitionRef.current.stop();
       setIsListening(false);
     } else {
-      setIsListening(true);
-      recognition.start();
-      toast({
-        title: "Listening...",
-        description: "Speak clearly into your microphone.",
-      });
-    }
-  };
-
-  const fetchFromAI = async (endpoint: string, method: string = 'POST', body?: any) => {
-    try {
-      const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body ? JSON.stringify(body) : undefined
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+        toast.info('🎤 Listening...');
+      } catch (error) {
+        console.error('Speech recognition start error:', error);
+        toast.error('Could not start voice input');
       }
-      
-      return await response.json();
-    } catch (error) {
-      console.error(`Error with MoStar API (${endpoint}):`, error);
-      throw error;
     }
   };
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-    
-    const userMessage: ChatMessage = { 
-      sender: 'user', 
+
+    const userMessage: ChatMessage = {
+      sender: 'user',
       text: newMessage,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-    
+
     setMessages(prev => [...prev, userMessage]);
     setNewMessage('');
     setIsTyping(true);
-    
+
     try {
-      // Send message to OpenAI integration endpoint
-      const response = await fetchFromAI('/api/openai', 'POST', {
-        prompt: newMessage
+      // Build conversation history
+      const conversationHistory = messages.map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text,
+      }));
+
+      // Add current user message
+      conversationHistory.push({
+        role: 'user',
+        content: newMessage,
       });
+
+      // Call mostar-chat edge function with streaming
+      const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mostar-chat`;
       
-      // Add response to messages
-      setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          sender: 'bot', 
-          text: response || "I'm processing your request. My intelligence systems are designed to provide accurate and timely information.",
-          timestamp: new Date()
-        }]);
-        setIsTyping(false);
-      }, 1000);
-      
+      const response = await fetch(CHAT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ messages: conversationHistory }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          toast.error('Rate limit reached. Please wait a moment.');
+          throw new Error('Rate limit exceeded');
+        }
+        if (response.status === 402) {
+          toast.error('AI usage limit reached. Please contact support.');
+          throw new Error('Payment required');
+        }
+        throw new Error('Failed to get AI response');
+      }
+
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = '';
+      let aiResponseText = '';
+
+      if (!reader) throw new Error('No response body');
+
+      // Add initial AI message placeholder
+      const aiMessage: ChatMessage = {
+        sender: 'ai',
+        text: '',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, aiMessage]);
+      setIsTyping(false);
+
+      let streamDone = false;
+      while (!streamDone) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf('\n')) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith('\r')) line = line.slice(0, -1);
+          if (line.startsWith(':') || line.trim() === '') continue;
+          if (!line.startsWith('data: ')) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === '[DONE]') {
+            streamDone = true;
+            break;
+          }
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              aiResponseText += content;
+              // Update the last AI message
+              setMessages(prev => {
+                const updated = [...prev];
+                updated[updated.length - 1] = {
+                  ...updated[updated.length - 1],
+                  text: aiResponseText,
+                };
+                return updated;
+              });
+            }
+          } catch {
+            // Incomplete JSON, put back
+            textBuffer = line + '\n' + textBuffer;
+            break;
+          }
+        }
+      }
+
+      // Save to AI memory
+      try {
+        await (supabase as any).from('ai_memory').insert({
+          agent: 'woo',
+          interaction_type: 'chat',
+          content: {
+            user: newMessage,
+            assistant: aiResponseText,
+          },
+        });
+      } catch (error) {
+        console.error('Failed to save to AI memory:', error);
+      }
+
     } catch (error) {
-      console.error('Error getting AI response:', error);
+      console.error('Chat error:', error);
+      setIsTyping(false);
       
-      // Fallback with canned responses if API fails
-      const responses = [
-        "I'm analyzing your request. MoStar's AI systems are designed to provide accurate and timely intelligence.",
-        "That's an interesting question. Our geospatial tracking systems can help with global monitoring and analytics.",
-        "MoStar Industries uses advanced cybersecurity protocols to ensure data protection and threat neutralization.",
-        "Our AI algorithms are constantly evolving to provide better predictive intelligence and data fusion capabilities.",
-        "Would you like to learn more about our partnership opportunities or technology solutions?"
-      ];
-      
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      
-      setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          sender: 'bot', 
-          text: randomResponse,
-          timestamp: new Date()
-        }]);
-        setIsTyping(false);
-      }, 1500);
+      const errorMessage: ChatMessage = {
+        sender: 'ai',
+        text: 'I apologize, but I encountered an issue processing your request. Please try again.',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
     }
   };
 
@@ -224,13 +262,13 @@ const ChatBot = () => {
         <div className="flex items-center justify-between p-4 border-b border-white/10 bg-mostar-blue/10">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center">
-              <span className="font-display font-bold text-sm text-white">M</span>
+              <span className="font-display font-bold text-sm text-white">W</span>
             </div>
             <div>
-              <h3 className="font-display font-bold text-white">MoStar AI</h3>
+              <h3 className="font-display font-bold text-white">Woo AI</h3>
               <div className="flex items-center">
                 <span className="w-2 h-2 rounded-full bg-mostar-green animate-pulse"></span>
-                <span className="text-white/50 text-xs ml-2">Core Intelligence System</span>
+                <span className="text-white/50 text-xs ml-2">Intelligence Interface</span>
               </div>
             </div>
           </div>
@@ -257,9 +295,9 @@ const ChatBot = () => {
               }`}>
                 <div className="flex flex-col">
                   <span className={`text-xs ${message.sender === 'user' ? 'text-mostar-cyan/70' : 'text-mostar-light-blue/70'} mb-1`}>
-                    {message.sender === 'user' ? 'You' : 'MoStar AI'} • {formatTimestamp(message.timestamp)}
+                    {message.sender === 'user' ? 'You' : 'Woo AI'} • {formatTimestamp(message.timestamp)}
                   </span>
-                  <span>{message.text}</span>
+                  <span className="whitespace-pre-wrap">{message.text}</span>
                 </div>
               </div>
             </div>
@@ -269,7 +307,7 @@ const ChatBot = () => {
             <div className="flex justify-start">
               <div className="max-w-[80%] rounded-lg px-4 py-3 bg-black/30 border border-white/10 text-white">
                 <div className="text-xs text-mostar-light-blue/70 mb-1">
-                  MoStar AI is typing...
+                  Woo AI is thinking...
                 </div>
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse"></div>
@@ -293,12 +331,12 @@ const ChatBot = () => {
                 transition-colors`}
               aria-label="Voice input"
             >
-              <Mic className="h-5 w-5" />
+              {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
             </button>
             
             <input
               type="text"
-              placeholder="Type your message..."
+              placeholder="Ask Woo anything..."
               className="flex-1 bg-black/30 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-mostar-blue/50"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
@@ -320,7 +358,7 @@ const ChatBot = () => {
           </div>
           
           <div className="mt-3 flex justify-between items-center">
-            <div className="text-xs text-white/40">Core Intelligence System</div>
+            <div className="text-xs text-white/40">MoStar Intelligence Grid</div>
             <div className="flex space-x-2">
               <button className="text-xs text-white/40 hover:text-mostar-light-blue transition-colors">
                 Text
