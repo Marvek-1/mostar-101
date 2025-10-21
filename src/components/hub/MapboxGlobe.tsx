@@ -39,7 +39,7 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
       if (!map.current) return;
       
       map.current.setFog({
-        color: 'rgb(170, 29, 41)',
+        color: 'rgb(0, 10, 25)',
         'high-color': 'rgb(170, 29, 41)',
         'horizon-blend': 0.3,
         'space-color': 'rgb(0, 10, 25)',
