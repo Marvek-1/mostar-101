@@ -7,7 +7,7 @@ import GetInvolved from '../components/GetInvolved';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
-import Particles from '../components/NetworkGraph';
+import NetworkGraph from '../components/NetworkGraph';
 import { Shield, Globe, Database, Brain } from 'lucide-react';
 
 const Index = () => {
