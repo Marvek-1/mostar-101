@@ -40,9 +40,9 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
       
       map.current.setFog({
         color: 'rgb(0, 20, 40)',
-        'high-color': 'rgb(0, 255, 128)',
+        'high-color': 'rgb(170, 29, 41)',
         'horizon-blend': 0.1,
-        'space-color': 'rgb(217, 38, 68)',
+        'space-color': 'rgb(0, 10, 25)',
         'star-intensity': 0.6
       });
 
