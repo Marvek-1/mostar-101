@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
 import NetworkGraph from '../components/NetworkGraph';
-import { Shield, NetworkGraph, Database, Brain } from 'lucide-react';
+import { Shield, Globe, Database, Brain } from 'lucide-react';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +42,7 @@ const Index = () => {
       title: 'Geospatial Tracking & Real-Time Intelligence',
       description:
         'Global observation network integrating satellite streams, environmental data, and edge sensors — unified under MoStar’s real-time signal grid.',
-      icon: <NetworkGraph className="h-12 w-12 text-mostar-cyan" />,
+      icon: <Globe className="h-12 w-12 text-mostar-cyan" />,
       features: [
         'Satellite + Sensor Fusion',
         'Real-Time Data Streams',
