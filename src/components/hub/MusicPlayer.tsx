@@ -1,267 +1,163 @@
 
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Volume1, Zap } from 'lucide-react';
+import { Volume2, Volume1, VolumeX, Play, Pause, Music } from 'lucide-react';
 import { toast } from 'sonner';
 
+// === Spotify configuration ===
+const CLIENT_ID = 'a0b995b828d84555a8d9ed270780f395';
+const REDIRECT_URI = 'https://v0-sigmanum.vercel.app/callback';
+const SCOPES = [
+  'streaming',
+  'user-read-email',
+  'user-read-private',
+  'user-modify-playback-state',
+  'user-read-playback-state',
+].join(' ');
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(
+  REDIRECT_URI
+)}&scope=${encodeURIComponent(SCOPES)}`;
+
 interface MusicPlayerProps {
-  audioUrl?: string;
   defaultVolume?: number;
   systemState?: 'overlord' | 'assessor' | 'oracle' | 'judge' | 'executor' | 'network';
 }
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ 
-  audioUrl, 
-  defaultVolume = 0.25,
+const MusicPlayer: React.FC<MusicPlayerProps> = ({
+  defaultVolume = 0.3,
   systemState = 'overlord',
 }) => {
+  const [spotifyToken, setSpotifyToken] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(defaultVolume);
   const [isMuted, setIsMuted] = useState(false);
   const [trackName, setTrackName] = useState('Initializing Grid Audio…');
-  const [showStartOverlay, setShowStartOverlay] = useState(true);
-  const [audioInitialized, setAudioInitialized] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
+  const [deviceId, setDeviceId] = useState<string | null>(null);
+  const playerRef = useRef<any>(null);
 
-  // === Contextual Tracks for Each System Layer ===
-  const soundMap: Record<string, { name: string; url: string }> = {
-    overlord: {
-      name: 'Overlord Ambient (System Core)',
-      url: 'https://cdn.pixabay.com/download/audio/2023/05/07/audio_73b9bb77e1.mp3',
-    },
-    assessor: {
-      name: 'Assessor Pulse (Signal Analysis)',
-      url: 'https://cdn.pixabay.com/download/audio/2023/05/17/audio_9e7d2d47e7.mp3',
-    },
-    oracle: {
-      name: 'Oracle Ether (Doctrine Layer)',
-      url: 'https://cdn.pixabay.com/download/audio/2022/10/14/audio_0cfc4c1ab1.mp3',
-    },
-    judge: {
-      name: 'Judge Drone (Verdict Engine)',
-      url: 'https://cdn.pixabay.com/download/audio/2023/02/18/audio_6b8c4b2c23.mp3',
-    },
-    executor: {
-      name: 'Executor March (Action Layer)',
-      url: 'https://cdn.pixabay.com/download/audio/2022/03/22/audio_255b8a3cc5.mp3',
-    },
-    network: {
-      name: 'Neural Net Sync (Global Grid)',
-      url: 'https://cdn.pixabay.com/download/audio/2022/02/17/audio_5a1711eb31.mp3',
-    },
+  // === Spotify URIs for each system state ===
+  const spotifyTrackMap: Record<string, string> = {
+    overlord: 'spotify:track:5jUQgikDAR8VdRidW1058F',
+    assessor: 'spotify:track:6I3xxBk9bTRFqzVur1RZW0',
+    oracle: 'spotify:track:0KLy8FhoIWjPwfcjQSJSZ9',
+    judge: 'spotify:track:57cV6k2cWGacKcaAinpgFk',
+    executor: 'spotify:track:4p2lyaJDrMW83XxAyHkcHE',
+    network: 'spotify:track:5jUQgikDAR8VdRidW1058F',
   };
+  const selectedSpotifyTrack = spotifyTrackMap[systemState] || spotifyTrackMap['overlord'];
 
-  // Choose track by systemState
-  const selectedTrack = soundMap[systemState] || soundMap['overlord'];
-
-  // Check localStorage for audio preference
+  // === Token handling ===
   useEffect(() => {
-    const audioEnabled = localStorage.getItem('mostar-audio-enabled');
-    if (audioEnabled === 'true') {
-      setShowStartOverlay(false);
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash.substring(1).split('&').reduce((acc: any, kv) => {
+      const [key, val] = kv.split('=');
+      acc[key] = val;
+      return acc;
+    }, {});
+    if (hash.access_token) {
+      localStorage.setItem('spotify_token', hash.access_token);
+      setSpotifyToken(hash.access_token);
+      window.location.hash = '';
+    } else {
+      const stored = localStorage.getItem('spotify_token');
+      if (stored) setSpotifyToken(stored);
     }
   }, []);
 
-  // Initialize audio only when user permits
+  // === Load Spotify SDK ===
   useEffect(() => {
-    if (!audioInitialized || !audioRef.current) return;
+    if (!spotifyToken) return;
+    const script = document.createElement('script');
+    script.src = 'https://sdk.scdn.co/spotify-player.js';
+    script.async = true;
+    document.body.appendChild(script);
 
-    setTrackName(selectedTrack.name);
-    audioRef.current.src = selectedTrack.url;
-    audioRef.current.loop = true;
-    audioRef.current.volume = volume;
-
-    if (isPlaying) {
-      audioRef.current.play().catch(error => {
-        console.error('Audio play error:', error);
-        setIsPlaying(false);
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new window.Spotify.Player({
+        name: 'Mostar Grid Player',
+        getOAuthToken: (cb: any) => cb(spotifyToken),
+        volume,
       });
-    }
-  }, [systemState, audioInitialized]);
 
-  // Initialize AudioContext and Audio element with user gesture
-  const initializeAudio = async () => {
-    try {
-      // Create AudioContext (requires user gesture)
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      player.addListener('ready', ({ device_id }: any) => {
+        setDeviceId(device_id);
+        toast('🎧 Spotify connected', { icon: <Music className="text-green-400" /> });
+      });
+
+      player.addListener('player_state_changed', (state: any) => {
+        if (!state) return;
+        setIsPlaying(!state.paused);
+        setTrackName(state.track_window.current_track?.name || 'Unknown Track');
+      });
+
+      player.connect();
+      playerRef.current = player;
+    };
+
+    return () => {
+      playerRef.current?.disconnect();
+    };
+  }, [spotifyToken]);
+
+  // === Play Spotify Track ===
+  const playTrack = async () => {
+    if (spotifyToken && deviceId) {
+      try {
+        await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${spotifyToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ uris: [selectedSpotifyTrack] }),
+        });
+        setIsPlaying(true);
+      } catch (err) {
+        console.warn('Spotify play failed:', err);
+        toast.error('Unable to play track. Check Spotify connection.');
       }
-
-      // Resume AudioContext if suspended
-      if (audioContextRef.current.state === 'suspended') {
-        await audioContextRef.current.resume();
-      }
-
-      // Create Audio element
-      if (!audioRef.current) {
-        audioRef.current = new Audio(selectedTrack.url);
-        audioRef.current.loop = true;
-        audioRef.current.volume = volume;
-      }
-
-      setAudioInitialized(true);
-      setShowStartOverlay(false);
-      localStorage.setItem('mostar-audio-enabled', 'true');
-
-      // Start playing
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            toast(`🎵 Now playing: ${selectedTrack.name}`, {
-              icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
-              style: { background: 'rgba(10,14,23,0.9)', border: '1px solid rgba(0,255,255,0.3)', color: '#00ffff' },
-            });
-          })
-          .catch(error => {
-            console.error('Play error:', error);
-            setIsPlaying(false);
-            toast('Failed to start audio. Please try again.');
-          });
-      }
-    } catch (error) {
-      console.error('Audio initialization error:', error);
-      toast('Could not initialize audio system.');
+    } else {
+      toast.error('Spotify not connected. Please connect your account.');
     }
   };
-
-  // Cleanup
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-        audioContextRef.current = null;
-      }
-    };
-  }, []);
-
-  // Smooth volume transitions
-  useEffect(() => {
-    if (audioRef.current) {
-      const targetVolume = isMuted ? 0 : volume;
-      const step = (targetVolume - audioRef.current.volume) / 10;
-      let frame = 0;
-      const smoothAdjust = setInterval(() => {
-        if (!audioRef.current) return;
-        if (frame >= 10) return clearInterval(smoothAdjust);
-        audioRef.current.volume += step;
-        frame++;
-      }, 30);
-    }
-  }, [volume, isMuted]);
 
   const togglePlay = () => {
-    if (!audioInitialized) {
-      initializeAudio();
-      return;
-    }
-    
-    if (!audioRef.current) return;
-    
     if (isPlaying) {
-      audioRef.current.pause();
+      playerRef.current?.pause();
       setIsPlaying(false);
-      toast('⏸️ Audio paused');
     } else {
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true);
-          toast('▶️ Audio resumed');
-        })
-        .catch(error => {
-          console.error('Play error:', error);
-          toast('Failed to play audio');
-        });
+      playTrack();
     }
   };
 
   const toggleMute = () => setIsMuted(!isMuted);
-  const increaseVolume = () => setVolume(v => Math.min(v + 0.1, 1));
-  const decreaseVolume = () => setVolume(v => Math.max(v - 0.1, 0));
+
+  const inc = () => setVolume(v => Math.min(v + 0.1, 1));
+  const dec = () => setVolume(v => Math.max(v - 0.1, 0));
 
   return (
-    <>
-      {/* Start Audio Overlay */}
-      {showStartOverlay && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="bg-mostar-dark border-2 border-mostar-light-blue/50 rounded-lg p-8 max-w-md text-center shadow-2xl shadow-mostar-cyan/30">
-            <Zap className="h-16 w-16 text-mostar-cyan mx-auto mb-4 animate-pulse" />
-            <h2 className="text-2xl font-bold text-white mb-2">MoStar Grid Audio</h2>
-            <p className="text-mostar-light-blue mb-6">
-              Enable ambient system audio for enhanced grid monitoring experience
-            </p>
-            <button
-              onClick={initializeAudio}
-              className="px-6 py-3 bg-mostar-blue hover:bg-mostar-cyan text-white font-bold rounded-lg transition-colors shadow-lg shadow-mostar-blue/50 hover:shadow-mostar-cyan/50"
-            >
-              ▶ Activate Audio System
-            </button>
-            <button
-              onClick={() => {
-                setShowStartOverlay(false);
-                localStorage.setItem('mostar-audio-enabled', 'false');
-              }}
-              className="ml-3 px-6 py-3 bg-transparent hover:bg-white/10 text-mostar-light-blue font-bold rounded-lg transition-colors border border-mostar-light-blue/30"
-            >
-              Skip
-            </button>
-          </div>
-        </div>
+    <div className="fixed z-40 bottom-5 right-5 flex items-center bg-black/80 border border-cyan-700 p-3 rounded-full shadow-lg">
+      <button onClick={togglePlay} className="text-cyan-300 hover:text-cyan-100 mx-2">
+        {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+      </button>
+      <button onClick={toggleMute} className="text-cyan-300 hover:text-cyan-100 mx-2">
+        {isMuted ? <VolumeX className="h-5 w-5" /> : volume < 0.5 ? <Volume1 className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+      </button>
+      <div className="flex ml-2 border border-cyan-800 rounded overflow-hidden">
+        <button onClick={dec} className="px-2 text-cyan-300 hover:bg-cyan-900">−</button>
+        <button onClick={inc} className="px-2 text-cyan-300 hover:bg-cyan-900">+</button>
+      </div>
+      <div className="ml-3 text-xs text-cyan-500 font-mono truncate max-w-[150px]">{trackName}</div>
+      {!spotifyToken && (
+        <button
+          onClick={() => (window.location.href = AUTH_URL)}
+          className="ml-3 text-green-400 text-xs font-bold underline"
+        >
+          Connect Spotify
+        </button>
       )}
-
-      {/* Music Player Controls */}
-      <div className="fixed flex items-center justify-center z-40 bottom-5 right-5 p-2 bg-mostar-dark/80 backdrop-blur-md border border-mostar-light-blue/30 rounded-full shadow-lg shadow-mostar-blue/20 transition-all hover:shadow-mostar-cyan/30">
-        <div className="flex items-center space-x-2">
-        <button 
-          onClick={togglePlay}
-          className="p-2 rounded-full hover:bg-mostar-blue/20 text-mostar-light-blue transition-colors"
-          aria-label={isPlaying ? "Pause music" : "Play music"}
-        >
-          {isPlaying ? <span className="text-xs font-mono">◼</span> : <span className="text-xs font-mono">▶</span>}
-        </button>
-
-        <button 
-          onClick={toggleMute}
-          className="p-2 rounded-full hover:bg-mostar-blue/20 text-mostar-light-blue transition-colors"
-          aria-label={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? (
-            <VolumeX className="h-4 w-4" />
-          ) : volume < 0.4 ? (
-            <Volume1 className="h-4 w-4" />
-          ) : (
-            <Volume2 className="h-4 w-4" />
-          )}
-        </button>
-
-        <div className="flex ml-1 border border-mostar-light-blue/30 rounded overflow-hidden">
-          <button 
-            onClick={decreaseVolume}
-            className="p-1 text-mostar-light-blue text-xs transition-colors hover:bg-mostar-blue/20 border-r border-mostar-light-blue/20"
-            aria-label="Decrease volume"
-          >
-            -
-          </button>
-          <button 
-            onClick={increaseVolume}
-            className="p-1 text-mostar-light-blue text-xs transition-colors hover:bg-mostar-blue/20"
-            aria-label="Increase volume"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-        <div className="ml-3 text-[10px] font-mono text-white/60 hidden sm:block">
-          {trackName}
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 
