@@ -42,7 +42,7 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
         color: 'rgb(0, 20, 40)',
         'high-color': 'rgb(0, 255, 128)',
         'horizon-blend': 0.1,
-        'space-color': 'rgb(0, 0, 0)',
+        'space-color': 'rgb(217, 38, 68)',
         'star-intensity': 0.6
       });
 
