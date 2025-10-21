@@ -39,11 +39,11 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
       if (!map.current) return;
       
       map.current.setFog({
-        color: 'rgb(0, 20, 40)',
+        color: 'rgb(170, 29, 41)',
         'high-color': 'rgb(170, 29, 41)',
-        'horizon-blend': 0.1,
+        'horizon-blend': 0.3,
         'space-color': 'rgb(0, 10, 25)',
-        'star-intensity': 0.6
+        'star-intensity': 0.9
       });
 
       // Add markers for AI nodes
