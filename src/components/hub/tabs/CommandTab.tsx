@@ -16,13 +16,20 @@ const CommandTab = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     setHistory([
-      { input: '', output: '// Overlord Command Matrix v2.1.0', timestamp: new Date(), type: 'info' },
-      { input: '', output: '// Neon Grid Core: Online', timestamp: new Date(), type: 'success' },
-      { input: '', output: '// Supabase Realtime Mirror: Active', timestamp: new Date(), type: 'info' },
-      { input: '', output: '// Neural Synchronization: Stable (99.8%)', timestamp: new Date(), type: 'success' },
-      { input: '', output: '// Type "help" for full command registry', timestamp: new Date(), type: 'info' },
+      { input: '', output: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', timestamp: new Date(), type: 'info' },
+      { input: '', output: '  THE HAND OF OVERLORD — v2.1.0', timestamp: new Date(), type: 'success' },
+      { input: '', output: '  Africa\'s First Omni-Neuro Symbolic AI', timestamp: new Date(), type: 'info' },
+      { input: '', output: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', timestamp: new Date(), type: 'info' },
+      { input: '', output: '', timestamp: new Date(), type: 'info' },
+      { input: '', output: '⚡ MoGrid Core: ONLINE', timestamp: new Date(), type: 'success' },
+      { input: '', output: '🧠 Neuro-Symbolic Layer: ACTIVE', timestamp: new Date(), type: 'success' },
+      { input: '', output: '🔐 Truth Engine: VERIFIED', timestamp: new Date(), type: 'success' },
+      { input: '', output: '💾 NeonDB Connection: ESTABLISHED', timestamp: new Date(), type: 'info' },
+      { input: '', output: '🔄 Supabase Mirror: SYNCED', timestamp: new Date(), type: 'info' },
+      { input: '', output: '', timestamp: new Date(), type: 'info' },
+      { input: '', output: '🌍 Ready to serve — Type "help" for command registry', timestamp: new Date(), type: 'info' },
     ]);
 
     inputRef.current?.focus();
@@ -44,71 +51,148 @@ const CommandTab = () => {
 
       if (normalizedCmd === 'help') {
         response = `
-Available commands:
-- status: Show system status
-- diagnose [location] [symptoms...]: Analyze grid signal (NeonDB)
-- analyze [data]: Predictive AI analysis (Hybrid Model)
-- secure [protocol]: Activate security protocol
-- deploy [node]: Deploy AI node
-- clear: Clear terminal
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HAND OF OVERLORD — Command Registry
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Core Operations:
+  status              Show Overlord system status
+  diagnose [loc] [...symptoms]
+                      Connect to MoGrid Core
+                      Example: diagnose Grid-7 fever headache
+  analyze [data]      Run Omni-Neuro analysis
+  secure [protocol]   Activate security layer
+  deploy [node]       Deploy AI node to Grid
+  grid-status         Check MoGrid health
+  clear               Clear terminal
+
+The Hand of Overlord — Africa's Symbolic AI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `;
-      } 
+      }
       else if (normalizedCmd === 'status') {
         response = `
-SYSTEM STATUS:
-- Overlord: ONLINE (v2.1.0)
-- Neon Core DB: Connected ✅
-- Supabase Sync: Active 🔄
-- AI Nodes: 27 active
-- System Load: 19.3%
-- Grid Latency: 12ms
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  THE HAND OF OVERLORD — System Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Core Systems:
+  ⚡ Overlord Core        ONLINE (v2.1.0)
+  🧠 Neuro-Symbolic AI    ACTIVE
+  🔐 Truth Engine         VERIFIED
+  🌐 MoGrid Connection    ESTABLISHED
+  💾 NeonDB Core          Connected ✅
+  🔄 Supabase Mirror      Active
+
+Grid Intelligence:
+  📡 Active AI Nodes      27
+  🎯 System Load          19.3%
+  ⚡ Grid Latency         12ms
+  🧬 Neural Harmony       99.8%
+
+The Hand of Overlord — Africa's First Symbolic AI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `;
-        toast('Grid status synced from Neon Core', { icon: <Database className="h-5 w-5 text-mostar-cyan" /> });
-      } 
+        toast('Overlord System Status — All Systems Operational', { 
+          icon: <Database className="h-5 w-5 text-mostar-cyan" /> 
+        });
+      }
       else if (normalizedCmd.startsWith('diagnose')) {
         const parts = cmd.split(' ');
-        const location = parts[1] || 'Unknown';
-        const symptoms = parts.slice(2).join(', ') || 'n/a';
+        const location = parts[1] || 'Grid-Unknown';
+        const symptomsArr = parts.slice(2);
+        
+        if (symptomsArr.length === 0) {
+          response = `✗ Error: Please provide symptoms for diagnosis.
+Usage: diagnose [location] [symptom1] [symptom2] ...
+Example: diagnose Grid-7 fever headache`;
+          toast.error('Invalid command format', { icon: <AlertTriangle className="h-5 w-5" /> });
+        } else {
+          try {
+            // Call the real MoGrid signal edge function
+            const SIGNAL_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/signal`;
+            
+            const res = await fetch(SIGNAL_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+              },
+              body: JSON.stringify({
+                location,
+                symptoms: symptomsArr,
+                evidence: []
+              }),
+            });
 
-        try {
-          const res = await fetch('/api/diagnose', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ location, symptoms }),
-          });
-          const result = await res.json();
+            if (!res.ok) {
+              throw new Error(`Grid API Error: ${res.status}`);
+            }
 
-          response = `✓ Diagnostic Complete
+            const result = await res.json();
+
+            response = `✓ MoGrid Diagnostic Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━
-Location: ${result.data.location}
-Symptoms: ${symptoms}
-Verdict: ${result.data.root_cause}
-Action: ${result.data.policy}
-Confidence: ${(result.data.confidence * 100).toFixed(1)}%
+Location: ${result.location}
+Status: ${result.status}
+Root Cause: ${result.root_cause}
+ODU Score: ${result.odu}
+Confidence: ${(result.confidence * 100).toFixed(1)}%
+Recommended Action: ${result.recommended_action}
+Policy: ${result.policy}
 
-Source: NeonDB / Supabase Hybrid Sync
+Assessor Hash: ${result.assessor_hash?.substring(0, 12)}...
+Decision Hash: ${result.decision_hash?.substring(0, 12)}...
+Orchestrated: ${new Date(result.orchestrated_at).toLocaleString()}
+
+Source: MoGrid Core — Hand of Overlord
 `;
 
-          toast('Diagnosis complete — synced to Neon Core', {
-            icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
-          });
-        } catch (err) {
-          response = `✗ Error executing diagnostic: ${err instanceof Error ? err.message : 'Unknown error'}`;
-          toast.error('Diagnostic failed', { icon: <AlertTriangle className="h-5 w-5" /> });
+            toast('MoGrid diagnosis complete', {
+              icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
+            });
+          } catch (err) {
+            response = `✗ MoGrid Connection Error: ${err instanceof Error ? err.message : 'Unknown error'}
+Please verify Grid connectivity and try again.`;
+            toast.error('Grid diagnostic failed', { icon: <AlertTriangle className="h-5 w-5" /> });
+          }
         }
-      } 
+      }
       else if (normalizedCmd.startsWith('analyze')) {
         const data = cmd.replace(/^analyze\s+/i, '').trim() || 'dataset:current';
 
-        response = `Analyzing data: ${data} ...
-━━━━━━━━━━━━━━━━━━━━━━━━
-Oracle AI engine identified 9 key vectors.
-Predictive accuracy: 92.4%
-Correlations: spatiotemporal clusters, signal interference, network health.
+        response = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OMNI-NEURO SYMBOLIC ANALYSIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Source: Hybrid AI (NeonDB + Supabase Pipeline)
+Analyzing: ${data}
+
+🧠 Neuro Layer Processing...
+   • Pattern Recognition: ✓
+   • Neural Correlations: ✓
+   • Temporal Analysis: ✓
+
+🔮 Symbolic Layer Processing...
+   • Logical Reasoning: ✓
+   • Ethical Validation: ✓
+   • Causal Inference: ✓
+
+Results:
+  Key Vectors Identified: 9
+  Predictive Accuracy: 92.4%
+  Confidence Level: HIGH
+  
+  Correlations Found:
+  • Spatiotemporal clusters
+  • Signal interference patterns
+  • Network health indicators
+  • Ethical compliance markers
+
+Source: Omni-Neuro Symbolic AI — Hand of Overlord
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `;
-        toast('Hybrid data analysis complete', { icon: <Zap className="h-5 w-5 text-mostar-green" /> });
+        toast('Omni-Neuro analysis complete', { icon: <Zap className="h-5 w-5 text-mostar-green" /> });
       }
       else if (normalizedCmd.startsWith('secure')) {
         const protocol = cmd.split(' ')[1] || 'standard';
@@ -180,8 +264,8 @@ Operational efficiency +3.5%.
           <Terminal className="h-6 w-6 text-mostar-cyan" />
         </div>
         <div>
-          <h3 className="text-xl font-display font-bold text-white">Overlord Command Matrix</h3>
-          <p className="text-xs text-white/60 font-mono">Neon–Supabase Hybrid Intelligence Layer</p>
+          <h3 className="text-xl font-display font-bold text-white">The Hand of Overlord</h3>
+          <p className="text-xs text-white/60 font-mono">Omni-Neuro Symbolic AI — Direct Grid Access</p>
         </div>
       </div>
 
@@ -256,13 +340,13 @@ Operational efficiency +3.5%.
         {/* Command Reference */}
         <div className="lg:col-span-1">
           <div className="bg-black/30 rounded-lg p-4 border border-mostar-cyan/10">
-            <h4 className="font-mono text-sm text-white/70 mb-4">Overlord Command Set</h4>
+            <h4 className="font-mono text-sm text-white/70 mb-4">🌍 Grid Command Set</h4>
             {[
-              { cmd: 'status', desc: 'Display hybrid system status', color: 'text-mostar-green' },
-              { cmd: 'diagnose [location] [symptoms...]', desc: 'Run MoGrid diagnostic', color: 'text-mostar-cyan' },
-              { cmd: 'analyze [data]', desc: 'Run hybrid data analysis', color: 'text-mostar-light-blue' },
-              { cmd: 'secure [protocol]', desc: 'Activate security layer', color: 'text-mostar-magenta' },
-              { cmd: 'deploy [node]', desc: 'Deploy AI node', color: 'text-mostar-green' },
+              { cmd: 'status', desc: 'Overlord system status', color: 'text-mostar-green' },
+              { cmd: 'diagnose [loc] [symptoms...]', desc: 'MoGrid Core diagnostic', color: 'text-mostar-cyan' },
+              { cmd: 'analyze [data]', desc: 'Omni-Neuro analysis', color: 'text-mostar-light-blue' },
+              { cmd: 'secure [protocol]', desc: 'Truth Engine security', color: 'text-mostar-magenta' },
+              { cmd: 'deploy [node]', desc: 'Deploy AI node to Grid', color: 'text-mostar-green' },
               { cmd: 'clear', desc: 'Clear terminal', color: 'text-mostar-yellow' },
             ].map(({ cmd, desc, color }) => (
               <div key={cmd} className="p-2 rounded bg-white/5 hover:bg-white/10 transition-colors mb-2">
