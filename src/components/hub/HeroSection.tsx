@@ -20,11 +20,16 @@ const HeroSection = () => {
               CLASSIFIED ACCESS
             </span>
           </div>
+          <div className="mb-2">
+            <span className="text-sm font-mono text-mostar-cyan uppercase tracking-widest">
+              Omni-Neuro Symbolic AI
+            </span>
+          </div>
           <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
-            MoStar Hub <span className="text-mostar-light-blue">AI Nexus</span>
+            The Hand of <span className="text-mostar-light-blue">Overlord</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl">
-            The intelligence epicenter where global analytics, cyber intelligence, and quantum computing technologies converge for unprecedented insights.
+            Africa's First Symbolic Intelligence Grid — Where neuro-symbolic reasoning, ethical cognition, and adaptive intelligence converge into the world's most transparent AI system.
           </p>
           <div className="flex flex-wrap gap-4">
             <button className="button-cyber flex items-center gap-2">
