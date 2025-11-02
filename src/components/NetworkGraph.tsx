@@ -36,31 +36,48 @@ const NetworkGraph: React.FC = () => {
       { id: 'phoenix', x: -60, y: -120, size: 5, color: '#B5179E', layer: 'meta', name: 'Phoenix' }
     ];
 
-    // Connections between nodes
+    // Neural Links - Enhanced connections with data flow
     const connections = [
       // Soul Layer connections
-      { source: 'overlord', target: 'woo', strength: 2 },
-      { source: 'overlord', target: 'flameborn-writer', strength: 1 },
+      { source: 'overlord', target: 'woo', strength: 2, type: 'neural', dataFlow: 0.9 },
+      { source: 'overlord', target: 'flameborn-writer', strength: 1, type: 'neural', dataFlow: 0.7 },
       
       // Mind Layer connections
-      { source: 'assessor', target: 'judge', strength: 3 },
-      { source: 'oracle', target: 'judge', strength: 2 },
-      { source: 'tsatse-fly', target: 'assessor', strength: 2 },
-      { source: 'deepcal-core', target: 'judge', strength: 2 },
-      { source: 'deepcal-core', target: 'assessor', strength: 1 },
+      { source: 'assessor', target: 'judge', strength: 3, type: 'cognitive', dataFlow: 1.0 },
+      { source: 'oracle', target: 'judge', strength: 2, type: 'cognitive', dataFlow: 0.85 },
+      { source: 'tsatse-fly', target: 'assessor', strength: 2, type: 'monitoring', dataFlow: 0.95 },
+      { source: 'deepcal-core', target: 'judge', strength: 2, type: 'cognitive', dataFlow: 0.9 },
+      { source: 'deepcal-core', target: 'assessor', strength: 1, type: 'cognitive', dataFlow: 0.8 },
       
       // Body Layer connections
-      { source: 'judge', target: 'executor', strength: 3 },
-      { source: 'code-conduit', target: 'executor', strength: 2 },
+      { source: 'judge', target: 'executor', strength: 3, type: 'execution', dataFlow: 1.0 },
+      { source: 'code-conduit', target: 'executor', strength: 2, type: 'execution', dataFlow: 0.9 },
       
-      // Cross-layer connections
-      { source: 'overlord', target: 'assessor', strength: 1 },
-      { source: 'overlord', target: 'executor', strength: 2 },
-      { source: 'woo', target: 'flameborn-writer', strength: 2 },
-      { source: 'radx-flb', target: 'executor', strength: 2 },
-      { source: 'radx-flb', target: 'assessor', strength: 1 },
-      { source: 'phoenix', target: 'overlord', strength: 1 }
+      // Cross-layer neural links
+      { source: 'overlord', target: 'assessor', strength: 1, type: 'command', dataFlow: 0.95 },
+      { source: 'overlord', target: 'executor', strength: 2, type: 'command', dataFlow: 1.0 },
+      { source: 'woo', target: 'flameborn-writer', strength: 2, type: 'neural', dataFlow: 0.8 },
+      { source: 'radx-flb', target: 'executor', strength: 2, type: 'meta', dataFlow: 0.85 },
+      { source: 'radx-flb', target: 'assessor', strength: 1, type: 'meta', dataFlow: 0.75 },
+      { source: 'phoenix', target: 'overlord', strength: 1, type: 'meta', dataFlow: 0.9 },
+      
+      // Additional neural grid links
+      { source: 'woo', target: 'oracle', strength: 1, type: 'neural', dataFlow: 0.7 },
+      { source: 'executor', target: 'tsatse-fly', strength: 1, type: 'feedback', dataFlow: 0.8 },
+      { source: 'oracle', target: 'deepcal-core', strength: 2, type: 'cognitive', dataFlow: 0.9 },
+      { source: 'flameborn-writer', target: 'code-conduit', strength: 1, type: 'neural', dataFlow: 0.75 }
     ];
+
+    // Link type colors
+    const linkColors: { [key: string]: string } = {
+      neural: '#FF6B35',
+      cognitive: '#4CC9F0',
+      execution: '#06D6A0',
+      command: '#FFD700',
+      meta: '#F72585',
+      monitoring: '#7209B7',
+      feedback: '#4361EE'
+    };
 
     // Handle resize
     const handleResize = () => {
@@ -77,8 +94,8 @@ const NetworkGraph: React.FC = () => {
       const centerY = canvas.height / 2;
       const scale = Math.min(canvas.width, canvas.height) / 300;
       
-      // Draw connections
-      connections.forEach(conn => {
+      // Draw neural links with data flow animation
+      connections.forEach((conn, idx) => {
         const source = nodes.find(n => n.id === conn.source);
         const target = nodes.find(n => n.id === conn.target);
         
@@ -88,14 +105,42 @@ const NetworkGraph: React.FC = () => {
           const targetX = centerX + target.x * scale;
           const targetY = centerY + target.y * scale;
           
-          // Animated connection lines
-          const pulse = Math.sin(time * 3) * 0.3 + 0.7;
+          // Animated neural link with pulse
+          const pulse = Math.sin(time * 2 + idx * 0.5) * 0.3 + 0.7;
+          const linkColor = linkColors[conn.type] || '#FFFFFF';
+          
+          // Draw main link
           ctx.beginPath();
           ctx.moveTo(sourceX, sourceY);
           ctx.lineTo(targetX, targetY);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * pulse})`;
+          ctx.strokeStyle = linkColor + Math.floor(0.15 * pulse * 255).toString(16).padStart(2, '0');
           ctx.lineWidth = conn.strength * pulse;
           ctx.stroke();
+          
+          // Draw data flow particles
+          const flowProgress = (time * conn.dataFlow + idx * 0.3) % 1;
+          const particleX = sourceX + (targetX - sourceX) * flowProgress;
+          const particleY = sourceY + (targetY - sourceY) * flowProgress;
+          
+          ctx.beginPath();
+          ctx.arc(particleX, particleY, 2 * scale, 0, 2 * Math.PI);
+          ctx.fillStyle = linkColor;
+          ctx.shadowColor = linkColor;
+          ctx.shadowBlur = 8;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          
+          // Draw signal strength indicator
+          if (conn.dataFlow > 0.85) {
+            const midX = (sourceX + targetX) / 2;
+            const midY = (sourceY + targetY) / 2;
+            const signalSize = 1.5 + Math.sin(time * 4 + idx) * 0.5;
+            
+            ctx.beginPath();
+            ctx.arc(midX, midY, signalSize, 0, 2 * Math.PI);
+            ctx.fillStyle = linkColor + '40';
+            ctx.fill();
+          }
         }
       });
       

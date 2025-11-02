@@ -2,6 +2,7 @@ import React from 'react';
 import { Globe2, Server, Database, Wifi, Zap } from 'lucide-react';
 import { AINode } from '../../../types/ai-hub';
 import MapboxGlobe from '../MapboxGlobe';
+import NeuralLinkStatus from '../NeuralLinkStatus';
 
 interface NetworkTabProps {
   aiNodes: AINode[];
@@ -144,6 +145,11 @@ const NetworkTab: React.FC<NetworkTabProps> = ({ aiNodes, isLoadingNodes }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Neural Link Status Section */}
+      <div className="mt-8">
+        <NeuralLinkStatus />
       </div>
     </div>
   );
