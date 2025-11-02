@@ -47,33 +47,101 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
       });
 
       // Add markers for AI nodes
-      aiNodes.forEach((node) => {
+      const markers: mapboxgl.Marker[] = [];
+      aiNodes.forEach((node, index) => {
         if (!map.current) return;
         
-        // Generate random coordinates based on location (simplified)
+        // Generate coordinates based on location
         const coords = getCoordinatesForLocation(node.location);
         
-        // Create custom marker element
+        // Create custom marker element with neural pulse
         const el = document.createElement('div');
-        el.className = 'w-3 h-3 rounded-full animate-pulse';
-        el.style.backgroundColor = node.status === 'Active' ? '#00ff80' : '#ff00ff';
-        el.style.boxShadow = `0 0 10px ${node.status === 'Active' ? '#00ff80' : '#ff00ff'}`;
+        el.className = 'relative w-4 h-4';
+        el.innerHTML = `
+          <div class="absolute inset-0 rounded-full animate-ping" style="background-color: ${node.status === 'Active' ? '#00ff80' : '#ff00ff'}; opacity: 0.4;"></div>
+          <div class="absolute inset-0 rounded-full animate-pulse" style="background-color: ${node.status === 'Active' ? '#00ff80' : '#ff00ff'}; box-shadow: 0 0 15px ${node.status === 'Active' ? '#00ff80' : '#ff00ff'};"></div>
+        `;
 
         // Add marker to map
-        new mapboxgl.Marker(el)
+        const marker = new mapboxgl.Marker(el)
           .setLngLat(coords)
           .setPopup(
             new mapboxgl.Popup({ offset: 25 })
               .setHTML(`
-                <div style="color: #fff; background: rgba(0,0,0,0.9); padding: 8px; border-radius: 4px; border: 1px solid #00ff80;">
-                  <strong style="color: #00ff80;">${node.name}</strong><br/>
-                  <span style="font-size: 11px;">Status: ${node.status}</span><br/>
-                  <span style="font-size: 11px;">Performance: ${node.performance}%</span>
+                <div style="color: #fff; background: rgba(0,0,0,0.95); padding: 12px; border-radius: 6px; border: 1px solid ${node.status === 'Active' ? '#00ff80' : '#ff00ff'};">
+                  <strong style="color: ${node.status === 'Active' ? '#00ff80' : '#ff00ff'}; font-size: 14px;">${node.name}</strong><br/>
+                  <div style="margin-top: 6px; font-size: 11px;">
+                    <div style="margin: 3px 0;">🔗 Status: <span style="color: ${node.status === 'Active' ? '#00ff80' : '#ff00ff'}">${node.status}</span></div>
+                    <div style="margin: 3px 0;">⚡ Performance: ${node.performance}%</div>
+                    <div style="margin: 3px 0;">📍 Location: ${node.location}</div>
+                    <div style="margin: 3px 0;">🧠 Neural Link: Active</div>
+                  </div>
                 </div>
               `)
           )
           .addTo(map.current);
+        
+        markers.push(marker);
       });
+
+      // Add neural link connections between nodes
+      if (aiNodes.length > 1) {
+        map.current.on('load', () => {
+          if (!map.current) return;
+
+          // Create neural link lines
+          const linkCoordinates: [number, number][][] = [];
+          for (let i = 0; i < aiNodes.length - 1; i++) {
+            const start = getCoordinatesForLocation(aiNodes[i].location);
+            const end = getCoordinatesForLocation(aiNodes[i + 1].location);
+            linkCoordinates.push([start, end]);
+          }
+
+          // Add source for neural links
+          if (!map.current.getSource('neural-links')) {
+            map.current.addSource('neural-links', {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: linkCoordinates.map((coords, idx) => ({
+                  type: 'Feature',
+                  geometry: {
+                    type: 'LineString',
+                    coordinates: coords
+                  },
+                  properties: {
+                    linkId: idx
+                  }
+                }))
+              }
+            });
+
+            // Add neural link layer with glow effect
+            map.current.addLayer({
+              id: 'neural-links-glow',
+              type: 'line',
+              source: 'neural-links',
+              paint: {
+                'line-color': '#00ffff',
+                'line-width': 3,
+                'line-blur': 4,
+                'line-opacity': 0.6
+              }
+            });
+
+            map.current.addLayer({
+              id: 'neural-links-core',
+              type: 'line',
+              source: 'neural-links',
+              paint: {
+                'line-color': '#00ff80',
+                'line-width': 1.5,
+                'line-opacity': 0.9
+              }
+            });
+          }
+        });
+      }
     });
 
     // Rotation animation settings
