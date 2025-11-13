@@ -83,8 +83,13 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-white/40 text-sm mb-4 md:mb-0">
-            © {currentYear} MoStar Industries. All rights reserved.
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <div className="text-white/40 text-sm">
+              © {currentYear} MoStar Industries. All rights reserved.
+            </div>
+            <div className="text-xs text-mostar-cyan mt-1 font-mono">
+              MoStar Grid v3.1 — DCX-Orchestrated
+            </div>
           </div>
           
           <div className="flex space-x-6">
