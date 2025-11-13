@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
 import NetworkGraph from '../components/NetworkGraph';
+import { NewsCarousel } from '../components/NewsCarousel';
 import { Shield, Globe, Database, Brain } from 'lucide-react';
 
 const Index = () => {
@@ -141,6 +142,8 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        <NewsCarousel />
 
         <Dashboard />
 
