@@ -35,20 +35,20 @@ const HeroSection = () => {
                 </span>
               </h1>
               <p className="text-xl text-white/70 max-w-lg">
-                AI-Driven Intelligence, Geospatial Mastery, Unbreakable Security.
+                The MoStar Grid: A self-evolving network of reasoning AIs — powered by Neo4j cognition, Ollama consciousness, and real-time Flame telemetry.
               </p>
             </div>
             
             <div className="flex flex-wrap gap-4 mt-8">
-              <a href="#get-involved" className="button-cyber shadow-neon-blue inline-flex items-center">
-                Join the Future of AI
+              <a href="/mostar-hub" className="button-cyber shadow-neon-blue inline-flex items-center">
+                Enter the Grid
                 <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13.75 6.75L19.25 12L13.75 17.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M19 12H4.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
               <a href="#technologies" className="button-cyber bg-transparent hover:bg-mostar-blue/5 transition-colors">
-                Discover Technologies
+                Explore the Flame Atlas
               </a>
             </div>
             

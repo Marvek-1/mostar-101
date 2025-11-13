@@ -41,17 +41,17 @@ const VisionSection = () => {
       <div className="absolute inset-0 bg-gradient-radial from-mostar-blue/5 to-transparent"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="mb-16 text-center">
-          <span className="inline-block px-3 py-1 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs mb-3">
-            THE HORIZON
-          </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-cyan-green-gradient text-gradient">
-            Our Vision
-          </h2>
-          <p className="max-w-2xl mx-auto text-white/70">
-            We're engineering the future of global intelligence systems that merge human insight with AI capabilities.
-          </p>
-        </div>
+      <div className="mb-16 text-center">
+        <span className="inline-block px-3 py-1 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs mb-3">
+          THE HORIZON
+        </span>
+        <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-cyan-green-gradient text-gradient">
+          The Philosophy of Transparent Cognition
+        </h2>
+        <p className="max-w-2xl mx-auto text-white/70">
+          MoStar believes intelligence must not hide in the shadows. Every verdict, every inference, every emotion — visible, verifiable, and traceable through the Flame.
+        </p>
+      </div>
 
         {/* AI Ecosystem Visualization */}
         <div className="max-w-5xl mx-auto mb-20">

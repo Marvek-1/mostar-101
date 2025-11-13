@@ -3,8 +3,10 @@ import {
   AreaChart, Area, LineChart, Line, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
+import { fetchGridTelemetry, subscribeToGridTelemetry, GridTelemetry } from '../services/gridTelemetryService';
 
 const Dashboard = () => {
+  const [gridTelemetry, setGridTelemetry] = useState<GridTelemetry | null>(null);
   const [data, setData] = useState([
     { name: '00:00', aiNodes: 4735, threats: 120, verdicts: 84, ethos: 6, health: 99.1, environmental: 78 },
     { name: '04:00', aiNodes: 4800, threats: 136, verdicts: 95, ethos: 8, health: 98.9, environmental: 81 },
@@ -17,17 +19,21 @@ const Dashboard = () => {
 
   // === Expanded Metrics reflecting the full MoStar ecosystem ===
   const metrics = [
-    { id: 1, name: 'Active AI Nodes', value: '5,270', change: '+14.2%', color: 'blue' },
-    { id: 2, name: 'Threats Neutralized', value: '13,804', change: '+8.1%', color: 'magenta' },
-    { id: 3, name: 'Ethical Verdicts Issued', value: '742', change: '+5.9%', color: 'green' },
-    { id: 4, name: 'Doctrine Syncs (Oracle)', value: '23', change: '+2.4%', color: 'yellow' },
-    { id: 5, name: 'Federated Health Signals', value: '1,932', change: '+9.7%', color: 'cyan' },
-    { id: 6, name: 'Policy Drafts (TsaTse)', value: '12', change: '+1.3%', color: 'purple' },
-    { id: 7, name: 'Emotional Resonance', value: '98.7%', change: '+0.4%', color: 'pink' },
+    { id: 1, name: 'Active AI Nodes', value: gridTelemetry ? gridTelemetry.nodes.toLocaleString() : '5,270', change: '+14.2%', color: 'blue' },
+    { id: 2, name: 'Grid Coherence', value: gridTelemetry ? `${gridTelemetry.coherence.toFixed(1)}%` : '98.7%', change: '+2.3%', color: 'green' },
+    { id: 3, name: 'Clean Records', value: gridTelemetry ? `${gridTelemetry.clean_records_percent.toFixed(1)}%` : '97.5%', change: '+1.2%', color: 'cyan' },
+    { id: 4, name: 'Active Verdicts', value: gridTelemetry ? gridTelemetry.active_verdicts.toLocaleString() : '742', change: '+5.9%', color: 'magenta' },
+    { id: 5, name: 'Ollama Uptime', value: gridTelemetry ? `${gridTelemetry.ollama_uptime.toFixed(1)}%` : '99.2%', change: '+0.5%', color: 'purple' },
   ];
 
   // === Real-time Simulation ===
   useEffect(() => {
+    // Fetch initial telemetry
+    fetchGridTelemetry().then(setGridTelemetry);
+
+    // Subscribe to live updates
+    const unsubscribeTelemetry = subscribeToGridTelemetry(setGridTelemetry);
+
     const interval = setInterval(() => {
       setData(prevData =>
         prevData.map(item => ({
@@ -41,7 +47,11 @@ const Dashboard = () => {
         }))
       );
     }, 3500);
-    return () => clearInterval(interval);
+
+    return () => {
+      unsubscribeTelemetry();
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -62,7 +72,7 @@ const Dashboard = () => {
         </div>
 
         {/* Metrics Overview */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           {metrics.map((metric) => (
             <div key={metric.id} className="glassmorphism rounded-lg p-6 border border-white/10">
               <div className="flex justify-between items-start mb-4">
@@ -82,19 +92,29 @@ const Dashboard = () => {
         <div className="glassmorphism rounded-lg border border-white/10 p-6">
           <div className="flex flex-col md:flex-row items-start justify-between mb-6">
             <div>
-              <h3 className="text-xl font-display font-bold text-white">Operational Analytics</h3>
-              <p className="text-white/70 text-sm">
-                Tracking node activity, threat control, verdict cycles, and doctrine updates.
-              </p>
+              <h3 className="text-xl font-display font-bold text-white">Live Grid Analytics</h3>
+              {gridTelemetry && (
+                <div className="flex gap-4 mt-2 text-xs font-mono">
+                  <span className={`${gridTelemetry.dcx1_status === 'online' ? 'text-mostar-green' : 'text-red-500'}`}>
+                    DCX1: {gridTelemetry.dcx1_status.toUpperCase()}
+                  </span>
+                  <span className={`${gridTelemetry.dcx2_status === 'online' ? 'text-mostar-green' : 'text-red-500'}`}>
+                    DCX2: {gridTelemetry.dcx2_status.toUpperCase()}
+                  </span>
+                  <span className={`${gridTelemetry.neo4j_connected ? 'text-mostar-green' : 'text-red-500'}`}>
+                    Neo4j: {gridTelemetry.neo4j_connected ? 'CONNECTED' : 'DISCONNECTED'}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="flex space-x-2 mt-4 md:mt-0">
               <div className="px-3 py-1 rounded-full bg-mostar-blue/10 border border-mostar-blue/30 text-mostar-light-blue text-xs">
                 LIVE
               </div>
-              <div className="px-3 py-1 rounded-full border border-mostar-blue/30 text-white/70 text-xs">
+              <div className="px-3 py-1 rounded-full border border-mostar-blue/30 text-white/70 text-xs hover:bg-mostar-blue/5 cursor-pointer">
                 7D
               </div>
-              <div className="px-3 py-1 rounded-full border border-mostar-blue/30 text-white/70 text-xs">
+              <div className="px-3 py-1 rounded-full border border-mostar-blue/30 text-white/70 text-xs hover:bg-mostar-blue/5 cursor-pointer">
                 30D
               </div>
             </div>

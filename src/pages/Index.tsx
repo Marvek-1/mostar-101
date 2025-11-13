@@ -26,15 +26,15 @@ const Index = () => {
   const technologies = [
     {
       id: 1,
-      title: 'AI & Predictive Intelligence',
+      title: 'Reasoning Core',
       description:
-        'Adaptive reasoning models built on the MoGrid Core — leveraging neuro-symbolic logic, structured heuristics, and explainable inference for ethical AI execution.',
+        'Powered by DCX1 (Qwen) and DCX2 (Mistral), the MoStar Reasoning Core combines symbolic reasoning with neural depth, executing judgment through explainable inference graphs.',
       icon: <Brain className="h-12 w-12 text-mostar-light-blue" />,
       features: [
-        'Neuro-Symbolic Computation',
-        'Explainable Machine Reasoning',
-        'Predictive Intelligence',
-        'Ethical AI Governance',
+        'Dual-Model Architecture (DCX1/DCX2)',
+        'Neo4j Graph Cognition',
+        'Ollama Runtime Orchestration',
+        'Explainable Inference Chains',
       ],
       color: 'blue',
     },
@@ -54,29 +54,29 @@ const Index = () => {
     },
     {
       id: 3,
-      title: 'Cybersecurity & Threat Adjudication',
+      title: 'Truth Engine 3.0',
       description:
-        'Zero-trust framework powered by the Truth Engine — ensuring every transaction, signal, and verdict remains verifiable, auditable, and incorruptible.',
+        'The Grid\'s ethical enforcement layer — adjudicating every signal through verifiable, cryptographically transparent logic. Every verdict is traceable, auditable, and incorruptible.',
       icon: <Shield className="h-12 w-12 text-mostar-green" />,
       features: [
-        'Truth Engine v2.0',
-        'Zero-Trust Security Framework',
-        'AI-based Intrusion Adjudication',
-        'Forensic Data Provenance',
+        'Cryptographic Verification',
+        'Ethical Signal Adjudication',
+        'Transparent Verdict Chains',
+        'Forensic Audit Trails',
       ],
       color: 'green',
     },
     {
       id: 4,
-      title: 'Data Fusion & Grid Visualization',
+      title: 'NeonDB Visualization',
       description:
-        'NeonDB-powered real-time dashboards offering transparent views of the MoGrid system — integrating decisions, ethics audits, and AI-human collaboration metrics.',
+        'A hybrid Supabase–Neo4j bridge visualizing coherence metrics, emotional resonance, doctrine propagation, and AI-human symbiosis in real-time.',
       icon: <Database className="h-12 w-12 text-mostar-magenta" />,
       features: [
-        'NeonDB Real-Time Sync',
-        'Grid Signal Tracking',
-        'Transparent Analytics',
-        'Human-AI Oversight Panels',
+        'Supabase-Neo4j Hybrid Bridge',
+        'Coherence Metrics Tracking',
+        'Emotional Resonance Graphs',
+        'Live Doctrine Propagation',
       ],
       color: 'magenta',
     },
