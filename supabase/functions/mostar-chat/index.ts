@@ -1,10 +1,26 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Input validation schema
+const MessageSchema = z.object({
+  role: z.enum(['user', 'assistant', 'system']),
+  content: z.string().min(1).max(4000),
+});
+
+const ChatRequestSchema = z.object({
+  messages: z.array(MessageSchema).min(1).max(50),
+});
+
+// Generate request ID for support tracking
+function generateRequestId(): string {
+  return crypto.randomUUID().slice(0, 8);
+}
 
 const MOSTAR_KNOWLEDGE = `
 # MoStar Industries Global Intelligence Grid - Complete Knowledge Base
@@ -211,16 +227,36 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const requestId = generateRequestId();
+
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
     
-    if (!messages || !Array.isArray(messages)) {
-      throw new Error('Invalid messages format');
+    // Validate input
+    const validationResult = ChatRequestSchema.safeParse(body);
+    if (!validationResult.success) {
+      console.error(`[${requestId}] Validation error:`, validationResult.error.errors);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid message format. Please check your input.',
+          requestId 
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
+
+    const { messages } = validationResult.data;
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+      console.error(`[${requestId}] API key not configured`);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Service configuration error. Please contact support.',
+          requestId 
+        }),
+        { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Call Lovable AI Gateway with streaming
@@ -243,7 +279,10 @@ serve(async (req) => {
     if (!response.ok) {
       if (response.status === 429) {
         return new Response(
-          JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), 
+          JSON.stringify({ 
+            error: "Rate limit exceeded. Please try again later.",
+            requestId 
+          }), 
           {
             status: 429,
             headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -252,7 +291,10 @@ serve(async (req) => {
       }
       if (response.status === 402) {
         return new Response(
-          JSON.stringify({ error: "AI usage limit reached. Please add credits to continue." }), 
+          JSON.stringify({ 
+            error: "AI usage limit reached. Please add credits to continue.",
+            requestId 
+          }), 
           {
             status: 402,
             headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -261,8 +303,14 @@ serve(async (req) => {
       }
       
       const errorText = await response.text();
-      console.error("Lovable AI Gateway error:", response.status, errorText);
-      throw new Error(`AI Gateway error: ${response.status}`);
+      console.error(`[${requestId}] AI service error:`, response.status, errorText);
+      return new Response(
+        JSON.stringify({ 
+          error: 'AI service temporarily unavailable. Please try again later.',
+          requestId 
+        }),
+        { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Return the streaming response directly
@@ -276,13 +324,14 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    console.error("Error in mostar-chat function:", error);
+    console.error(`[${requestId}] Chat function error:`, error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error occurred" 
+        error: 'Service temporarily unavailable. Please try again later.',
+        requestId 
       }),
       {
-        status: 500,
+        status: 503,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );

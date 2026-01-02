@@ -14,8 +14,13 @@ const MapboxGlobe: React.FC<MapboxGlobeProps> = ({ aiNodes }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map with user's custom style
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYWthbmltbzEiLCJhIjoiY2x4czNxbjU2MWM2eTJqc2gwNGIwaWhkMSJ9.jSwZdyaPa1dOHepNU5P71g';
+    // Initialize map with token from environment variable
+    const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+    if (!mapboxToken) {
+      console.error('Mapbox access token not configured');
+      return;
+    }
+    mapboxgl.accessToken = mapboxToken;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
