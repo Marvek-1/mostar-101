@@ -1,13 +1,13 @@
 project_id = "blhztdikukgwuhkhootf"
 
 [functions.signal]
-verify_jwt = false
+verify_jwt = true
 
 [functions.diagnose]
-verify_jwt = false
+verify_jwt = true
 
 [functions.evaluate]
-verify_jwt = false
+verify_jwt = true
 
 [functions.mostar-chat]
-verify_jwt = false
+verify_jwt = true
