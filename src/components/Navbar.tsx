@@ -1,12 +1,21 @@
-
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, X, Zap, LogOut, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,9 +31,19 @@ const Navbar = () => {
   }, []);
 
   const handleMostarAIClick = () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
     toast("Accessing MoStar AI Hub...", {
       icon: <Zap className="h-5 w-5 text-mostar-cyan" />,
     });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success('Signed out successfully');
+    navigate('/');
   };
 
   return (
@@ -60,9 +79,29 @@ const Navbar = () => {
           <Link to="/hub" className="nav-link font-display text-sm tracking-wide text-white/80 hover:text-mostar-light-blue transition-colors">
             AI Hub
           </Link>
-          <Link to="/hub" className="button-cyber" onClick={handleMostarAIClick}>
-            MoStar AI
-          </Link>
+          
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center space-x-2 text-white hover:text-mostar-cyan">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center">
+                    <User className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="font-display text-sm">{user.email?.split('@')[0]}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="glassmorphism border-mostar-blue/30">
+                <DropdownMenuItem onClick={handleSignOut} className="text-white hover:text-mostar-cyan cursor-pointer">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/auth" className="button-cyber">
+              Sign In
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -121,16 +160,33 @@ const Navbar = () => {
           >
             AI Hub
           </Link>
-          <Link
-            to="/hub"
-            className="button-cyber w-full text-center"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              handleMostarAIClick();
-            }}
-          >
-            MoStar AI
-          </Link>
+          
+          {user ? (
+            <>
+              <div className="text-mostar-cyan py-3 border-b border-white/10 flex items-center">
+                <User className="h-4 w-4 mr-2" />
+                {user.email?.split('@')[0]}
+              </div>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleSignOut();
+                }}
+                className="text-white/80 hover:text-red-400 py-3 flex items-center"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/auth"
+              className="button-cyber w-full text-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </header>
