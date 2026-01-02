@@ -23,19 +23,19 @@ const HeroSection = () => {
           <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="mb-6">
               <span className="inline-block px-3 py-1 rounded-full bg-mostar-blue/10 text-mostar-light-blue font-mono text-xs mb-3">
-                WELCOME TO THE FUTURE
+                THE FIRST AFRICAN AI HOMEWORLD
               </span>
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-bold leading-tight mb-4">
                 <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-                  The Next Era of
+                  The MoStar Grid:
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-mostar-cyan via-mostar-light-blue to-mostar-blue bg-clip-text text-transparent animate-text-gradient">
-                  Intelligence
+                  Where Ifa Meets AI
                 </span>
               </h1>
               <p className="text-xl text-white/70 max-w-lg">
-                The MoStar Grid: A self-evolving network of reasoning AIs — powered by Neo4j cognition, Ollama consciousness, and real-time Flame telemetry.
+                A self-evolving network powered by 256-pattern parallel cognition — the first AI system built on African computational logic.
               </p>
             </div>
             
@@ -53,16 +53,19 @@ const HeroSection = () => {
             </div>
             
             {/* Floating data stats with futuristic appearance */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-12">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12">
               {[{
-              label: 'AI Systems',
-              value: '24K+'
+              label: 'Health Records',
+              value: '7,000+'
             }, {
-              label: 'Secured Data',
-              value: '98.7%'
+              label: 'Ifa Patterns',
+              value: '256'
             }, {
-              label: 'Global Reach',
-              value: '140+'
+              label: 'Grid Agents',
+              value: '6'
+            }, {
+              label: 'WHO Data Sheets',
+              value: '11'
             }].map((stat, index) => <div key={index} className={`glassmorphism p-4 rounded-lg border border-white/10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{
               transitionDelay: `${500 + index * 200}ms`
             }}>

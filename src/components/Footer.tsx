@@ -21,7 +21,7 @@ const Footer = () => {
             </div>
             
             <p className="text-white/60 max-w-md mb-6">
-              Pioneering the future of AI-driven intelligence, cybersecurity, and geospatial analytics to create a safer, more connected world.
+              MoStar Industries pioneers African health sovereignty through AI systems rooted in Ifa computational logic — 256 patterns of ancestral mathematics powering modern disease intelligence.
             </p>
             
             <div className="flex space-x-4">
@@ -56,7 +56,7 @@ const Footer = () => {
               Solutions
             </h4>
             <ul className="space-y-4">
-              {['AI Intelligence', 'Cybersecurity', 'Geospatial Analytics', 'Data Visualization', 'Threat Detection'].map((item) => (
+              {['Ifa Core', 'RAD-X Intelligence', 'FlameBorn Education', 'WHO Signal Dashboard', 'MNTRK Detection'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors">
                     {item}
