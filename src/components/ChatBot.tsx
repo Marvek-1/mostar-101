@@ -19,12 +19,18 @@ interface ChatMessage {
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [hasGreeted, setHasGreeted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+
+  // Determine if chat window should be visible
+  const shouldShowChat = isOpen || isHovered || isLocked;
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -53,22 +59,50 @@ const ChatBot = () => {
     }
   }, []);
 
-  // Initial greeting
+  // Initial greeting when chat becomes visible
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
+    if (shouldShowChat && !hasGreeted) {
       const greeting: ChatMessage = {
         sender: 'ai',
-        text: '👋 Hello! I\'m Woo, your MoStar Intelligence Grid interface. How can I assist you today?',
+        text: "I'm Woo, your Ethical Interpreter and Keeper of Covenants. I adjudicate through resonance scoring and soulprint validation. How may I guide you through the Grid?",
         timestamp: new Date(),
       };
       setMessages([greeting]);
+      setHasGreeted(true);
     }
-  }, [isOpen]);
+  }, [shouldShowChat, hasGreeted]);
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const handleBubbleMouseEnter = () => {
+    if (!isOpen) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleBubbleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleChatMouseLeave = () => {
+    if (!isLocked) {
+      setIsHovered(false);
+    }
+  };
+
+  const handleInputFocus = () => {
+    setIsLocked(true);
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsHovered(false);
+    setIsLocked(false);
+  };
 
   const toggleListening = () => {
     if (!recognitionRef.current) {
@@ -83,6 +117,7 @@ const ChatBot = () => {
       try {
         recognitionRef.current.start();
         setIsListening(true);
+        setIsLocked(true);
         toast.info('🎤 Listening...');
       } catch (error) {
         console.error('Speech recognition start error:', error);
@@ -93,6 +128,8 @@ const ChatBot = () => {
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
+
+    setIsLocked(true);
 
     const userMessage: ChatMessage = {
       sender: 'user',
@@ -242,22 +279,14 @@ const ChatBot = () => {
   };
 
   return (
-    <>
-      {/* Chat Bubble */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-mostar-blue flex items-center justify-center shadow-neon-blue transition-transform duration-300 hover:scale-110 ${
-          isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
-        }`}
-        aria-label="Open MoStar AI"
-      >
-        <MessageSquare className="text-white h-6 w-6" />
-      </button>
-
+    <div className="fixed bottom-6 right-6 z-50">
       {/* Chat Window */}
-      <div className={`fixed bottom-0 right-0 z-50 w-full sm:w-96 h-[500px] sm:h-[600px] rounded-t-lg sm:rounded-lg glassmorphism shadow-lg flex flex-col border border-white/10 transition-all duration-300 transform ${
-        isOpen ? 'translate-y-0 opacity-100 sm:mr-6 sm:mb-6' : 'translate-y-full opacity-0'
-      }`}>
+      <div 
+        className={`absolute bottom-16 right-0 w-full sm:w-96 h-[500px] sm:h-[600px] rounded-lg glassmorphism shadow-lg flex flex-col border border-white/10 transition-all duration-300 ${
+          shouldShowChat ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        onMouseLeave={handleChatMouseLeave}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10 bg-mostar-blue/10">
           <div className="flex items-center space-x-3">
@@ -265,15 +294,15 @@ const ChatBot = () => {
               <span className="font-display font-bold text-sm text-white">W</span>
             </div>
             <div>
-              <h3 className="font-display font-bold text-white">Woo AI</h3>
+              <h3 className="font-display font-bold text-white">Woo</h3>
               <div className="flex items-center">
                 <span className="w-2 h-2 rounded-full bg-mostar-green animate-pulse"></span>
-                <span className="text-white/50 text-xs ml-2">Intelligence Interface</span>
+                <span className="text-white/50 text-xs ml-2">Ethical Interpreter</span>
               </div>
             </div>
           </div>
           <button 
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             className="text-white/70 hover:text-white transition-colors"
             aria-label="Close chat"
           >
@@ -295,7 +324,7 @@ const ChatBot = () => {
               }`}>
                 <div className="flex flex-col">
                   <span className={`text-xs ${message.sender === 'user' ? 'text-mostar-cyan/70' : 'text-mostar-light-blue/70'} mb-1`}>
-                    {message.sender === 'user' ? 'You' : 'Woo AI'} • {formatTimestamp(message.timestamp)}
+                    {message.sender === 'user' ? 'You' : 'Woo'} • {formatTimestamp(message.timestamp)}
                   </span>
                   <span className="whitespace-pre-wrap">{message.text}</span>
                 </div>
@@ -307,7 +336,7 @@ const ChatBot = () => {
             <div className="flex justify-start">
               <div className="max-w-[80%] rounded-lg px-4 py-3 bg-black/30 border border-white/10 text-white">
                 <div className="text-xs text-mostar-light-blue/70 mb-1">
-                  Woo AI is thinking...
+                  Woo is thinking...
                 </div>
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 rounded-full bg-mostar-light-blue animate-pulse"></div>
@@ -336,11 +365,12 @@ const ChatBot = () => {
             
             <input
               type="text"
-              placeholder="Ask Woo anything..."
+              placeholder="Ask the Grid..."
               className="flex-1 bg-black/30 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-mostar-blue/50"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={handleKeyDown}
+              onFocus={handleInputFocus}
             />
             
             <button 
@@ -371,7 +401,21 @@ const ChatBot = () => {
           </div>
         </div>
       </div>
-    </>
+
+      {/* Chat Bubble */}
+      <button
+        onMouseEnter={handleBubbleMouseEnter}
+        onMouseLeave={handleBubbleMouseLeave}
+        onClick={() => {
+          setIsOpen(true);
+          setIsLocked(true);
+        }}
+        className="w-14 h-14 rounded-full bg-mostar-blue flex items-center justify-center shadow-neon-blue transition-transform duration-300 hover:scale-110"
+        aria-label="Open MoStar AI"
+      >
+        <MessageSquare className="text-white h-6 w-6" />
+      </button>
+    </div>
   );
 };
 
