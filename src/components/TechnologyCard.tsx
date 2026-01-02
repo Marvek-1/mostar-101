@@ -46,6 +46,13 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({
       iconBg: 'bg-mostar-magenta/10',
       border: 'border-mostar-magenta/30',
       dot: 'bg-mostar-magenta'
+    },
+    purple: {
+      shadow: 'shadow-neon-magenta',
+      textGlow: 'text-glow-cyan',
+      iconBg: 'bg-mostar-magenta/10',
+      border: 'border-mostar-magenta/30',
+      dot: 'bg-mostar-magenta'
     }
   };
   
