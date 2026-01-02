@@ -6,7 +6,7 @@ import { Zap } from 'lucide-react';
 
 const GetInvolved = () => {
   const [email, setEmail] = useState('');
-  const [audienceType, setAudienceType] = useState('investor');
+  const [audienceType, setAudienceType] = useState('health-worker');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +46,7 @@ const GetInvolved = () => {
               Get Involved
             </h2>
             <p className="max-w-2xl mx-auto text-white/70">
-              Whether you're an investor, researcher, or developer, there's a place for you in the future of AI intelligence.
+              Whether you're a health worker, developer, data partner, or community leader — there's a place for you in African health sovereignty.
             </p>
           </div>
 
@@ -63,9 +63,9 @@ const GetInvolved = () => {
                       1
                     </div>
                     <div>
-                      <h4 className="text-lg font-display font-bold text-white mb-1">Investors</h4>
+                      <h4 className="text-lg font-display font-bold text-white mb-1">Health Workers</h4>
                       <p className="text-white/70 text-sm">
-                        Fund the future of intelligence and gain early access to groundbreaking AI technologies.
+                        Ground-level integration with disease surveillance and health education tools.
                       </p>
                     </div>
                   </div>
@@ -75,9 +75,9 @@ const GetInvolved = () => {
                       2
                     </div>
                     <div>
-                      <h4 className="text-lg font-display font-bold text-white mb-1">Researchers</h4>
+                      <h4 className="text-lg font-display font-bold text-white mb-1">African Developers</h4>
                       <p className="text-white/70 text-sm">
-                        Collaborate on cutting-edge AI research and push the boundaries of what's possible.
+                        Build on the Grid — contribute to the first AI system rooted in African computational logic.
                       </p>
                     </div>
                   </div>
@@ -87,9 +87,21 @@ const GetInvolved = () => {
                       3
                     </div>
                     <div>
-                      <h4 className="text-lg font-display font-bold text-white mb-1">Developers</h4>
+                      <h4 className="text-lg font-display font-bold text-white mb-1">Data Partners</h4>
                       <p className="text-white/70 text-sm">
-                        Build on our platform and create the next generation of AI-powered applications.
+                        WHO, ministries, and NGOs — integrate your data streams into the Grid.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-mostar-magenta/10 border border-mostar-magenta/30 text-mostar-magenta font-bold">
+                      4
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-display font-bold text-white mb-1">Community Leaders</h4>
+                      <p className="text-white/70 text-sm">
+                        Local deployment partners driving health sovereignty in your communities.
                       </p>
                     </div>
                   </div>
@@ -108,17 +120,22 @@ const GetInvolved = () => {
                         I am interested as a:
                       </label>
                       <div className="flex flex-wrap gap-3">
-                        {['investor', 'researcher', 'developer'].map((type) => (
+                        {[
+                          { value: 'health-worker', label: 'Health Worker' },
+                          { value: 'developer', label: 'Developer' },
+                          { value: 'data-partner', label: 'Data Partner' },
+                          { value: 'community-leader', label: 'Community Leader' }
+                        ].map((type) => (
                           <div
-                            key={type}
-                            onClick={() => setAudienceType(type)}
-                            className={`px-4 py-2 rounded-full border cursor-pointer transition-all duration-300 capitalize ${
-                              audienceType === type
+                            key={type.value}
+                            onClick={() => setAudienceType(type.value)}
+                            className={`px-4 py-2 rounded-full border cursor-pointer transition-all duration-300 ${
+                              audienceType === type.value
                                 ? 'bg-mostar-blue/20 border-mostar-blue/50 text-mostar-light-blue'
                                 : 'border-white/10 text-white/50 hover:border-white/30'
                             }`}
                           >
-                            {type}
+                            {type.label}
                           </div>
                         ))}
                       </div>
