@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Zap, AlertTriangle, Server, Shield, Database, Terminal } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface CommandHistory {
   input: string;
@@ -15,6 +16,7 @@ const CommandTab = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { session } = useAuth();
 
     useEffect(() => {
     setHistory([
@@ -108,15 +110,21 @@ Usage: diagnose [location] [symptom1] [symptom2] ...
 Example: diagnose Grid-7 fever headache`;
           toast.error('Invalid command format', { icon: <AlertTriangle className="h-5 w-5" /> });
         } else {
-          try {
+        try {
             // Call the real MoGrid signal edge function
             const SIGNAL_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/signal`;
+            
+            // Use session token for authentication
+            const authToken = session?.access_token;
+            if (!authToken) {
+              throw new Error('Authentication required');
+            }
             
             const res = await fetch(SIGNAL_URL, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+                'Authorization': `Bearer ${authToken}`,
               },
               body: JSON.stringify({
                 location,

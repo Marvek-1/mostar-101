@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Mic, Send, MicOff } from 'lucide-react';
+import { MessageSquare, X, Mic, Send, MicOff, LogIn } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 // Extend Window interface for Web Speech API
 declare global {
@@ -28,6 +30,7 @@ const ChatBot = () => {
   const [hasGreeted, setHasGreeted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const { user, session } = useAuth();
 
   // Determine if chat window should be visible
   const shouldShowChat = isOpen || isHovered || isLocked;
@@ -157,11 +160,14 @@ const ChatBot = () => {
       // Call mostar-chat edge function with streaming
       const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mostar-chat`;
       
+      // Use session token if authenticated, otherwise use anon key
+      const authToken = session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      
       const response = await fetch(CHAT_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          'Authorization': `Bearer ${authToken}`,
         },
         body: JSON.stringify({ messages: conversationHistory }),
       });
@@ -310,8 +316,24 @@ const ChatBot = () => {
           </button>
         </div>
 
+        {/* Login prompt for unauthenticated users */}
+        {!user && shouldShowChat && (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <LogIn className="h-12 w-12 text-mostar-light-blue/50 mb-4" />
+            <h4 className="font-display text-white mb-2">Authentication Required</h4>
+            <p className="text-white/60 text-sm mb-4">Sign in to chat with Woo and access the Grid.</p>
+            <Link
+              to="/auth"
+              className="px-4 py-2 bg-gradient-to-r from-mostar-blue to-mostar-cyan rounded-lg text-white font-display text-sm hover:opacity-90 transition-opacity"
+              onClick={handleClose}
+            >
+              Sign In
+            </Link>
+          </div>
+        )}
+
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {user && <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message, index) => (
             <div 
               key={index}
@@ -347,10 +369,10 @@ const ChatBot = () => {
             </div>
           )}
           <div ref={messagesEndRef} />
-        </div>
+        </div>}
 
         {/* Input Area */}
-        <div className="p-4 border-t border-white/10 bg-black/20">
+        {user && <div className="p-4 border-t border-white/10 bg-black/20">
           <div className="flex items-center space-x-2">
             <button 
               onClick={toggleListening} 
@@ -399,7 +421,7 @@ const ChatBot = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Chat Bubble */}
