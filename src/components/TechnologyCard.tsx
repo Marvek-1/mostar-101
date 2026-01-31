@@ -1,5 +1,5 @@
+
 import React from 'react';
-import { Card3DReveal } from './ScrollAnimations';
 
 interface TechnologyCardProps {
   title: string;
@@ -8,7 +8,6 @@ interface TechnologyCardProps {
   features: string[];
   color: string;
   delay?: number;
-  index?: number;
 }
 
 const TechnologyCard: React.FC<TechnologyCardProps> = ({ 
@@ -17,8 +16,7 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({
   icon, 
   features, 
   color = 'blue',
-  delay = 0,
-  index = 0
+  delay = 0
 }) => {
   const colorClasses = {
     blue: {
@@ -61,9 +59,11 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({
   const classes = colorClasses[color as keyof typeof colorClasses];
 
   return (
-    <Card3DReveal index={index} delay={delay / 1000}>
-      <div className="tech-card group h-full">
-        {/* Top glow line */}
+    <div 
+      className="tech-card group animate-fade-in-up"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {/* Top glow line */}
       <div className="glow-line top-0 left-0"></div>
       
       {/* Core content */}
@@ -104,11 +104,10 @@ const TechnologyCard: React.FC<TechnologyCardProps> = ({
           ))}
         </div>
       </div>
-        
-        {/* Bottom glow line */}
-        <div className="glow-line bottom-0 right-0"></div>
-      </div>
-    </Card3DReveal>
+      
+      {/* Bottom glow line */}
+      <div className="glow-line bottom-0 right-0"></div>
+    </div>
   );
 };
 

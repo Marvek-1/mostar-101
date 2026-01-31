@@ -1,4 +1,5 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import HeroSection from '../components/HeroSection';
 import TechnologyCard from '../components/TechnologyCard';
 import Dashboard from '../components/Dashboard';
 import VisionSection from '../components/VisionSection';
@@ -6,15 +7,10 @@ import GetInvolved from '../components/GetInvolved';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
+import NetworkGraph from '../components/NetworkGraph';
 import AgentsSection from '../components/AgentsSection';
 import { NewsCarousel } from '../components/NewsCarousel';
-import SmoothScroll from '../components/SmoothScroll';
-import { ScrollReveal } from '../components/ScrollAnimations';
 import { Shield, Globe, Database, Brain, Activity, BookOpen } from 'lucide-react';
-
-// Lazy load 3D components for performance
-const HeroSection3D = lazy(() => import('../components/HeroSection3D'));
-const Scene3D = lazy(() => import('../components/Scene3D'));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,65 +86,41 @@ const Index = () => {
   }
 
   return (
-    <SmoothScroll>
-      <div className="min-h-screen flex flex-col">
-        <div className="scanline"></div>
-        
-        {/* 3D Background Scene */}
-        <Suspense fallback={null}>
-          <Scene3D />
-        </Suspense>
-        
-        <Navbar />
-        <main className="flex-grow">
-          {/* 3D Hero Section */}
-          <Suspense fallback={
-            <div className="h-screen flex items-center justify-center bg-mostar-dark">
-              <div className="loading-logo"></div>
+    <div className="min-h-screen flex flex-col">
+      <div className="scanline"></div>
+      <NetworkGraph />
+      <Navbar />
+      <main className="flex-grow">
+        <HeroSection />
+        <section id="technologies" className="py-20 px-4 sm:px-8 relative overflow-hidden">
+          <div className="container mx-auto">
+            <div className="mb-16 text-center">
+              <span className="inline-block px-3 py-1 rounded-full bg-mostar-blue/10 text-mostar-light-blue font-mono text-xs mb-3">
+                AFRICAN HEALTH ARCHITECTURE
+              </span>
+              <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
+                The MoStar Grid Systems
+              </h2>
+              <p className="max-w-2xl mx-auto text-white/70">
+                African health sovereignty through ancestral computation and modern AI — the first intelligence grid built on Ifa computational logic.
+              </p>
             </div>
-          }>
-            <HeroSection3D />
-          </Suspense>
-          
-          <section id="technologies" className="py-20 px-4 sm:px-8 relative overflow-hidden">
-            <div className="container mx-auto">
-              <ScrollReveal className="mb-16 text-center">
-                <span className="inline-block px-3 py-1 rounded-full bg-mostar-blue/10 text-mostar-light-blue font-mono text-xs mb-3">
-                  AFRICAN HEALTH ARCHITECTURE
-                </span>
-                <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
-                  The MoStar Grid Systems
-                </h2>
-                <p className="max-w-2xl mx-auto text-white/70">
-                  African health sovereignty through ancestral computation and modern AI — the first intelligence grid built on Ifa computational logic.
-                </p>
-              </ScrollReveal>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {technologies.map((tech, index) => (
-                  <TechnologyCard 
-                    key={tech.id} 
-                    title={tech.title} 
-                    description={tech.description} 
-                    icon={tech.icon} 
-                    features={tech.features} 
-                    color={tech.color} 
-                    delay={index * 100}
-                    index={index}
-                  />
-                ))}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
+              {technologies.map((tech, index) => (
+                <TechnologyCard key={tech.id} title={tech.title} description={tech.description} icon={tech.icon} features={tech.features} color={tech.color} delay={index * 100} />
+              ))}
             </div>
-          </section>
-          <AgentsSection />
-          <NewsCarousel />
-          <Dashboard />
-          <VisionSection />
-          <GetInvolved />
-        </main>
-        <Footer />
-        <ChatBot />
-      </div>
-    </SmoothScroll>
+          </div>
+        </section>
+        <AgentsSection />
+        <NewsCarousel />
+        <Dashboard />
+        <VisionSection />
+        <GetInvolved />
+      </main>
+      <Footer />
+      <ChatBot />
+    </div>
   );
 };
 

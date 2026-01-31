@@ -4,7 +4,6 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { fetchGridTelemetry, subscribeToGridTelemetry, GridTelemetry } from '../services/gridTelemetryService';
-import { ScrollReveal, ParallaxSection } from './ScrollAnimations';
 
 const Dashboard = () => {
   const [gridTelemetry, setGridTelemetry] = useState<GridTelemetry | null>(null);
@@ -59,7 +58,7 @@ const Dashboard = () => {
     <section id="dashboard" className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-cyber-grid bg-[length:20px_20px] opacity-10 z-0"></div>
       <div className="container mx-auto px-4 relative z-10">
-        <ScrollReveal className="mb-16 text-center">
+        <div className="mb-16 text-center">
           <span className="inline-block px-3 py-1 rounded-full bg-mostar-magenta/10 text-mostar-magenta font-mono text-xs mb-3">
             LIVE INTEL — GRID STATUS
           </span>
@@ -70,31 +69,28 @@ const Dashboard = () => {
             Unified telemetry feed from all 9 MoStar agents — real-time operational metrics,
             doctrine updates, and system health across the Neon-connected grid.
           </p>
-        </ScrollReveal>
+        </div>
 
         {/* Metrics Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          {metrics.map((metric, index) => (
-            <ScrollReveal key={metric.id} delay={index * 0.1} direction="up">
-              <div className="glassmorphism rounded-lg p-6 border border-white/10 h-full hover:border-mostar-cyan/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,162,255,0.1)]">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-mono text-sm text-white/70">{metric.name}</h3>
-                  <span className={`text-xs px-2 py-1 rounded bg-mostar-${metric.color}/10 text-mostar-${metric.color}`}>
-                    {metric.change}
-                  </span>
-                </div>
-                <div className={`text-2xl font-display font-bold text-mostar-${metric.color} text-glow-${metric.color}`}>
-                  {metric.value}
-                </div>
+          {metrics.map((metric) => (
+            <div key={metric.id} className="glassmorphism rounded-lg p-6 border border-white/10">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="font-mono text-sm text-white/70">{metric.name}</h3>
+                <span className={`text-xs px-2 py-1 rounded bg-mostar-${metric.color}/10 text-mostar-${metric.color}`}>
+                  {metric.change}
+                </span>
               </div>
-            </ScrollReveal>
+              <div className={`text-2xl font-display font-bold text-mostar-${metric.color} text-glow-${metric.color}`}>
+                {metric.value}
+              </div>
+            </div>
           ))}
         </div>
 
         {/* Main Charts */}
-        <ScrollReveal delay={0.3}>
-          <div className="glassmorphism rounded-lg border border-white/10 p-6">
-            <div className="flex flex-col md:flex-row items-start justify-between mb-6">
+        <div className="glassmorphism rounded-lg border border-white/10 p-6">
+          <div className="flex flex-col md:flex-row items-start justify-between mb-6">
             <div>
               <h3 className="text-xl font-display font-bold text-white">Live Grid Analytics</h3>
               {gridTelemetry && (
@@ -211,7 +207,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        </ScrollReveal>
       </div>
     </section>
   );
