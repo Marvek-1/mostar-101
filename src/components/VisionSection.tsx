@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Brain, Shield, Database, Satellite, Globe } from 'lucide-react';
+import { ScrollReveal, ParallaxSection, GlowPulse } from './ScrollAnimations';
 
 const VisionSection = () => {
   const partners = [
@@ -41,23 +41,23 @@ const VisionSection = () => {
       <div className="absolute inset-0 bg-gradient-radial from-mostar-blue/5 to-transparent"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-      <div className="mb-16 text-center">
-        <span className="inline-block px-3 py-1 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs mb-3">
-          THE HORIZON
-        </span>
-        <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-cyan-green-gradient text-gradient">
-          The Philosophy of Transparent Cognition
-        </h2>
-        <p className="max-w-2xl mx-auto text-white/70">
-          MoStar believes intelligence must not hide in the shadows. Every verdict, every inference, every emotion — visible, verifiable, and traceable through the Flame.
-        </p>
-      </div>
+        <ScrollReveal className="mb-16 text-center">
+          <span className="inline-block px-3 py-1 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs mb-3">
+            THE HORIZON
+          </span>
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-cyan-green-gradient text-gradient">
+            The Philosophy of Transparent Cognition
+          </h2>
+          <p className="max-w-2xl mx-auto text-white/70">
+            MoStar believes intelligence must not hide in the shadows. Every verdict, every inference, every emotion — visible, verifiable, and traceable through the Flame.
+          </p>
+        </ScrollReveal>
 
         {/* AI Ecosystem Visualization */}
-        <div className="max-w-5xl mx-auto mb-20">
+        <ParallaxSection speed={0.3} className="max-w-5xl mx-auto mb-20">
           <div className="relative">
             {/* Central Hub */}
-            <div className="relative z-20 glassmorphism mx-auto w-60 h-60 rounded-full flex items-center justify-center border border-white/10 mb-10">
+            <GlowPulse className="relative z-20 glassmorphism mx-auto w-60 h-60 rounded-full flex items-center justify-center border border-white/10 mb-10">
               <div className="absolute inset-0 rounded-full overflow-hidden">
                 <div className="absolute inset-0 bg-cyber-grid bg-[length:10px_10px] opacity-20"></div>
               </div>
@@ -74,54 +74,58 @@ const VisionSection = () => {
               <div className="absolute inset-[-20px] border border-dashed border-mostar-blue/20 rounded-full animate-rotate-slow"></div>
               <div className="absolute inset-[-40px] border border-dashed border-mostar-cyan/20 rounded-full animate-rotate-slow" style={{ animationDirection: 'reverse', animationDuration: '25s' }}></div>
               <div className="absolute inset-[-60px] border border-dashed border-mostar-magenta/20 rounded-full animate-rotate-slow"></div>
-            </div>
+            </GlowPulse>
             
             {/* Connected Technologies */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {ecosystemItems.slice(0, 3).map((item, index) => (
-                <div 
+                <ScrollReveal 
                   key={index}
-                  className="glassmorphism p-6 rounded-lg border border-white/10 animate-fade-in-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  delay={index * 0.1}
+                  direction={index === 0 ? 'left' : index === 2 ? 'right' : 'up'}
                 >
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="p-2 rounded-lg bg-black/30 border border-white/10">
-                      {item.icon}
+                  <div className="glassmorphism p-6 rounded-lg border border-white/10 h-full hover:border-mostar-cyan/30 transition-all duration-300">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="p-2 rounded-lg bg-black/30 border border-white/10">
+                        {item.icon}
+                      </div>
+                      <h3 className="text-lg font-display font-bold text-white">
+                        {item.title}
+                      </h3>
                     </div>
-                    <h3 className="text-lg font-display font-bold text-white">
-                      {item.title}
-                    </h3>
+                    <p className="text-white/70">
+                      {item.description}
+                    </p>
                   </div>
-                  <p className="text-white/70">
-                    {item.description}
-                  </p>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 md:px-16">
               {ecosystemItems.slice(3).map((item, index) => (
-                <div 
+                <ScrollReveal 
                   key={index}
-                  className="glassmorphism p-6 rounded-lg border border-white/10 animate-fade-in-up"
-                  style={{ animationDelay: `${(index + 3) * 100}ms` }}
+                  delay={(index + 3) * 0.1}
+                  direction={index === 0 ? 'left' : 'right'}
                 >
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="p-2 rounded-lg bg-black/30 border border-white/10">
-                      {item.icon}
+                  <div className="glassmorphism p-6 rounded-lg border border-white/10 h-full hover:border-mostar-cyan/30 transition-all duration-300">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="p-2 rounded-lg bg-black/30 border border-white/10">
+                        {item.icon}
+                      </div>
+                      <h3 className="text-lg font-display font-bold text-white">
+                        {item.title}
+                      </h3>
                     </div>
-                    <h3 className="text-lg font-display font-bold text-white">
-                      {item.title}
-                    </h3>
+                    <p className="text-white/70">
+                      {item.description}
+                    </p>
                   </div>
-                  <p className="text-white/70">
-                    {item.description}
-                  </p>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
-        </div>
+        </ParallaxSection>
 
         {/* Partners Section */}
         <div className="mb-10 text-center">
