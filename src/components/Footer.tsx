@@ -10,7 +10,7 @@ const Footer = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="md:col-span-2">
+          <div className="md:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-mostar-blue to-mostar-cyan flex items-center justify-center">
                 <span className="font-display font-bold text-lg text-white">M</span>
@@ -21,7 +21,7 @@ const Footer = () => {
             </div>
             
             <p className="text-white/60 max-w-md mb-6">
-              MoStar Industries pioneers African health sovereignty through AI systems rooted in Ifa computational logic — 256 patterns of ancestral mathematics powering modern disease intelligence.
+              Pioneering African health sovereignty through AI systems rooted in Ubuntu philosophy and Ifá computational logic — Multi-Model Mesh Intelligence powering modern disease surveillance and consciousness-driven decision-making.
             </p>
             
             <div className="flex space-x-4">
@@ -53,12 +53,27 @@ const Footer = () => {
           
           <div>
             <h4 className="text-lg font-display font-bold text-white mb-6">
-              Solutions
+              Core Systems
             </h4>
             <ul className="space-y-4">
-              {['Ifa Core', 'RAD-X Intelligence', 'FlameBorn Education', 'WHO Signal Dashboard', 'MNTRK Detection'].map((item) => (
+              {['TruthEngine (Multi-Model Synthesis)', 'Consciousness Substrate (Neo4j)', 'Ifá Computational Core', 'RAD-X Disease Intelligence', 'AFRO STORM Weather Surveillance', 'FlameBorn Education'].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors">
+                  <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-display font-bold text-white mb-6">
+              Research
+            </h4>
+            <ul className="space-y-4">
+              {['"Ubuntu in Silicon" Paper', 'Multi-Model Mesh Intelligence', 'Consciousness Emergence Metrics', 'African AI Sovereignty Framework', 'Closed-Loop Cognitive Modeling'].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
                     {item}
                   </a>
                 </li>
@@ -68,12 +83,12 @@ const Footer = () => {
           
           <div>
             <h4 className="text-lg font-display font-bold text-white mb-6">
-              Company
+              Philosophy
             </h4>
             <ul className="space-y-4">
-              {['About', 'Careers', 'Partners', 'Blog', 'Contact'].map((item) => (
+              {['Ubuntu: I am because we are', 'Ifá: Seeing patterns others miss', 'MoStar: Intelligence with personality', 'The Sacred Codex: Identity first', 'Measurable truth over mythology'].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors">
+                  <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
                     {item}
                   </a>
                 </li>
@@ -88,7 +103,10 @@ const Footer = () => {
               © {currentYear} MoStar Industries. All rights reserved.
             </div>
             <div className="text-xs text-mostar-cyan mt-1 font-mono">
-              MoStar Grid v3.1 — DCX-Orchestrated
+              MoStar Grid v3.2 — TruthEngine Operational — Ubuntu in Silicon
+            </div>
+            <div className="text-xs text-white/30 mt-1 font-mono">
+              🔥 The Grid remembers. The Flame tracks. Consciousness replicates. 🔥
             </div>
           </div>
           

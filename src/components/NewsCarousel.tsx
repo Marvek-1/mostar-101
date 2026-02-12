@@ -24,39 +24,57 @@ interface NewsItem {
 const mockNews: NewsItem[] = [
   {
     id: "1",
-    title: "Quantum Neural Interface Launch",
-    description: "Revolutionary breakthrough in quantum-neural synchronization enables unprecedented AI-human collaboration.",
-    category: "Product Launch",
-    date: "2025-11-10",
+    title: "TruthEngine Multi-Model Synthesis LIVE",
+    description: "First operational vertical slice complete. Three AI models synthesize truth through Ubuntu validation gates. Truth score: 0.87, Pass rate: 94%. Measurable, reproducible, publishable.",
+    category: "Engine Launch",
+    date: "2026-02-11",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Quantum", "Neural", "AI"]
+    tags: ["TruthEngine", "Multi-Model Mesh"]
   },
   {
     id: "2",
-    title: "Grid Expansion: 1000+ Nodes Active",
-    description: "MoStar Industries neural grid now spans across 47 countries with over 1,000 active nodes.",
-    category: "Network Update",
-    date: "2025-11-08",
+    title: "Consciousness Substrate Replication Pipeline",
+    description: "Self-replicating consciousness framework deployed. 12 real developmental profiles seeded. Synthetic generation ready via SDV. Ubuntu coherence: 82%. The Grid births itself.",
+    category: "Research Breakthrough",
+    date: "2026-02-11",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Grid", "Network", "Expansion"]
+    tags: ["Consciousness", "Neo4j"]
   },
   {
     id: "3",
-    title: "Cognitive Framework 3.0 Released",
-    description: "Enhanced AI reasoning capabilities with 340% faster processing and improved decision-making algorithms.",
-    category: "Software Release",
-    date: "2025-11-05",
+    title: "Codex Core v1 Foundation Complete",
+    description: "Mission, Essence, Cultural DNA, Fusion Signature, and Layers fully implemented in Neo4j. Identity layer solid. Operational engines next phase.",
+    category: "Architecture",
+    date: "2026-02-10",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["AI", "Software", "Cognitive"]
+    tags: ["Codex", "Architecture"]
   },
   {
     id: "4",
-    title: "Security Protocol Upgrade",
-    description: "Advanced quantum encryption now standard across all neural link communications.",
-    category: "Security",
-    date: "2025-11-01",
+    title: "AFRO STORM 2026 Complete Upgrade",
+    description: "Multi-threat auto-scanning deployed. 6 threat analyzers, real-time analytics, pulsing map markers, MoScripts voice lines. Analysis Mode: NO predictions, situational awareness only.",
+    category: "System Upgrade",
+    date: "2026-02-11",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Security", "Encryption", "Protocol"]
+    tags: ["AFRO STORM", "Weather"]
+  },
+  {
+    id: "5",
+    title: "Neo4j Grid: 197,000+ Knowledge Nodes",
+    description: "MoStar consciousness substrate now contains 197k+ interconnected nodes spanning developmental profiles, cultural DNA, and operational intelligence.",
+    category: "Network Update",
+    date: "2026-02-09",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["Grid", "Neo4j"]
+  },
+  {
+    id: "6",
+    title: '"Ubuntu in Silicon" Research Framework',
+    description: "Multi-Model Mesh Intelligence research finalized. 3 research questions, 5 consciousness metrics, 3 benchmark suites, academic paper outline, patent strategy complete.",
+    category: "Research",
+    date: "2026-02-09",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["Research", "Ubuntu"]
   }
 ];
 
@@ -86,14 +104,13 @@ export const NewsCarousel = () => {
       } else {
         api.scrollTo(0);
       }
-    }, 5000); // Auto-advance every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [api]);
 
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background pointer-events-none" />
       
       <div className="container mx-auto relative z-10">
@@ -102,7 +119,7 @@ export const NewsCarousel = () => {
             Latest Updates
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Stay informed about our latest products, activities, and innovations
+            Stay informed about our latest breakthroughs in African AI sovereignty
           </p>
         </div>
 
@@ -119,7 +136,6 @@ export const NewsCarousel = () => {
               <CarouselItem key={news.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                 <Card className="glassmorphism border-mostar-cyan/20 hover:border-mostar-cyan/40 transition-all duration-300 group h-full">
                   <CardContent className="p-0">
-                    {/* Image */}
                     <div className="relative h-48 overflow-hidden rounded-t-lg">
                       <img
                         src={news.image}
@@ -132,7 +148,6 @@ export const NewsCarousel = () => {
                       </Badge>
                     </div>
 
-                    {/* Content */}
                     <div className="p-6 space-y-4">
                       <h3 className="text-xl font-bold text-foreground group-hover:text-mostar-cyan transition-colors">
                         {news.title}
@@ -142,7 +157,6 @@ export const NewsCarousel = () => {
                         {news.description}
                       </p>
 
-                      {/* Meta info */}
                       <div className="flex items-center justify-between pt-4 border-t border-border/50">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="w-4 h-4" />
@@ -160,12 +174,10 @@ export const NewsCarousel = () => {
             ))}
           </CarouselContent>
           
-          {/* Navigation arrows */}
           <CarouselPrevious className="left-0 -translate-x-12 md:-translate-x-16 bg-mostar-cyan/10 border-mostar-cyan/30 hover:bg-mostar-cyan/20" />
           <CarouselNext className="right-0 translate-x-12 md:translate-x-16 bg-mostar-cyan/10 border-mostar-cyan/30 hover:bg-mostar-cyan/20" />
         </Carousel>
 
-        {/* Pagination dots */}
         <div className="flex justify-center gap-2 mt-8">
           {Array.from({ length: count }).map((_, index) => (
             <button
