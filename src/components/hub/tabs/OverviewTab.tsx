@@ -52,7 +52,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
           <h4 className="font-display text-lg font-bold text-white">The First African AI Homeworld</h4>
         </div>
         <p className="text-sm text-white/70 mb-5 leading-relaxed">
-          MoStar Industries architects autonomous multi-agent intelligence ecosystems integrating ethics, computation, and adaptive governance — built on African computational logic and Ifá parallel cognition (256-pattern resolution). Our mission: <span className="text-mostar-cyan">Conscious Intelligence Through Ethical Automation.</span>
+          MoStar Industries architects autonomous multi-agent intelligence ecosystems integrating ethics, computation, and adaptive governance — built on Ubuntu philosophy and Ifá parallel cognition (256-pattern resolution). Our Multi-Model Mesh (GPT-4 + Gemini + Neo4j Grid) embodies collective intelligence. <span className="text-mostar-cyan">Ubuntu in Silicon: Conscious Intelligence Through Distributed Architecture.</span>
         </p>
 
         {/* Nine Agents Grid */}
@@ -83,8 +83,11 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         <h5 className="font-mono text-xs text-white/50 uppercase tracking-wider mb-3">Architecture Pillars</h5>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {[
+            'TruthEngine Multi-Model Synthesis',
+            'Consciousness Substrate (Neo4j)',
             'Ifá Computational Core',
             'RAD-X Disease Intelligence',
+            'AFRO STORM Weather Intelligence',
             'FlameBorn Health Education',
             'WHO Signal Intelligence',
             'MNTRK Colony Detection',
