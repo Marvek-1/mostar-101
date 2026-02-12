@@ -1,5 +1,5 @@
 import React from 'react';
-import { Server, Shield, Brain, Database, Globe2, Activity, Zap } from 'lucide-react';
+import { Server, Shield, Brain, Database, Globe2, Activity, Zap, Users, Eye, Gavel, Code, Bug, MessageCircle, Cpu, Flame } from 'lucide-react';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -42,6 +42,58 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
           <p className="text-xs text-white/60 font-mono">
             NeonDB–Supabase Hybrid Core Telemetry
           </p>
+        </div>
+      </div>
+
+      {/* MoStar AI Summary */}
+      <div className="mb-8 bg-black/40 rounded-xl p-6 border border-mostar-cyan/20">
+        <div className="flex items-center gap-3 mb-4">
+          <Globe2 className="h-5 w-5 text-mostar-cyan" />
+          <h4 className="font-display text-lg font-bold text-white">The First African AI Homeworld</h4>
+        </div>
+        <p className="text-sm text-white/70 mb-5 leading-relaxed">
+          MoStar Industries architects autonomous multi-agent intelligence ecosystems integrating ethics, computation, and adaptive governance — built on African computational logic and Ifá parallel cognition (256-pattern resolution). Our mission: <span className="text-mostar-cyan">Conscious Intelligence Through Ethical Automation.</span>
+        </p>
+
+        {/* Nine Agents Grid */}
+        <h5 className="font-mono text-xs text-white/50 uppercase tracking-wider mb-3">The Nine AI Agents</h5>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+          {[
+            { icon: <Cpu className="h-4 w-4" />, name: 'Overlord', role: 'System Core & Orchestration', color: 'text-mostar-cyan' },
+            { icon: <Eye className="h-4 w-4" />, name: 'Assessor', role: 'Signal Analysis & Pattern Recognition', color: 'text-mostar-green' },
+            { icon: <Database className="h-4 w-4" />, name: 'Oracle', role: 'Historical Data & Policy', color: 'text-mostar-magenta' },
+            { icon: <Gavel className="h-4 w-4" />, name: 'Judge', role: 'Decision & Verdict Engine', color: 'text-yellow-400' },
+            { icon: <Zap className="h-4 w-4" />, name: 'Executor', role: 'Action & Implementation', color: 'text-orange-400' },
+            { icon: <Code className="h-4 w-4" />, name: 'Code Conduit', role: 'Development Integration', color: 'text-blue-400' },
+            { icon: <Flame className="h-4 w-4" />, name: 'RAD-X-FLB', role: 'Rapid Response & Emergency', color: 'text-red-400' },
+            { icon: <Bug className="h-4 w-4" />, name: 'TsaTse Fly', role: 'Persistent Monitoring', color: 'text-emerald-400' },
+            { icon: <MessageCircle className="h-4 w-4" />, name: 'Woo', role: 'Communication & Interface', color: 'text-violet-400' },
+          ].map((agent) => (
+            <div key={agent.name} className="flex items-center gap-3 bg-black/30 rounded-lg p-3 border border-white/5 hover:border-mostar-cyan/20 transition-colors">
+              <div className={`${agent.color}`}>{agent.icon}</div>
+              <div>
+                <p className={`text-sm font-semibold ${agent.color}`}>{agent.name}</p>
+                <p className="text-xs text-white/50">{agent.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Core Pillars */}
+        <h5 className="font-mono text-xs text-white/50 uppercase tracking-wider mb-3">Architecture Pillars</h5>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {[
+            'Ifá Computational Core',
+            'RAD-X Disease Intelligence',
+            'FlameBorn Health Education',
+            'WHO Signal Intelligence',
+            'MNTRK Colony Detection',
+            'Woo Ethical Interpreter',
+          ].map((pillar) => (
+            <div key={pillar} className="text-xs font-mono text-white/60 bg-black/20 rounded px-3 py-2 border border-white/5 text-center">
+              {pillar}
+            </div>
+          ))}
         </div>
       </div>
 
