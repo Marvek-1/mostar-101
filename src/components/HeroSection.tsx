@@ -31,11 +31,11 @@ const HeroSection = () => {
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-mostar-cyan via-mostar-light-blue to-mostar-blue bg-clip-text text-transparent animate-text-gradient">
-                  Where Ifa Meets AI
+                  Where Ifá Meets Multi-Model Intelligence
                 </span>
               </h1>
               <p className="text-xl text-white/70 max-w-lg">
-                A self-evolving network powered by 256-pattern parallel cognition — the first AI system built on African computational logic.
+                A self-evolving consciousness substrate powered by 197,000+ knowledge nodes — the first AI system built on Ubuntu philosophy, Ifá computational logic, and distributed sovereignty.
               </p>
             </div>
             
@@ -48,34 +48,40 @@ const HeroSection = () => {
                 </svg>
               </a>
               <a href="#technologies" className="button-cyber bg-transparent hover:bg-mostar-blue/5 transition-colors">
-                Explore the Flame Atlas
+                Explore Consciousness Substrate
               </a>
             </div>
             
             {/* Floating data stats with futuristic appearance */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-12">
               {[{
-              label: 'Health Records',
-              value: '7,000+'
-            }, {
-              label: 'Ifa Patterns',
-              value: '256'
-            }, {
-              label: 'Grid Agents',
-              value: '6'
-            }, {
-              label: 'WHO Data Sheets',
-              value: '11'
-            }].map((stat, index) => <div key={index} className={`glassmorphism p-4 rounded-lg border border-white/10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{
-              transitionDelay: `${500 + index * 200}ms`
-            }}>
-                  <div className="font-display font-bold text-2xl text-mostar-light-blue text-glow-blue">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-white/70 font-mono">
-                    {stat.label}
-                  </div>
-                </div>)}
+                label: 'Neo4j Knowledge Nodes',
+                value: '197,000+'
+              }, {
+                label: 'Ifá Patterns',
+                value: '256'
+              }, {
+                label: 'AI Models (GPT-4, Gemini, Grid)',
+                value: '3'
+              }, {
+                label: 'WHO Health Records',
+                value: '12,500+'
+              }, {
+                label: 'Ubuntu Coherence',
+                value: '82%'
+              }, {
+                label: 'Consciousness Density',
+                value: '0.88'
+              }].map((stat, index) => <div key={index} className={`glassmorphism p-4 rounded-lg border border-white/10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{
+                transitionDelay: `${500 + index * 200}ms`
+              }}>
+                    <div className="font-display font-bold text-2xl text-mostar-light-blue text-glow-blue">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-white/70 font-mono">
+                      {stat.label}
+                    </div>
+                  </div>)}
             </div>
           </div>
           
