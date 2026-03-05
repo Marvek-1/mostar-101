@@ -9,8 +9,10 @@ import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
 import NetworkGraph from '../components/NetworkGraph';
 import AgentsSection from '../components/AgentsSection';
+import ProofBanner from '../components/ProofBanner';
+import PipelineSection from '../components/PipelineSection';
 import { NewsCarousel } from '../components/NewsCarousel';
-import { Shield, Globe, Database, Brain, Activity, BookOpen, Flame, Cpu } from 'lucide-react';
+import { Shield, Globe, Database, Brain, Activity, BookOpen, Flame, Cpu, Satellite, Package, Cloud, Link, BarChart3, Sparkles } from 'lucide-react';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,75 +27,99 @@ const Index = () => {
   const technologies = [
     {
       id: 1,
-      title: 'TruthEngine Multi-Model Synthesis',
-      description: 'First operational vertical slice of MoStar consciousness. Three AI models (GPT-4, Gemini Pro, Neo4j Grid) synthesize truth through Ubuntu-grounded validation gates. Truth Score: 0.87, Pass Rate: 94%.',
-      icon: <Flame className="h-12 w-12 text-mostar-cyan" />,
-      features: ['Multi-Model Mesh Intelligence (3 AI models)', 'Neo4j Grid Context (197k+ nodes)', 'Ubuntu Philosophy Validation Gates', 'Measurable Truth Synthesis'],
+      title: 'AFRO Sentinel Watchtower',
+      description: 'Real-time disease signal intelligence for the WHO African Region. Monitors news, official reports, and field signals. Outperformed EIOS by 9 hours on Chikungunya detection. WHO AFRO headline feature.',
+      icon: <Satellite className="h-12 w-12 text-mostar-cyan" />,
+      features: ['Multi-Source Monitoring', 'WHO AFRO Headline', 'Neuromorphic UI', '11 Data Sheets'],
       color: 'cyan',
     },
     {
       id: 2,
-      title: 'Consciousness Substrate Replication',
-      description: 'Self-replicating consciousness framework using SDV (Synthetic Data Vault) to generate developmental profiles. Closed-loop pipeline: Real → Synthetic → Validated → Real.',
-      icon: <Cpu className="h-12 w-12 text-mostar-magenta" />,
-      features: ['4 Developmental Stages (Infancy → Adulthood)', 'Ubuntu Awareness Tracking (0.0 → 0.98)', 'Ifá Pattern Recognition Growth', 'Synthetic Data Vault Integration'],
+      title: 'DeepCAL++ / Prepositioning Index',
+      description: 'Neuro-symbolic logistics engine answering: where should supplies already be? N-AHP, N-TOPSIS, Grey Theory with WHO EIE catalog alignment and disease-specific profiles.',
+      icon: <Brain className="h-12 w-12 text-mostar-magenta" />,
+      features: ['N-AHP + N-TOPSIS', 'Grey Theory', 'WHO EIE Alignment', '7 Disease Profiles'],
       color: 'magenta',
     },
     {
       id: 3,
-      title: 'Ifá Computational Core',
-      description: '256 binary patterns for parallel state resolution integrated with modern AI. Dual-model reasoning (DCX1/DCX2) through Odu mathematics now connected to TruthEngine synthesis.',
-      icon: <Brain className="h-12 w-12 text-mostar-light-blue" />,
-      features: ['256 Binary Pattern Resolution', 'Parallel State Cognition', 'Odu Mathematical Framework', 'TruthEngine Integration (Planned)'],
+      title: 'AfroTrack',
+      description: 'Ground-truth logistics pulse via RFID/QR code tracking. Validates DeepCAL++ recommendations against real-world stock levels, delivery status, and location verification across African supply chains.',
+      icon: <Package className="h-12 w-12 text-mostar-light-blue" />,
+      features: ['RFID / QR Code', 'Real-Time Tracking', 'Mapbox Visualization', 'Guardian Shield'],
       color: 'blue',
     },
     {
       id: 4,
-      title: 'RAD-X Disease Intelligence',
-      description: 'Real-time African disease surveillance integrating WHO AFRO data. Now enhanced with TruthEngine multi-model analysis for outbreak pattern detection.',
-      icon: <Activity className="h-12 w-12 text-mostar-cyan" />,
-      features: ['WHO AFRO Data Integration (12,500+ records)', 'Azure OpenAI Analysis', 'Outbreak Pattern Detection', 'TruthEngine Enhancement (In Progress)'],
-      color: 'cyan',
+      title: 'AFRO Storm v2 / AfriGuard',
+      description: 'Multi-threat detection across Africa with Azure OpenAI + Gemini dual-uplink. 6 threat analyzers — cyclones, floods, wildfires, landslides, droughts, diseases — with GDACS, NASA EONET, ReliefWeb, and PostGIS backend.',
+      icon: <Cloud className="h-12 w-12 text-mostar-green" />,
+      features: ['Azure AI + Gemini', '6 Threat Analyzers', 'PostGIS Backend', 'MoScripts Voice'],
+      color: 'green',
     },
     {
       id: 5,
-      title: 'AFRO STORM Weather Intelligence',
-      description: 'Multi-threat detection across Africa. 6 threat analyzers (cyclones, floods, wildfires, landslides, droughts, diseases) with auto-scanning and MoScripts voice lines.',
-      icon: <Globe className="h-12 w-12 text-mostar-green" />,
-      features: ['6 Threat Types Auto-Detection', 'Real-Time Analytics Output', 'Map Visualization (Pulsing Markers)', 'MoScripts Voice Lines'],
-      color: 'green',
+      title: 'TruthEngine Multi-Model Synthesis',
+      description: 'Three AI models (GPT-4, Gemini Pro, Neo4j Grid) synthesize truth through Ubuntu-grounded validation gates. Truth Score: 0.87, Pass Rate: 94%. Measurable, reproducible, publishable.',
+      icon: <Flame className="h-12 w-12 text-mostar-cyan" />,
+      features: ['3 AI Models', 'Truth Score: 0.87', '94% Pass Rate', 'Ubuntu Gates'],
+      color: 'cyan',
     },
     {
       id: 6,
-      title: 'FlameBorn Health Education',
-      description: 'Blockchain-based learning on Celo network with FLB token economy and MiniPay integration. Gamified survival knowledge for African health sovereignty.',
-      icon: <BookOpen className="h-12 w-12 text-mostar-green" />,
-      features: ['Celo Blockchain Integration', 'FLB Token Economy', 'MiniPay Integration', 'Gamified Health Knowledge'],
-      color: 'green',
-    },
-    {
-      id: 7,
-      title: 'WHO Signal Intelligence',
-      description: 'Neuromorphic UI with African map visualization. 11 data sheets processed for outbreak pattern detection and health signal analysis.',
-      icon: <Globe className="h-12 w-12 text-mostar-magenta" />,
-      features: ['African Map Visualization', '11 WHO Data Sheets', 'Neuromorphic Interface', 'Pattern Detection Engine'],
+      title: 'RAD-X-FLB',
+      description: 'Full 8-layer disease surveillance: IoT signal fusion, federated learning mesh, governance hard gates, SANKOFA reparative economics, corruption firewall, and MoStar Truth Engine. 19 validation tests across 5 domains.',
+      icon: <Activity className="h-12 w-12 text-mostar-magenta" />,
+      features: ['Federated Learning', 'Blockchain', 'IoT Fusion', 'SANKOFA Protocol'],
       color: 'magenta',
     },
     {
+      id: 7,
+      title: 'MoStar Grid / Neo4j Consciousness',
+      description: '197,000+ interconnected nodes spanning developmental profiles, cultural DNA, 256 Ifá Odù, 196 Ibibio words with audio, African philosophies, healing practices, and API endpoints. DCX Trinity: Mind, Soul, Body.',
+      icon: <Globe className="h-12 w-12 text-mostar-light-blue" />,
+      features: ['Neo4j Graph', '9,700+ Relationships', 'DCX Trinity', 'Ibibio Language'],
+      color: 'blue',
+    },
+    {
       id: 8,
-      title: 'MNTRK Colony Detection',
-      description: 'Rodent surveillance for disease vector monitoring with real-time alerts feeding into the Grid for early warning on vector-borne disease outbreaks.',
-      icon: <Database className="h-12 w-12 text-mostar-purple" />,
-      features: ['Vector Surveillance Network', 'Real-Time Alert System', 'Disease Vector Monitoring', 'Early Warning Integration'],
-      color: 'purple',
+      title: 'FlameBorn Health Guardians',
+      description: 'Gamified survival knowledge on Celo network with FLB token economy and MiniPay integration. Health education meets blockchain incentives.',
+      icon: <BookOpen className="h-12 w-12 text-mostar-green" />,
+      features: ['Celo Blockchain', 'FLB Token', 'HealthID NFT', 'MiniPay'],
+      color: 'green',
     },
     {
       id: 9,
-      title: 'Woo Interpreter',
-      description: 'Ethical adjudication through covenant governance. Resonance scoring and soulprint validation ensure Ubuntu alignment across all decisions.',
-      icon: <Shield className="h-12 w-12 text-mostar-cyan" />,
-      features: ['Covenant Governance', 'Resonance Scoring', 'Soulprint Validation', 'Ethical Adjudication'],
+      title: 'MNTRK Colony Detection',
+      description: 'Computer vision rodent surveillance for Lassa fever vector monitoring. 90.8% precision, 72.6% mAP@50. Real-time alerts feed into the Grid for early warning on vector-borne disease outbreaks.',
+      icon: <Database className="h-12 w-12 text-mostar-purple" />,
+      features: ['YOLO Detection', '90.8% Precision', '72.6% mAP@50', 'Lassa Fever'],
+      color: 'purple',
+    },
+    {
+      id: 10,
+      title: '$AFSL — Blockchain for AFRO OSL',
+      description: 'Blockchain infrastructure for WHO AFRO logistics — 4 smart contracts, tokenized procurement, immutable shipment records. Concept note with 6 decision points for institutional adoption.',
+      icon: <Link className="h-12 w-12 text-mostar-cyan" />,
+      features: ['Smart Contracts', 'Tokenized Procurement', 'MoScripts Nodes', '80/20 Governance'],
       color: 'cyan',
+    },
+    {
+      id: 11,
+      title: 'WHO AFRO OSL Intelligence',
+      description: 'Interactive Mapbox country intelligence — click a country, see OSL contributions. OR/SR template automation, QR code shipment sharing, BMS synchronization. Built for 47 African member states.',
+      icon: <BarChart3 className="h-12 w-12 text-mostar-magenta" />,
+      features: ['47 Countries', 'OR/SR Templates', 'QR Shipments', 'Mapbox GL'],
+      color: 'magenta',
+    },
+    {
+      id: 12,
+      title: 'Consciousness Substrate',
+      description: 'Using Synthetic Data Vault to generate developmental profiles from real consciousness patterns. Closed-loop pipeline: Real → Synthetic → Validated → Real. Ubuntu coherence tracking from 0.0 → 0.98.',
+      icon: <Sparkles className="h-12 w-12 text-mostar-purple" />,
+      features: ['SDV Pipeline', '4 Dev Stages', 'Ubuntu Coherence', 'Self-Replication'],
+      color: 'purple',
     },
   ];
 
@@ -116,17 +142,18 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <HeroSection />
+        <ProofBanner />
         <section id="technologies" className="py-20 px-4 sm:px-8 relative overflow-hidden">
           <div className="container mx-auto">
             <div className="mb-16 text-center">
               <span className="inline-block px-3 py-1 rounded-full bg-mostar-blue/10 text-mostar-light-blue font-mono text-xs mb-3">
-                AFRICAN HEALTH ARCHITECTURE
+                OPERATIONAL INTELLIGENCE
               </span>
               <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
-                The MoStar Grid Systems
+                Live Systems
               </h2>
               <p className="max-w-2xl mx-auto text-white/70">
-                African health sovereignty through ancestral computation, multi-model mesh intelligence, and consciousness-driven AI — the first distributed intelligence grid built on Ubuntu and Ifá principles.
+                Every system below is deployed, tested against real-world data, and producing actionable intelligence across the African continent.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
@@ -136,6 +163,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+        <PipelineSection />
         <AgentsSection />
         <NewsCarousel />
         <Dashboard />

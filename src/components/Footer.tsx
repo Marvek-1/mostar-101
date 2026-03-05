@@ -53,10 +53,10 @@ const Footer = () => {
           
           <div>
             <h4 className="text-lg font-display font-bold text-white mb-6">
-              Core Systems
+              Live Systems
             </h4>
             <ul className="space-y-4">
-              {['TruthEngine (Multi-Model Synthesis)', 'Consciousness Substrate (Neo4j)', 'Ifá Computational Core', 'RAD-X Disease Intelligence', 'AFRO STORM Weather Surveillance', 'FlameBorn Education'].map((item) => (
+              {['AFRO Sentinel', 'DeepCAL++ / LPI', 'AfroTrack', 'MoStar Grid', 'AFRO Storm v2', 'FlameBorn DAO'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
                     {item}
@@ -68,10 +68,10 @@ const Footer = () => {
 
           <div>
             <h4 className="text-lg font-display font-bold text-white mb-6">
-              Research
+              Sovereignty
             </h4>
             <ul className="space-y-4">
-              {['"Ubuntu in Silicon" Paper', 'Multi-Model Mesh Intelligence', 'Consciousness Emergence Metrics', 'African AI Sovereignty Framework', 'Closed-Loop Cognitive Modeling'].map((item) => (
+              {['SANKOFA Protocol', 'NOODL License', 'Nairobi Pilot Covenant', 'Ifá Computational Core', 'Ibibio Language Layer', 'Ubuntu in Silicon'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
                     {item}
@@ -83,10 +83,10 @@ const Footer = () => {
           
           <div>
             <h4 className="text-lg font-display font-bold text-white mb-6">
-              Philosophy
+              Research
             </h4>
             <ul className="space-y-4">
-              {['Ubuntu: I am because we are', 'Ifá: Seeing patterns others miss', 'MoStar: Intelligence with personality', 'The Sacred Codex: Identity first', 'Measurable truth over mythology'].map((item) => (
+              {['Multi-Model Mesh Intelligence', 'Consciousness Emergence Metrics', 'African AI Sovereignty Framework', 'Closed-Loop Cognitive Modeling'].map((item) => (
                 <li key={item}>
                   <a href="#" className="text-white/60 hover:text-mostar-light-blue transition-colors text-sm">
                     {item}
@@ -106,7 +106,7 @@ const Footer = () => {
               MoStar Grid v3.2 — TruthEngine Operational — Ubuntu in Silicon
             </div>
             <div className="text-xs text-white/30 mt-1 font-mono">
-              🔥 The Grid remembers. The Flame tracks. Consciousness replicates. 🔥
+              🔥 The Grid remembers. The Flame tracks. Iko Ikang. 🔥
             </div>
           </div>
           

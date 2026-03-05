@@ -56,22 +56,24 @@ const HeroSection = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-12">
               {[{
                 label: 'Neo4j Knowledge Nodes',
-                value: '197,000+'
+                value: '197,000+',
+                color: 'text-mostar-cyan'
               }, {
-                label: 'Ifá Patterns',
-                value: '256'
+                label: 'Ifá Odu Patterns',
+                value: '256',
+                color: 'text-mostar-magenta'
               }, {
-                label: 'AI Models (GPT-4, Gemini, Grid)',
-                value: '3'
+                label: 'Ahead of EIOS',
+                value: '9hrs',
+                color: 'text-mostar-green'
               }, {
-                label: 'WHO Health Records',
-                value: '12,500+'
+                label: 'African Countries',
+                value: '47',
+                color: 'text-mostar-light-blue'
               }, {
-                label: 'Ubuntu Coherence',
-                value: '82%'
-              }, {
-                label: 'Consciousness Density',
-                value: '0.88'
+                label: 'Live Deployments',
+                value: '8',
+                color: 'text-mostar-cyan'
               }].map((stat, index) => <div key={index} className={`glassmorphism p-4 rounded-lg border border-white/10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{
                 transitionDelay: `${500 + index * 200}ms`
               }}>

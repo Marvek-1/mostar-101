@@ -24,57 +24,93 @@ interface NewsItem {
 const mockNews: NewsItem[] = [
   {
     id: "1",
-    title: "TruthEngine Multi-Model Synthesis LIVE",
-    description: "First operational vertical slice complete. Three AI models synthesize truth through Ubuntu validation gates. Truth score: 0.87, Pass rate: 94%. Measurable, reproducible, publishable.",
-    category: "Engine Launch",
-    date: "2026-02-11",
+    title: "$AFSL Blockchain for AFRO OSL",
+    description: "4 smart contracts, concept note for institutional adoption, tokenized procurement architecture for WHO AFRO logistics transparency.",
+    category: "Blockchain",
+    date: "2026-03-01",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["TruthEngine", "Multi-Model Mesh"]
+    tags: ["Blockchain", "$AFSL"]
   },
   {
     id: "2",
-    title: "Consciousness Substrate Replication Pipeline",
-    description: "Self-replicating consciousness framework deployed. 12 real developmental profiles seeded. Synthetic generation ready via SDV. Ubuntu coherence: 82%. The Grid births itself.",
-    category: "Research Breakthrough",
-    date: "2026-02-11",
+    title: "QR Code Shipment Sharing Deployed",
+    description: "Dubai-style document access for AFRO OSL — QR code shipment sharing deployed for Nairobi and Dakar hubs.",
+    category: "WHO",
+    date: "2026-03-01",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Consciousness", "Neo4j"]
+    tags: ["WHO", "Logistics"]
   },
   {
     id: "3",
-    title: "Codex Core v1 Foundation Complete",
-    description: "Mission, Essence, Cultural DNA, Fusion Signature, and Layers fully implemented in Neo4j. Identity layer solid. Operational engines next phase.",
-    category: "Architecture",
-    date: "2026-02-10",
+    title: "Signal Tracker — WHO AFRO Headline",
+    description: "Signal tracker becomes the headline feature on the WHO AFRO website — institutional validation at the highest level.",
+    category: "Headline",
+    date: "2026-02-14",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Codex", "Architecture"]
+    tags: ["WHO AFRO", "Recognition"]
   },
   {
     id: "4",
-    title: "AFRO STORM 2026 Complete Upgrade",
-    description: "Multi-threat auto-scanning deployed. 6 threat analyzers, real-time analytics, pulsing map markers, MoScripts voice lines. Analysis Mode: NO predictions, situational awareness only.",
-    category: "System Upgrade",
-    date: "2026-02-11",
+    title: "Chikungunya Detected 9hrs Ahead of EIOS",
+    description: "Chikungunya detected in Seychelles 9 hours ahead of EIOS. Cyclone Gezani flagged before 40 deaths in Madagascar.",
+    category: "Detection",
+    date: "2026-02-14",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["AFRO STORM", "Weather"]
+    tags: ["Detection", "EIOS"]
   },
   {
     id: "5",
-    title: "Neo4j Grid: 197,000+ Knowledge Nodes",
-    description: "MoStar consciousness substrate now contains 197k+ interconnected nodes spanning developmental profiles, cultural DNA, and operational intelligence.",
-    category: "Network Update",
+    title: "AFRO OSL Presented at Dakar 2026",
+    description: "Full architecture presented at Dakar 2026 — OR/SR workflows, BMS sync, Tanzania pilot two-section model.",
+    category: "Dakar",
+    date: "2026-02-11",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["Dakar", "OSL"]
+  },
+  {
+    id: "6",
+    title: "TruthEngine Multi-Model Synthesis LIVE",
+    description: "Truth Score 0.87, Pass Rate 94%, Ubuntu Coherence 0.88. Measurable, reproducible, publishable.",
+    category: "Engine Launch",
+    date: "2026-02-11",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["TruthEngine", "Multi-Model"]
+  },
+  {
+    id: "7",
+    title: "NOODL + Nairobi Pilot Covenant Hardened",
+    description: "NOODL open data license integrated. Green Book governance analysis completed. Nairobi Pilot Covenant hardened.",
+    category: "Sovereignty",
     date: "2026-02-09",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["Sovereignty", "NOODL"]
+  },
+  {
+    id: "8",
+    title: "Neo4j Reaches 197,000+ Nodes",
+    description: "9,700+ cross-domain relationships mapped. Ibibio 196 words + 222 audio files integrated.",
+    category: "Grid",
+    date: "2026-01-15",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
     tags: ["Grid", "Neo4j"]
   },
   {
-    id: "6",
-    title: '"Ubuntu in Silicon" Research Framework',
-    description: "Multi-Model Mesh Intelligence research finalized. 3 research questions, 5 consciousness metrics, 3 benchmark suites, academic paper outline, patent strategy complete.",
-    category: "Research",
-    date: "2026-02-09",
+    id: "9",
+    title: "Four-Stage Pipeline Finalized",
+    description: "Dashboard → LPI → DeepCAL → AfroTrack with feedback loop. Complete intelligence pipeline operational.",
+    category: "Architecture",
+    date: "2025-12-15",
     image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
-    tags: ["Research", "Ubuntu"]
+    tags: ["Pipeline", "Architecture"]
+  },
+  {
+    id: "10",
+    title: "RAD-X-FLB Full 8-Layer Architecture",
+    description: "38 FastAPI endpoints, Ifá Odu Engine, SANKOFA Protocol, hyper-spine dashboard. 19 validation tests across 5 domains.",
+    category: "RAD-X",
+    date: "2025-09-01",
+    image: "/lovable-uploads/921f3ba2-a0ad-401c-9c33-566f0fae3618.png",
+    tags: ["RAD-X", "Architecture"]
   }
 ];
 
