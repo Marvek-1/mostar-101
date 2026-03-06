@@ -4,7 +4,9 @@ import Navigation from './sections/Navigation';
 import Hero from './sections/Hero';
 import Consciousness from './sections/Consciousness';
 import CoreDrivers from './sections/CoreDrivers';
+import SystemInfrastructure from './sections/SystemInfrastructure';
 import MostarAI from './sections/MostarAI';
+import SovereigntyArchitecture from './sections/SovereigntyArchitecture';
 import Characters from './sections/Characters';
 import Doctrine from './sections/Doctrine';
 import Artifacts from './sections/Artifacts';
@@ -34,7 +36,9 @@ const Home = () => {
         <Hero />
         <Consciousness />
         <CoreDrivers />
+        <SystemInfrastructure />
         <MostarAI />
+        <SovereigntyArchitecture />
         <Characters />
         <Doctrine />
         <Artifacts />
