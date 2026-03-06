@@ -41,7 +41,7 @@ const Auth = () => {
       emailSchema.parse(email);
     } catch (e) {
       if (e instanceof z.ZodError) {
-        newErrors.email = e.errors[0].message;
+        newErrors.email = (e as any).errors?.[0]?.message || 'Invalid email';
       }
     }
 
@@ -49,7 +49,7 @@ const Auth = () => {
       passwordSchema.parse(password);
     } catch (e) {
       if (e instanceof z.ZodError) {
-        newErrors.password = e.errors[0].message;
+        newErrors.password = (e as any).errors?.[0]?.message || 'Invalid password';
       }
     }
 
