@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 48 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 48 100% 50%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 48 100% 50%;
-    --radius: 0.25rem;
+    --background: 220 30% 5%;
+    --foreground: 210 40% 98%;
+    --card: 220 30% 7%;
+    --card-foreground: 210 40% 98%;
+    --popover: 220 30% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 220 30% 5%;
+    --secondary: 220 20% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 220 20% 15%;
+    --muted-foreground: 215 20% 60%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 220 30% 5%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 215 25% 15%;
+    --input: 215 25% 15%;
+    --ring: 195 100% 50%;
+    --radius: 0.5rem;
   }
 }
 
@@ -41,221 +41,182 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    background: #0A0E17;
   }
 }
 
-/* Typography */
-.font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-.font-cinzel-decorative {
-  font-family: 'Cinzel Decorative', serif;
+/* ── Typography ── */
+.font-display {
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Ornate decorative dividers */
-.ornate-divider {
-  position: relative;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, hsl(280 60% 50% / 0.6), transparent);
+/* ── Glow Effects ── */
+.text-glow-blue {
+  text-shadow: 0 0 10px rgba(51, 161, 255, 0.7);
 }
 
-.ornate-divider::before,
-.ornate-divider::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  border: 2px solid hsl(280 60% 50% / 0.6);
-  border-radius: 50%;
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
 }
 
-.ornate-divider::before {
-  left: 25%;
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
 }
 
-.ornate-divider::after {
-  right: 25%;
+/* ── Glassmorphism ── */
+.glassmorphism {
+  background: rgba(10, 14, 23, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.ornate-divider-center {
-  position: relative;
+/* ── Text Gradient ── */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 300% 300%;
+  animation: text-gradient 8s ease infinite;
+}
+
+@keyframes text-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Scanline Overlay ── */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.015) 2px,
+    rgba(0, 212, 255, 0.015) 4px
+  );
+}
+
+/* ── Loading Overlay ── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0A0E17;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
 }
 
-.ornate-divider-center::before,
-.ornate-divider-center::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, hsl(280 60% 50% / 0.5));
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.ornate-divider-center::after {
-  background: linear-gradient(90deg, hsl(280 60% 50% / 0.5), transparent);
+.loading-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0039e6, #00ffff);
+  animation: pulse-glow 2s ease-in-out infinite;
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.4), 0 0 80px rgba(0, 57, 230, 0.2);
 }
 
-.ornate-diamond {
-  width: 8px;
-  height: 8px;
-  background: hsl(280 60% 50%);
-  transform: rotate(45deg);
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
 }
 
-/* Glow effects */
-.glow-yellow {
-  box-shadow: 0 0 40px hsl(48 100% 50% / 0.3);
+/* ── Cyber Button ── */
+.button-cyber {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 57, 230, 0.15));
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  color: #00ffff;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  cursor: pointer;
 }
 
-.glow-gold {
-  box-shadow: 0 0 40px hsl(48 100% 50% / 0.3);
+.button-cyber:hover {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(0, 57, 230, 0.25));
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.text-glow {
-  text-shadow: 0 0 20px hsl(48 100% 50% / 0.5);
-}
-
-/* Gradient backgrounds */
-.bg-gradient-radial {
-  background: radial-gradient(ellipse at center, hsl(260 30% 15%) 0%, hsl(260 25% 5%) 70%);
-}
-
-.bg-gradient-mystic {
-  background: linear-gradient(180deg, hsl(260 25% 5%) 0%, hsl(270 30% 8%) 50%, hsl(260 25% 5%) 100%);
-}
-
-/* Character pedestal effect */
-.character-pedestal {
+/* ── Nav Link ── */
+.nav-link {
   position: relative;
 }
 
-.character-pedestal::after {
+.nav-link::after {
   content: '';
   position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 40px;
-  background: radial-gradient(ellipse, hsl(48 100% 50% / 0.3) 0%, transparent 70%);
-  filter: blur(20px);
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00ffff, #0039e6);
+  transition: width 0.3s ease;
 }
 
-/* Scroll reveal animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
+.nav-link:hover::after {
+  width: 100%;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ── Scroll Animation ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-/* Stagger delays */
-.stagger-1 {
-  animation-delay: 0.1s;
-}
-
-.stagger-2 {
-  animation-delay: 0.2s;
-}
-
-.stagger-3 {
-  animation-delay: 0.3s;
-}
-
-.stagger-4 {
-  animation-delay: 0.4s;
-}
-
-.stagger-5 {
-  animation-delay: 0.5s;
-}
-
-/* Pillar transition delays */
-.pillar-delay-0 {
-  transition-delay: 0ms;
-}
-
-.pillar-delay-1 {
-  transition-delay: 150ms;
-}
-
-.pillar-delay-2 {
-  transition-delay: 300ms;
-}
-
-.pillar-delay-3 {
-  transition-delay: 450ms;
-}
-
-/* Custom scrollbar */
+/* ── Custom Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(260 25% 5%);
+  background: #0A0E17;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(280 60% 30%);
-  border-radius: 4px;
+  background: rgba(0, 212, 255, 0.2);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(280 60% 40%);
+  background: rgba(0, 212, 255, 0.4);
 }
 
-/* Button styles */
-.btn-primary {
-  @apply px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-400 text-black font-cinzel font-semibold tracking-wider rounded-sm;
-  @apply hover:from-yellow-400 hover:to-yellow-300 transition-all duration-300;
-  @apply shadow-lg shadow-yellow-900/30;
+/* ── Selection ── */
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: white;
 }
 
-.btn-secondary {
-  @apply px-8 py-3 bg-white/5 backdrop-blur-sm text-white font-cinzel font-semibold tracking-wider rounded-sm border border-white/20;
-  @apply hover:bg-white/10 transition-all duration-300;
-}
-
-/* Card hover effect */
-.card-hover {
-  @apply transition-all duration-500;
-}
-
-.card-hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px hsl(48 100% 10% / 0.5), 0 0 0 1px hsl(48 100% 50% / 0.3);
-}
-
-/* Section padding */
-.section-padding {
-  @apply py-24 md:py-32;
-}
-
-/* Container */
-.container-custom {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-/* Line clamp */
+/* ── Line Clamp ── */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -263,15 +224,9 @@
   overflow: hidden;
 }
 
-.line-clamp-1 {
+.line-clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* Selection color */
-::selection {
-  background: hsl(280 60% 50% / 0.3);
-  color: white;
 }
