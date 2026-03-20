@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import ChatBot from '../components/ChatBot';
 import NetworkGraph from '../components/NetworkGraph';
+import ParallaxParticles from '../components/ParallaxParticles';
 import AgentsSection from '../components/AgentsSection';
 import ProofBanner from '../components/ProofBanner';
 import PipelineSection from '../components/PipelineSection';
