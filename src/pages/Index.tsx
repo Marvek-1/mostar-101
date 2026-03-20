@@ -76,6 +76,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <div className="scanline"></div>
       <NetworkGraph />
+      <ParallaxParticles />
       <Navbar />
 
       <main className="flex-grow">
