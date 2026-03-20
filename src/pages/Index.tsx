@@ -73,74 +73,94 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col snap-y snap-mandatory overflow-y-auto h-screen">
       <div className="scanline"></div>
       <NetworkGraph />
       <ParallaxParticles />
       <Navbar />
 
       <main className="flex-grow">
-        {/* Hero — Full viewport */}
-        <HeroSection />
+        {/* Hero */}
+        <div className="snap-start min-h-screen">
+          <HeroSection />
+        </div>
 
         {/* Proof Banner */}
-        <ProofBanner />
+        <div className="snap-start">
+          <ProofBanner />
+        </div>
 
-        {/* Live Systems — Full viewport */}
-        <section id="technologies" className="min-h-screen flex items-center py-24 relative overflow-hidden">
-          <div className="w-full px-6 sm:px-10 lg:px-16">
-            <AnimatedSection animation="fadeUp" className="mb-16 text-center">
-              <span className="inline-block px-4 py-2 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs tracking-[3px] uppercase mb-4">
-                Operational Intelligence
-              </span>
-              <h2 className="text-4xl md:text-6xl font-display font-bold mb-5 bg-blue-magenta-gradient text-gradient">
-                Live Systems
-              </h2>
-              <p className="max-w-2xl mx-auto text-white/60 text-lg">
-                Every system below is deployed, tested against real-world data, and producing actionable intelligence across Africa.
-              </p>
-            </AnimatedSection>
+        {/* Live Systems */}
+        <div className="snap-start">
+          <section id="technologies" className="min-h-screen flex items-center py-24 relative overflow-hidden">
+            <div className="w-full px-6 sm:px-10 lg:px-16">
+              <AnimatedSection animation="fadeUp" className="mb-16 text-center">
+                <span className="inline-block px-4 py-2 rounded-full bg-mostar-cyan/10 text-mostar-cyan font-mono text-xs tracking-[3px] uppercase mb-4">
+                  Operational Intelligence
+                </span>
+                <h2 className="text-4xl md:text-6xl font-display font-bold mb-5 bg-blue-magenta-gradient text-gradient">
+                  Live Systems
+                </h2>
+                <p className="max-w-2xl mx-auto text-white/60 text-lg">
+                  Every system below is deployed, tested against real-world data, and producing actionable intelligence across Africa.
+                </p>
+              </AnimatedSection>
 
-            <StaggerContainer
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-              staggerDelay={0.08}
-            >
-              {technologies.map((tech) => (
-                <StaggerItem key={tech.id} animation="slideUp">
-                  <TechnologyCard
-                    title={tech.title}
-                    description={tech.description}
-                    icon={tech.icon}
-                    features={tech.features}
-                    color={tech.color}
-                    status={tech.status}
-                  />
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
-        </section>
+              <StaggerContainer
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+                staggerDelay={0.08}
+              >
+                {technologies.map((tech) => (
+                  <StaggerItem key={tech.id} animation="slideUp">
+                    <TechnologyCard
+                      title={tech.title}
+                      description={tech.description}
+                      icon={tech.icon}
+                      features={tech.features}
+                      color={tech.color}
+                      status={tech.status}
+                    />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
+          </section>
+        </div>
 
-        {/* Pipeline — Full viewport */}
-        <PipelineSection />
+        {/* Pipeline */}
+        <div className="snap-start min-h-screen">
+          <PipelineSection />
+        </div>
 
-        {/* Agents — Full viewport */}
-        <AgentsSection />
+        {/* Agents */}
+        <div className="snap-start min-h-screen">
+          <AgentsSection />
+        </div>
 
-        {/* Timeline — Full viewport */}
-        <NewsCarousel />
+        {/* Timeline */}
+        <div className="snap-start min-h-screen">
+          <NewsCarousel />
+        </div>
 
-        {/* Dashboard — Full viewport */}
-        <Dashboard />
+        {/* Dashboard */}
+        <div className="snap-start min-h-screen">
+          <Dashboard />
+        </div>
 
-        {/* Sovereignty — Full viewport */}
-        <VisionSection />
+        {/* Sovereignty */}
+        <div className="snap-start min-h-screen">
+          <VisionSection />
+        </div>
 
         {/* Get Involved */}
-        <GetInvolved />
+        <div className="snap-start">
+          <GetInvolved />
+        </div>
       </main>
 
-      <Footer />
+      <div className="snap-end">
+        <Footer />
+      </div>
       <ChatBot />
     </div>
   );
