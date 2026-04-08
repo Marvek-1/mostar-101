@@ -12,8 +12,20 @@ const stats = [
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 bg-cyber-grid bg-[length:30px_30px] opacity-20 z-0"></div>
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-mostar-blue/20 to-transparent"></div>
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0">
+        <video
+          src="/images/mstarcity.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-mostar-dark/60" />
+      </div>
+      <div className="absolute inset-0 bg-cyber-grid bg-[length:30px_30px] opacity-10 z-[1]"></div>
+      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-mostar-dark/80 to-transparent z-[2]"></div>
       <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-mostar-dark to-transparent z-10"></div>
 
       {/* Glowing orbs */}
