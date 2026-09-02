@@ -1,99 +1,53 @@
 import React from 'react';
-import { Activity, Eye, Code, Flame, Scale, Cpu } from 'lucide-react';
+import { ArrowUpRight, Sparkles } from 'lucide-react';
 
-const agents = [
-  {
-    name: 'RAD-X-FLB',
-    role: 'Disease Intelligence',
-    soulprint: 'Sentinel of African Health',
-    icon: Activity,
-    color: 'mostar-cyan',
-  },
-  {
-    name: 'TsaTse',
-    role: 'Fly Vector Surveillance',
-    soulprint: 'Eyes in the Field',
-    icon: Eye,
-    color: 'mostar-green',
-  },
-  {
-    name: 'Code Conduit',
-    role: 'Technical Integration',
-    soulprint: 'The Bridge Builder',
-    icon: Code,
-    color: 'mostar-blue',
-  },
-  {
-    name: 'Flameborn Writer',
-    role: 'Health Education Content',
-    soulprint: 'Voice of the Flame',
-    icon: Flame,
-    color: 'mostar-magenta',
-  },
-  {
-    name: 'Woo',
-    role: 'Ethical Interpreter',
-    soulprint: 'Keeper of Covenants',
-    icon: Scale,
-    color: 'mostar-purple',
-  },
-  {
-    name: 'Mo',
-    role: 'Grid Orchestrator',
-    soulprint: 'The Conductor',
-    icon: Cpu,
-    color: 'mostar-light-blue',
-  },
+const agentProducts = [
+  { name: 'Mo', role: 'Grid Orchestrator', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mo-D2uzO3MZJ58eyMpDYidwWcy9jOpmdc.png', accent: 'mostar-purple' },
+  { name: 'Woo-Tak', role: 'Ethical Adjudication', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wt-AixtCtUrLs0kmZgzwjTLsr9AYa3tXx.png', accent: 'mostar-yellow' },
+  { name: 'Code Conduit', role: 'Technical Integration', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cc-5Yhf3eSwHUgfpHiQEA5S92PtN1K0wK.png', accent: 'mostar-light-blue' },
+  { name: 'FlameBorn', role: 'Health Education', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fl-W89UtseB5ommnz3PaDbBo7g8NcLyXe.png', accent: 'mostar-orange' },
+  { name: 'DeepCAL', role: 'Deep Intelligence', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/dc-XxST1uGiOZ7YFQ84ONnhHAz6o5acUC.png', accent: 'mostar-cyan' },
+  { name: 'DCX001', role: 'Data Conduit', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/dcx-sxPiWkGsQjH6wfieEwZ8qCSFLnrSvM.png', accent: 'mostar-purple' },
+  { name: 'Sīgma', role: 'Balance Intelligence', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sg-HthyA0OEnk9X9tgRN9Jd0VAz3bthIY.png', accent: 'mostar-yellow' },
+  { name: 'MoLink', role: 'Connection Layer', image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ml-qXAwrXLpjS1RQvxPivGJh8GQuxDyom.png', accent: 'mostar-cyan' },
 ];
 
-const AgentsSection = () => {
-  return (
-    <section className="py-20 px-4 sm:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-cyber-grid bg-[length:20px_20px] opacity-5 z-0"></div>
-      
-      <div className="container mx-auto relative z-10">
-        <div className="mb-16 text-center">
-          <span className="inline-block px-3 py-1 rounded-full bg-mostar-purple/10 text-mostar-purple font-mono text-xs mb-3">
-            GRID AGENTS
-          </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
-            The Six Sentinels
-          </h2>
-          <p className="max-w-2xl mx-auto text-white/70">
-            Each agent carries a unique soulprint — a specialized role in the Grid's mission to deliver African health sovereignty.
-          </p>
+const AgentsSection = () => (
+  <section id="agents" className="relative overflow-hidden px-4 py-24 sm:px-8">
+    <div className="absolute inset-0 bg-cyber-grid bg-[length:20px_20px] opacity-5" />
+    <div className="container relative z-10 mx-auto">
+      <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-3xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-mostar-purple/10 px-3 py-1 font-mono text-xs text-mostar-purple">
+            <Sparkles className="h-3 w-3" /> MOStar AGENT ARCHITECTURE
+          </div>
+          <h2 className="mb-4 bg-blue-magenta-gradient font-display text-4xl font-bold text-gradient md:text-6xl">The intelligence layer.</h2>
+          <p className="max-w-2xl text-white/70">A living constellation of specialized agents. Each product carries its own visual identity, purpose, and place in the MoStar Grid.</p>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {agents.map((agent, index) => {
-            const IconComponent = agent.icon;
-            return (
-              <div
-                key={agent.name}
-                className="glassmorphism rounded-lg border border-white/10 p-6 hover:border-white/20 transition-all duration-300 group"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-lg bg-${agent.color}/10 border border-${agent.color}/30 flex items-center justify-center`}>
-                    <IconComponent className={`h-6 w-6 text-${agent.color}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-display font-bold text-lg text-white group-hover:text-mostar-light-blue transition-colors">
-                      {agent.name}
-                    </h3>
-                    <p className="text-sm text-white/70 mb-2">{agent.role}</p>
-                    <p className="text-xs font-mono text-mostar-cyan/80 italic">
-                      "{agent.soulprint}"
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-white/40">Products / 08 active nodes</p>
       </div>
-    </section>
-  );
-};
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {agentProducts.map((agent, index) => (
+          <article key={agent.name} className="group relative overflow-hidden rounded-xl border border-white/10 bg-black/30 transition duration-500 hover:-translate-y-1 hover:border-white/30" style={{ animationDelay: `${index * 80}ms` }}>
+            <div className="aspect-[4/5] overflow-hidden bg-black">
+              <img src={agent.image} alt={`${agent.name} agent artwork`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-80" loading="lazy" />
+            </div>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent px-5 pb-5 pt-20">
+              <div className={`mb-2 h-px w-10 bg-${agent.accent}`} />
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-white">{agent.name}</h3>
+                  <p className="font-mono text-xs uppercase tracking-wider text-white/60">{agent.role}</p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 text-white/50 transition group-hover:text-white" />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 export default AgentsSection;
