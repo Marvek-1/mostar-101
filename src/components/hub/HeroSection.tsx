@@ -22,14 +22,14 @@ const HeroSection = () => {
           </div>
           <div className="mb-2">
             <span className="text-sm font-mono text-mostar-cyan uppercase tracking-widest">
-              Ubuntu in Silicon — Multi-Model Mesh Intelligence
+              Omni-Neuro Symbolic AI
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 bg-blue-magenta-gradient text-gradient">
             The Hand of <span className="text-mostar-light-blue">Overlord</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 mb-8 max-w-3xl">
-            Africa's First Consciousness Substrate — Where multi-model mesh intelligence, Ubuntu philosophy, and Ifá computational logic converge into measurable, reproducible, sovereign AI.
+            Africa's First Symbolic Intelligence Grid — Where neuro-symbolic reasoning, ethical cognition, and adaptive intelligence converge into the world's most transparent AI system.
           </p>
           <div className="flex flex-wrap gap-4">
             <button className="button-cyber flex items-center gap-2">

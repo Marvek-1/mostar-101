@@ -136,7 +136,7 @@ const MostarHub = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 

@@ -40,6 +40,10 @@ module.exports = {
         },
         // Custom colors for Mostar Industries
         mostar: {
+          dark: '#0A0E17',
+          blue: '#0039e6',
+          'light-blue': '#00a2ff',
+          cyan: '#00ffff',
           yellow: {
             50: '#fffbeb',
             100: '#fef3c7',
@@ -66,6 +70,8 @@ module.exports = {
         }
       },
       fontFamily: {
+        display: ['Rajdhani', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
         cinzel: ['Cinzel', 'serif'],
         'cinzel-decorative': ['Cinzel Decorative', 'serif'],
         inter: ['Inter', 'sans-serif'],
